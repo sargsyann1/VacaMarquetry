@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 </head>
 <body>
 
@@ -579,151 +583,6 @@
       });
   });
 
-  function setLoading(on) {
-    submitBtn.disabled = on;
-    submitBtn.textContent = on ? 'Sending…' : 'Request My Free Preview';
-    submitBtn.style.opacity = on ? '0.6' : '';
-  }
-
-  function clearErrors() {
-    form.querySelectorAll('.has-error').forEach(function (el) { el.classList.remove('has-error'); });
-    form.querySelectorAll('.field-error-text').forEach(function (el) { el.remove(); });
-    var fe = form.querySelector('.form-error-msg');
-    if (fe) fe.remove();
-  }
-
-  function fieldError(input, msg) {
-    var field = input.closest ? input.closest('.field') : input.parentElement;
-    if (!field) return;
-    field.classList.add('has-error');
-    var p = document.createElement('p');
-    p.className = 'field-error-text';
-    p.textContent = msg;
-    field.appendChild(p);
-    if (input.type !== 'file') input.focus();
-  }
-
-  function formError(msg) {
-    var p = document.createElement('p');
-    p.className = 'form-error-msg';
-    p.textContent = msg;
-    submitBtn.parentNode.insertBefore(p, submitBtn);
-    submitBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-})();
-</script>
-</body>
-</html>n-title" style="font-size: clamp(2rem, 4vw, 3.5rem);">Your Story,<br>in Wood</h2>
-        <div class="seam center" style="margin-bottom: var(--space-lg);"></div>
-        <p class="opacity-75" style="max-width:380px; margin: 0 auto var(--space-lg);">Every portrait begins with a photograph&thinsp;&mdash;&thinsp;and becomes something only you will ever own.</p>
-        <a href="#inquiry" class="btn btn-primary">Begin Your Portrait</a>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <span class="footer-logo">VaCa Marquetry</span>
-        <p style="font-size:0.88rem; opacity:0.65; line-height:1.7;">Handmade marquetry portraits and fine wood art, crafted entirely by hand in Italy.</p>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="custom-portraits.html">Custom Portraits</a></li>
-          <li><a href="collection.html">Collection</a></li>
-          <li><a href="the-craft.html">The Craft</a></li>
-          <li><a href="trade.html">Trade</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Studio</h4>
-        <ul>
-          <li><a href="the-artist.html">The Artist</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="contact.html">Certificate of Authenticity</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <ul>
-          <li><a href="https://www.instagram.com/vacamarquetry" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a href="https://www.facebook.com/share/171k4NAM6L/" target="_blank" rel="noopener">Facebook</a></li>
-          <li><a href="https://youtube.com/@vacamarquetry" target="_blank" rel="noopener">YouTube</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
-      <span>Handmade in Italy</span>
-    </div>
-  </div>
-</footer>
-
-<script src="assets/js/main.js"></script>
-<script>
-(function () {
-  'use strict';
-
-  var PORTRAIT_WEBHOOK_URL = 'https://hook.eu2.make.com/vm1odajacsqc1wezmxc56lmx0q4cbmry';
-
-  var form      = document.getElementById('portrait-form');
-  var submitBtn = document.getElementById('portrait-submit');
-  var successEl = document.getElementById('portrait-success');
-  if (!form) return;
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    clearErrors();
-
-    // ── Validate ──────────────────────────────────────────────────────────────
-    var valid = true;
-
-    var nameEl   = form.querySelector('[name="name"]');
-    var emailEl  = form.querySelector('[name="email"]');
-    var photosEl = form.querySelector('[name="photos"]');
-
-    if (!nameEl.value.trim()) {
-      fieldError(nameEl, 'Please enter your full name.');
-      valid = false;
-    }
-    if (!emailEl.value.trim()) {
-      fieldError(emailEl, 'Please enter your email address.');
-      valid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
-      fieldError(emailEl, 'Please enter a valid email address.');
-      valid = false;
-    }
-    if (!photosEl.files || photosEl.files.length === 0) {
-      fieldError(photosEl, 'Please upload at least one photo of your subject.');
-      valid = false;
-    }
-    if (!valid) return;
-
-    // ── Submit ────────────────────────────────────────────────────────────────
-    setLoading(true);
-
-    var fd = new FormData(form);
-    fd.append('source_url', window.location.href);
-
-    fetch(PORTRAIT_WEBHOOK_URL, { method: 'POST', body: fd })
-      .then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        form.style.display = 'none';
-        successEl.style.display = 'block';
-        successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      })
-      .catch(function (err) {
-        console.error('[portrait-form]', err);
-        setLoading(false);
-        formError('Something went wrong. Please try again, or email us directly at vacamarquetry@vacamarquetry.shop');
-      });
-  });
-
-  // ── Helpers ───────────────────────────────────────────────────────────────
   function setLoading(on) {
     submitBtn.disabled = on;
     submitBtn.textContent = on ? 'Sending…' : 'Request My Free Preview';
