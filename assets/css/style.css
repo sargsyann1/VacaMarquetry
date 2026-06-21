@@ -80,7 +80,7 @@ img {
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--brass);
+  color: var(--brass-dark);     /* darkened for 4.5:1 contrast on bone (was --brass 3.37:1) */
   margin-bottom: var(--space-sm);
 }
 .eyebrow.on-dark { color: var(--brass-light); }
@@ -239,8 +239,8 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 }
 .nav-links a:hover,
 .nav-links a[aria-current="page"] {
-  color: var(--brass);
-  border-bottom-color: var(--brass);
+  color: var(--brass-dark);             /* darkened for 4.5:1 contrast on bone (was --brass 3.37:1) */
+  border-bottom-color: var(--brass-dark);
 }
 
 .nav-cta    { display: none; justify-self: end; }
@@ -889,7 +889,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 
 .form-microcopy {
   font-size: 0.76rem;
-  opacity: 0.55;
+  opacity: 0.75;                /* raised for 4.5:1 contrast on bone (was 0.55 = 3.24:1) */
   margin-top: var(--space-sm);
   text-align: center;
   letter-spacing: 0.03em;
@@ -1019,8 +1019,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--cream-text);
-  opacity: 0.45;
+  color: rgba(237, 231, 217, 0.65); /* explicit color replaces opacity:0.45 → 6.45:1 on walnut (was 3.82:1) */
   gap: var(--space-md);
 }
 @media (max-width: 900px) {
@@ -1296,17 +1295,4 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 
 /* Artwork inline inquiry form */
 .artwork-inquiry-wrap {
-  display: none;
-  margin-top: var(--space-md);
-  border-top: 1px solid var(--line);
-  padding-top: var(--space-md);
-}
-.artwork-inquiry-wrap.open {
-  display: block;
-}
-.artwork-inquiry-success {
-  text-align: center;
-  padding: var(--space-md);
-  background: var(--bone-soft);
-  border: 1px solid var(--line);
-}
+  display: n
