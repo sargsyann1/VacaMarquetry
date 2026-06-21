@@ -13,6 +13,12 @@
 (function () {
   'use strict';
 
+  // WebP support detection
+  var _canvas = document.createElement('canvas');
+  var imgExt = (_canvas.getContext && _canvas.getContext('2d') &&
+    _canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0)
+    ? '.webp' : '.jpg';
+
   var slug = document.body.dataset.slug;
   if (!slug) return;
 
@@ -86,7 +92,7 @@
       primaryImg.onerror = function () {
         console.warn('[artwork-loader] hero.jpg not found for', slug);
       };
-      primaryImg.src = '../assets/images/' + slug + '/hero.jpg';
+      primaryImg.src = '../assets/images/' + slug + '/hero' + imgExt;
     }
 
     var btn = document.getElementById('aw-inquire');
@@ -132,7 +138,8 @@
         console.warn('[artwork-loader] Gallery image missing:', file);
         thumb.style.display = 'none';
       };
-      img.src = '../assets/images/' + slug + '/' + file;
+      img.src = '../assets/images/' + slug + '/' +
+        (imgExt === '.webp' ? file.replace(/\.jpg$/i, '.webp') : file);
 
       thumb.appendChild(img);
       container.appendChild(thumb);
