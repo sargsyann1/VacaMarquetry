@@ -1,0 +1,1312 @@
+/* ==========================================================================
+   VaCa Marquetry — Luxury Design System v4
+   Portrait-first · clean artwork · no overlays · no filters
+   ========================================================================== */
+
+/* --- 1. Design Tokens ---------------------------------------------------- */
+:root {
+  --bone:          #F7F3EC;
+  --bone-soft:     #EDE7D9;
+  --bone-deep:     #DDD3BC;
+  --walnut:        #261608;
+  --charcoal:      #3A2D22;
+  --brass:         #A87C45;
+  --brass-light:   #C9A570;
+  --brass-dark:    #7D5C30;
+  --espresso:      #1A0E06;
+  --cream-text:    #EDE7D9;
+  --line:          rgba(38, 22, 8, 0.09);
+  --line-on-dark:  rgba(237, 231, 217, 0.13);
+
+  --font-editorial: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-display:   'Playfair Display', Georgia, serif;
+  --font-body:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --space-xs:   6px;
+  --space-sm:  14px;
+  --space-md:  28px;
+  --space-lg:  56px;
+  --space-xl:  96px;
+  --space-2xl: 148px;
+  --space-3xl: 200px;
+
+  --container-max: 1320px;
+  --radius: 1px;
+}
+
+/* --- 2. Reset & Base ----------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--charcoal);
+  background: var(--bone);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  color: var(--walnut);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0 0 var(--space-sm);
+}
+
+h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+h2 { font-size: clamp(1.9rem, 3.2vw, 2.8rem); }
+h3 { font-size: clamp(1.2rem, 1.8vw, 1.55rem); }
+h4 { font-size: clamp(1rem, 1.3vw, 1.15rem); }
+
+p { margin: 0 0 var(--space-sm); }
+a { color: inherit; text-decoration: none; }
+
+/* All images: clean, no filter, no opacity, natural colors preserved */
+img {
+  max-width: 100%;
+  display: block;
+  /* NO filter, NO opacity, NO brightness, NO blend-mode */
+}
+
+/* --- 3. Typography Utilities --------------------------------------------- */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: var(--space-sm);
+}
+.eyebrow.on-dark { color: var(--brass-light); }
+
+.hero-heading {
+  font-family: var(--font-editorial);
+  font-size: clamp(3.2rem, 5.5vw, 6rem);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  color: var(--walnut);
+  margin: 0 0 var(--space-md);
+}
+.hero-heading em {
+  font-style: italic;
+  color: var(--brass);
+}
+
+.section-title {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--walnut);
+  margin: 0 0 var(--space-sm);
+}
+
+.section-title.on-dark { color: var(--cream-text); }
+
+.lead {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--charcoal);
+  opacity: 0.78;
+}
+
+.art-title {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  letter-spacing: -0.02em;
+  color: var(--walnut);
+}
+
+.text-center  { text-align: center; }
+.opacity-75   { opacity: 0.75; }
+.mt-lg        { margin-top: var(--space-lg); }
+.mt-md        { margin-top: var(--space-md); }
+
+/* --- 4. Seam divider ---------------------------------------------------- */
+.seam {
+  position: relative;
+  width: 64px;
+  height: 1px;
+  background: var(--line);
+  margin: var(--space-md) 0;
+}
+.seam::after {
+  content: '';
+  position: absolute;
+  left: 0; top: -2px;
+  width: 16px; height: 5px;
+  background: var(--brass);
+}
+.seam.center { margin-left: auto; margin-right: auto; }
+.seam.on-dark { background: var(--line-on-dark); }
+.seam.on-dark::after { background: var(--brass-light); }
+
+/* --- 5. Container -------------------------------------------------------- */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(var(--space-md), 5vw, var(--space-xl));
+}
+
+/* --- 6. Section defaults ------------------------------------------------- */
+section { padding: var(--space-2xl) 0; }
+@media (max-width: 768px) { section { padding: var(--space-xl) 0; } }
+
+/* Anchored sections clear the 80px sticky header */
+section[id], [id].wall-section { scroll-margin-top: 96px; }
+
+.section-dark {
+  background: var(--espresso);
+  color: var(--cream-text);
+}
+.section-dark h1,
+.section-dark h2,
+.section-dark h3,
+.section-dark h4 { color: var(--cream-text); }
+
+.section-soft { background: var(--bone-soft); }
+
+.section-header { max-width: 640px; margin-bottom: var(--space-lg); }
+.section-header.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* --- 7. Navigation ------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 80px;
+  background: rgba(247, 243, 236, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Nav: logo-left | links-center | cta-right — all on one line */
+.nav-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: 80px;
+  padding: 0 clamp(var(--space-md), 5vw, var(--space-xl));
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.logo {
+  font-family: var(--font-editorial);
+  font-size: 1.65rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--walnut);
+  flex-shrink: 0;
+  line-height: 1;
+  justify-self: start;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  margin: 0; padding: 0;
+  justify-self: center;
+}
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  white-space: nowrap;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  color: var(--brass);
+  border-bottom-color: var(--brass);
+}
+
+.nav-cta    { display: none; justify-self: end; }
+.nav-toggle {
+  display: none;
+  background: none; border: none;
+  font-size: 1.3rem;
+  color: var(--walnut);
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+  justify-self: end;
+}
+
+@media (min-width: 1001px) { .nav-cta { display: inline-block; } }
+
+@media (max-width: 1000px) {
+  .nav-wrap {
+    grid-template-columns: 1fr auto;
+  }
+  .nav-links {
+    position: fixed;
+    top: 80px; left: 0; right: 0;
+    background: var(--bone);
+    flex-direction: column;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform 280ms ease, opacity 280ms ease;
+    padding-bottom: var(--space-sm);
+  }
+  .nav-links.open { transform: translateY(0); opacity: 1; }
+  .nav-links li { border-top: 1px solid var(--line); }
+  .nav-links a { display: block; padding: 16px var(--space-md); border-bottom: none; white-space: normal; }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] { border-bottom: none; }
+  .nav-toggle { display: block; }
+}
+
+/* --- 8. Buttons ---------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 17px 44px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  line-height: 1;
+  transition: background-color 200ms ease, color 200ms ease,
+              border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-primary {
+  background: var(--walnut);
+  color: var(--bone);
+  border-color: var(--walnut);
+}
+.btn-primary:hover {
+  background: var(--brass-dark);
+  border-color: var(--brass-dark);
+  box-shadow: 0 6px 28px rgba(38, 22, 8, 0.22);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--walnut);
+  color: var(--walnut);
+}
+.btn-secondary:hover {
+  background: var(--walnut);
+  color: var(--bone);
+  box-shadow: 0 4px 20px rgba(38, 22, 8, 0.14);
+}
+
+.btn-brass {
+  background: var(--brass);
+  color: var(--bone);
+  border-color: var(--brass);
+}
+.btn-brass:hover {
+  background: var(--brass-dark);
+  border-color: var(--brass-dark);
+  box-shadow: 0 6px 24px rgba(168, 124, 69, 0.32);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--charcoal);
+  padding: 17px 0;
+  border: none;
+  letter-spacing: 0.10em;
+  position: relative;
+}
+.btn-ghost::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 12px;
+  width: 100%; height: 1px;
+  background: var(--brass);
+  transform: scaleX(0.28);
+  transform-origin: left;
+  transition: transform 260ms ease;
+}
+.btn-ghost:hover { color: var(--walnut); }
+.btn-ghost:hover::after { transform: scaleX(1); }
+
+.section-dark .btn-secondary {
+  border-color: var(--cream-text);
+  color: var(--cream-text);
+}
+.section-dark .btn-secondary:hover {
+  background: var(--cream-text);
+  color: var(--espresso);
+}
+.section-dark .btn-ghost { color: var(--cream-text); }
+
+/* --- 9. Homepage Hero — full-height split -------------------------------- */
+.hero-section { padding: 0; }
+
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 80px);
+  max-height: 980px;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  max-width: 700px;
+  margin-left: auto;
+}
+
+/* Hero image: full-bleed portrait, NO filter, NO overlay */
+.hero-image-wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--bone-soft);
+}
+.hero-image-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  /* zero filters — original artwork colors preserved */
+}
+
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 960px) {
+  .hero-split {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    max-height: none;
+  }
+  .hero-image-wrap {
+    height: 68vw;
+    min-height: 300px;
+    max-height: 560px;
+    order: -1;
+  }
+  .hero-copy {
+    margin-left: 0;
+    max-width: none;
+    padding: var(--space-lg) var(--space-md) var(--space-xl);
+  }
+  .hero-heading { font-size: clamp(2.6rem, 8vw, 3.8rem); }
+}
+
+/* --- 10. Page inner hero (portraits page, etc.) -------------------------- */
+.page-hero-section { padding: var(--space-2xl) 0 var(--space-lg); }
+
+.page-hero-split {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+/* Portrait-first: 2:3 ratio for hero artwork */
+.page-hero-image {
+  position: relative;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  background: var(--bone-soft);
+}
+.page-hero-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  /* NO filter */
+}
+
+@media (max-width: 900px) {
+  .page-hero-split { grid-template-columns: 1fr; }
+  .page-hero-image { aspect-ratio: 3/4; order: -1; }
+}
+
+/* --- 11. Trust strip ---------------------------------------------------- */
+.trust-strip {
+  background: var(--espresso);
+  padding: 32px 0;
+}
+.trust-strip p {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.05rem, 2vw, 1.5rem);
+  font-style: italic;
+  color: var(--cream-text);
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+/* --- 12. Grids ----------------------------------------------------------- */
+.grid { display: grid; gap: var(--space-lg); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 960px) {
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .grid-2              { grid-template-columns: 1fr; }
+  .grid-3              { grid-template-columns: repeat(2, 1fr); }
+  .grid-4              { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* --- 13. Portrait card — 2:3 ratio, NO filter ----------------------------- */
+/*
+   The primary card unit for vertical artworks.
+   Ratio 2:3 = standard portrait painting format.
+   Image colors and tones are preserved exactly.
+*/
+.art-card {
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.art-thumb {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2/3;       /* portrait-first: taller than wide */
+  background: var(--bone-soft);
+}
+.art-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  /* NO filter: brightness / contrast / opacity / blur — artwork colors as shot */
+  transition: transform 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.art-card:hover .art-thumb img {
+  transform: scale(1.04);
+}
+
+.art-info {
+  padding: 14px 0 var(--space-md);
+  border-top: 1px solid var(--line);
+}
+.art-info h4 {
+  font-family: var(--font-editorial);
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--walnut);
+  margin: 0 0 4px;
+  letter-spacing: 0.01em;
+}
+.art-meta {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  opacity: 0.5;
+  margin: 0;
+  display: block;
+}
+
+/* --- 14. Commission panels — portrait 2:3, tight grid -------------------- */
+.commission-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.commission-thumb {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2/3;
+  background: var(--bone-soft);
+}
+.commission-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  /* NO filter */
+  transition: transform 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.commission-thumb:hover img { transform: scale(1.04); }
+
+@media (max-width: 700px) {
+  .commission-grid { grid-template-columns: repeat(2, 1fr); gap: 3px; }
+}
+
+/* --- 15. Gallery editorial grid — 5 works in luxury layout --------------- */
+/*
+   Row 1: 3 equal portrait cards (each 2/6 = 1/3 width)
+   Row 2: 2 wider cards (each 3/6 = 1/2 width) — centered, more breathing room
+*/
+.gallery-editorial {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-lg);
+}
+.gallery-editorial .art-card         { grid-column: span 2; }
+.gallery-editorial .art-card.feature { grid-column: span 3; }
+
+@media (max-width: 960px) {
+  .gallery-editorial { grid-template-columns: repeat(2, 1fr); }
+  .gallery-editorial .art-card,
+  .gallery-editorial .art-card.feature { grid-column: span 1; }
+}
+@media (max-width: 500px) {
+  .gallery-editorial { grid-template-columns: 1fr; }
+}
+
+/* --- 16. Wall feature — artwork on a wall, edge-to-edge ------------------ */
+/*
+   Full-width presentation of wall.jpg: artwork displayed in situ.
+   No overlays. No filters. The wall image speaks for itself.
+*/
+.wall-section { padding: 0; }
+
+.wall-feature {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bone-soft);
+}
+.wall-feature img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  /* NO filter, NO overlay, NO opacity — original room + artwork tones */
+}
+
+/* Tall variant for narrower wall shots */
+.wall-feature.tall { aspect-ratio: 4/3; }
+
+.wall-caption {
+  padding: var(--space-md) 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+  border-top: 1px solid var(--line);
+  margin-top: 1px;
+}
+.wall-caption .eyebrow { margin-bottom: 0; }
+.wall-caption p {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--walnut);
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* --- 17. Lifestyle feature — editorial room context ---------------------- */
+/*
+   lifestyle.jpg: artwork in an interior / editorial setting.
+   3:2 landscape ratio. Pure image, no CSS effects.
+*/
+.lifestyle-feature {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/2;
+  background: var(--bone-soft);
+}
+.lifestyle-feature img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  /* NO filter */
+}
+
+/* --- 18. Detail pair — two detail images side by side ------------------- */
+.detail-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+.detail-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  background: var(--bone-soft);
+}
+.detail-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  /* NO filter */
+}
+@media (max-width: 600px) {
+  .detail-pair { grid-template-columns: 1fr; }
+}
+
+/* --- 19. Feature split (two-column layout) ------------------------------- */
+.feature-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--space-xl);
+}
+.feature-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--bone-soft);
+}
+.feature-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  /* NO filter */
+}
+
+@media (max-width: 840px) {
+  .feature-split { grid-template-columns: 1fr; gap: var(--space-md); }
+  .feature-media { order: -1; }
+}
+
+/* --- 20. Feature cards / benefit cards ---------------------------------- */
+.card {
+  background: var(--bone);
+  border: 1px solid var(--line);
+  padding: var(--space-lg);
+}
+.section-dark .card {
+  background: rgba(237, 231, 217, 0.04);
+  border-color: var(--line-on-dark);
+}
+.section-soft .card { background: var(--bone); }
+
+.card-icon {
+  width: 40px; height: 40px;
+  border: 1px solid var(--brass);
+  display: flex;
+  align-items: center; justify-content: center;
+  color: var(--brass);
+  margin-bottom: var(--space-md);
+  font-family: var(--font-editorial);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+/* --- 21. Stats strip ----------------------------------------------------- */
+.stat { text-align: center; }
+.stat-number {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--brass-light);
+  display: block;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.stat-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-text);
+  opacity: 0.58;
+}
+
+/* --- 22. Process timeline ------------------------------------------------ */
+.timeline { display: flex; flex-direction: column; }
+
+.timeline-step {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--line);
+}
+.timeline-step:last-child { border-bottom: 1px solid var(--line); }
+
+.timeline-num {
+  font-family: var(--font-editorial);
+  font-size: 2.4rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--brass);
+  line-height: 1;
+  padding-top: 6px;
+}
+
+/* Timeline media: detail images, NO filter */
+.timeline-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/2;
+  background: var(--bone-soft);
+  border: 1px solid var(--line);
+  margin-top: var(--space-sm);
+}
+.timeline-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  /* NO filter — wood tones preserved */
+}
+
+@media (max-width: 640px) {
+  .timeline-step { grid-template-columns: 1fr; gap: var(--space-sm); }
+  .timeline-num  { font-size: 1.8rem; }
+}
+
+/* --- 23. Pricing tiers --------------------------------------------------- */
+.pricing-tier {
+  border: 1px solid var(--line);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  background: var(--bone);
+  position: relative;
+}
+.pricing-tier.featured { border-color: var(--brass); }
+.pricing-tier.featured::before {
+  content: 'Most Commissioned';
+  position: absolute;
+  top: -11px; left: var(--space-lg);
+  background: var(--brass);
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 12px;
+}
+.pricing-tier h3 {
+  font-family: var(--font-editorial);
+  font-size: 1.7rem;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 4px;
+  color: var(--walnut);
+}
+.pricing-detail {
+  font-size: 0.78rem;
+  opacity: 0.6;
+  margin-bottom: var(--space-sm);
+}
+.pricing-amount {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--walnut);
+  margin-top: auto;
+  padding-top: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+/* --- 24. Forms ----------------------------------------------------------- */
+.form-card {
+  background: var(--bone);
+  border: 1px solid var(--line);
+  padding: var(--space-xl) clamp(var(--space-lg), 5vw, var(--space-xl));
+  max-width: 720px;
+  margin: 0 auto;
+}
+.field { margin-bottom: var(--space-md); }
+.field label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--walnut);
+  margin-bottom: 7px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 13px 16px;
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  border: 1px solid var(--bone-deep);
+  background: white;
+  border-radius: var(--radius);
+  color: var(--charcoal);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+  appearance: none; -webkit-appearance: none;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(168, 124, 69, 0.11);
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+@media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
+
+.upload-zone {
+  display: block;
+  border: 1px dashed var(--brass);
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--charcoal);
+  cursor: pointer;
+  transition: background 200ms ease;
+}
+.upload-zone:hover { background: rgba(168, 124, 69, 0.05); }
+
+.form-microcopy {
+  font-size: 0.76rem;
+  opacity: 0.55;
+  margin-top: var(--space-sm);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* --- 25. FAQ accordion --------------------------------------------------- */
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-question {
+  width: 100%; text-align: left;
+  background: none; border: none;
+  padding: 22px 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--walnut);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  line-height: 1.4;
+}
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 300ms ease; }
+.faq-item.open .faq-answer { max-height: 400px; padding-bottom: var(--space-md); }
+.faq-icon {
+  color: var(--brass);
+  font-size: 1.1rem; font-weight: 300;
+  flex-shrink: 0;
+  transition: transform 200ms ease;
+  line-height: 1;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+/* --- 26. Collection filter bar ------------------------------------------ */
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-xl);
+}
+.filter-btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--charcoal);
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+  text-decoration: none;
+}
+.filter-btn:hover {
+  background: var(--bone-soft);
+  border-color: var(--walnut);
+  color: var(--walnut);
+}
+.filter-btn.active {
+  background: var(--walnut);
+  border-color: var(--walnut);
+  color: var(--cream-text);
+}
+
+/* --- 27. Footer ---------------------------------------------------------- */
+.site-footer {
+  background: var(--walnut);
+  color: var(--cream-text);
+  padding: var(--space-xl) 0 var(--space-lg);
+  margin-top: var(--space-xl);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+.footer-logo {
+  font-family: var(--font-editorial);
+  font-size: 1.2rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--cream-text);
+  display: block;
+  margin-bottom: var(--space-sm);
+  letter-spacing: 0.02em;
+}
+.site-footer h4 {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-text);
+  opacity: 0.5;
+  margin: 0 0 var(--space-sm);
+}
+.site-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-footer ul li {
+  margin-bottom: 8px;
+}
+.site-footer a {
+  color: var(--cream-text);
+  text-decoration: none;
+  font-size: 0.88rem;
+  opacity: 0.75;
+  transition: opacity 200ms ease;
+}
+.site-footer a:hover {
+  opacity: 1;
+}
+.site-footer p {
+  color: var(--cream-text);
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cream-text);
+  opacity: 0.45;
+  gap: var(--space-md);
+}
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+}
+@media (max-width: 500px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 4px; text-align: center; }
+}
+
+/* --- 28. Artwork detail page --------------------------------------------- */
+.artwork-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+.artwork-frame {
+  position: relative;
+  background: var(--bone-soft);
+  border: 1px solid var(--line);
+  padding: var(--space-sm);
+}
+.artwork-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+.artwork-availability {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 0;
+  margin-bottom: var(--space-sm);
+}
+.artwork-availability.available {
+  background: #e8f4e8;
+  color: #2d6a2d;
+  border: 1px solid #b8d8b8;
+}
+.artwork-availability.sold {
+  background: var(--bone-soft);
+  color: var(--charcoal);
+  border: 1px solid var(--line);
+  opacity: 0.6;
+}
+.artwork-specs {
+  margin: var(--space-md) 0;
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+.spec-label {
+  font-weight: 500;
+  color: var(--charcoal);
+  opacity: 0.6;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+.spec-value {
+  color: var(--walnut);
+  text-align: right;
+}
+.artwork-price {
+  font-family: var(--font-editorial);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--walnut);
+  margin: var(--space-md) 0;
+}
+.artwork-cta {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+.artwork-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+.artwork-gallery-thumb {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--bone-soft);
+  border: 1px solid var(--line);
+}
+.artwork-gallery-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 400ms ease;
+}
+.artwork-gallery-thumb:hover img { transform: scale(1.05); }
+
+@media (max-width: 800px) {
+  .artwork-split { grid-template-columns: 1fr; }
+  .artwork-gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+
+/* --- 28b. Artwork detail — additional layout rules -------------------- */
+.artwork-back {
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: var(--space-lg);
+}
+.artwork-back a {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 200ms ease;
+}
+.artwork-back a:hover { opacity: 1; }
+
+.artwork-primary {
+  position: sticky;
+  top: calc(80px + var(--space-md));
+}
+.artwork-primary-frame {
+  background: var(--bone-soft);
+  border: 1px solid var(--line);
+  padding: var(--space-sm);
+}
+.artwork-primary-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.artwork-detail { /* right panel — no extra layout needed, inherits from artwork-split */ }
+
+.artwork-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--walnut);
+  margin: var(--space-sm) 0 var(--space-md);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.artwork-specs {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-md) 0;
+}
+.artwork-specs li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+  gap: var(--space-md);
+}
+
+.artwork-note {
+  font-size: 0.78rem;
+  color: var(--charcoal);
+  opacity: 0.55;
+  margin: 6px 0;
+  line-height: 1.55;
+}
+
+.provenance-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--line);
+}
+.provenance-item h4 {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  opacity: 0.5;
+  margin: 0 0 var(--space-sm);
+}
+.provenance-item p {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  opacity: 0.7;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .artwork-primary { position: static; }
+  .provenance-strip { grid-template-columns: 1fr; gap: var(--space-lg); }
+}
+
+/* ================================================================
+   29. FORM STATES — validation errors, loading, success
+================================================================= */
+
+/* Field-level error */
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  border-color: #b04040;
+  background: #fff9f9;
+}
+.field.has-error .upload-zone {
+  border-color: #b04040;
+  background: #fff9f9;
+}
+.field-error-text {
+  color: #b04040;
+  font-size: 0.75rem;
+  font-family: var(--font-body);
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+/* Form-level error banner */
+.form-error-msg {
+  background: #fff0f0;
+  border: 1px solid #e0b0b0;
+  padding: 12px 16px;
+  color: #b04040;
+  font-size: 0.88rem;
+  font-family: var(--font-body);
+  margin-bottom: var(--space-md);
+  line-height: 1.5;
+}
+
+/* Success panel — replaces form after submission */
+.form-success {
+  text-align: center;
+  padding: var(--space-xl) var(--space-lg);
+  border: 1px solid var(--line);
+  background: var(--bone);
+  max-width: 720px;
+  margin: 0 auto;
+}
+.form-success-mark {
+  font-size: 1.6rem;
+  color: var(--brass);
+  margin: 0 0 var(--space-md);
+  letter-spacing: .1em;
+}
+.form-success h3 {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 400;
+  color: var(--walnut);
+  margin: 0 0 var(--space-md);
+}
+.form-success p {
+  opacity: .7;
+  font-size: .9rem;
+  max-width: 480px;
+  margin: 0 auto var(--space-sm);
+  line-height: 1.65;
+}
+
+/* Artwork inline inquiry form */
+.artwork-inquiry-wrap {
+  display: none;
+  margin-top: var(--space-md);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-md);
+}
+.artwork-inquiry-wrap.open {
+  display: block;
+}
+.artwork-inquiry-success {
+  text-align: center;
+  padding: var(--space-md);
+  background: var(--bone-soft);
+  border: 1px solid var(--line);
+}
