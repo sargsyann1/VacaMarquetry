@@ -240,6 +240,7 @@
           var success = document.getElementById('ai-success');
           if (inner)   inner.style.display   = 'none';
           if (success) success.style.display = 'block';
+          if (typeof gtag === 'function') { gtag('event', 'generate_lead', { event_category: 'form', event_label: 'artwork_inquiry', artwork_title: data.title, artwork_slug: slug }); }
         })
         .catch(function (err) {
           console.error('[artwork-inquiry]', err);
