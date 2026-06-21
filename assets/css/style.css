@@ -538,7 +538,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--charcoal);
-  opacity: 0.5;
+  opacity: 0.70;             /* raised from 0.5 (2.84:1) → 4.92:1 on bone */
   margin: 0;
   display: block;
 }
@@ -979,14 +979,14 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   margin-bottom: var(--space-sm);
   letter-spacing: 0.02em;
 }
-.site-footer h4 {
+.site-footer h3 {
   font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--cream-text);
-  opacity: 0.5;
+  opacity: 0.55;             /* raised from 0.5 (4.40:1) → 5.03:1 on walnut; selector h4→h3 to match HTML */
   margin: 0 0 var(--space-sm);
 }
 .site-footer ul {
@@ -1068,7 +1068,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   background: var(--bone-soft);
   color: var(--charcoal);
   border: 1px solid var(--line);
-  opacity: 0.6;
+  opacity: 0.70;             /* raised from 0.6 (3.56:1) → 4.68:1 on bone-soft */
 }
 .artwork-specs {
   margin: var(--space-md) 0;
@@ -1083,7 +1083,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 .spec-label {
   font-weight: 500;
   color: var(--charcoal);
-  opacity: 0.6;
+  opacity: 0.70;             /* raised from 0.6 (3.71:1) → 4.92:1 on bone */
   text-transform: uppercase;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
@@ -1142,7 +1142,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   text-transform: uppercase;
   color: var(--charcoal);
   text-decoration: none;
-  opacity: 0.6;
+  opacity: 0.70;             /* raised from 0.6 (3.71:1) → 4.92:1 on bone */
   transition: opacity 200ms ease;
 }
 .artwork-back a:hover { opacity: 1; }
@@ -1194,7 +1194,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 .artwork-note {
   font-size: 0.78rem;
   color: var(--charcoal);
-  opacity: 0.55;
+  opacity: 0.70;             /* raised from 0.55 (3.24:1) → 4.92:1 on bone */
   margin: 6px 0;
   line-height: 1.55;
 }
@@ -1206,14 +1206,14 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   padding: var(--space-lg) 0;
   border-top: 1px solid var(--line);
 }
-.provenance-item h4 {
+.provenance-item h3 {
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--charcoal);
-  opacity: 0.5;
+  opacity: 0.70;             /* raised from 0.5 (2.84:1) → 4.92:1 on bone; selector h4→h3 to match HTML */
   margin: 0 0 var(--space-sm);
 }
 .provenance-item p {
@@ -1295,4 +1295,17 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 
 /* Artwork inline inquiry form */
 .artwork-inquiry-wrap {
-  display: n
+  display: none;
+  margin-top: var(--space-md);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-md);
+}
+.artwork-inquiry-wrap.open {
+  display: block;
+}
+.artwork-inquiry-success {
+  text-align: center;
+  padding: var(--space-md);
+  background: var(--bone-soft);
+  border: 1px solid var(--line);
+}
