@@ -2055,3 +2055,233 @@ body.has-cookie-banner .wa-float {
   margin-top: 4px;
   display: block;
 }
+
+/* ==========================================================================
+   MUSEUM VIEWER — VaCa Marquetry
+   Centered floating gallery frame. Backdrop-blur gallery space.
+   Gold mat border. Zoom constrained inside frame. Arrows outside frame.
+   Auto-wired: no per-page HTML changes required.
+   ========================================================================== */
+
+/* --- Trigger cursor ------------------------------------------------------- */
+.lb-trigger {
+  cursor: zoom-in !important;
+  transition: opacity 180ms ease;
+}
+.lb-trigger:hover { opacity: 0.88; }
+
+/* --- Body lock while viewer is open --------------------------------------- */
+body.lb-open { overflow: hidden; }
+
+/* --- Overlay: blurred gallery atmosphere ---------------------------------- */
+.vaca-lb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease;
+  /* Semi-transparent + backdrop blur = dark gallery room effect */
+  background: rgba(6, 3, 1, 0.60);
+  backdrop-filter: blur(20px) brightness(0.20) saturate(0.45);
+  -webkit-backdrop-filter: blur(20px) brightness(0.20) saturate(0.45);
+  -webkit-tap-highlight-color: transparent;
+}
+.vaca-lb.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* --- Close button (fixed top-right of overlay) ---------------------------- */
+.lb-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: rgba(247, 243, 236, 0.07);
+  border: 1px solid rgba(247, 243, 236, 0.14);
+  border-radius: 50%;
+  color: rgba(247, 243, 236, 0.60);
+  cursor: pointer;
+  transition: background 180ms ease, color 160ms ease, border-color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.lb-close:hover {
+  background: rgba(247, 243, 236, 0.15);
+  color: #F7F3EC;
+  border-color: rgba(247, 243, 236, 0.30);
+}
+
+/* --- Viewer row: [← prev] [frame-wrap] [next →] -------------------------- */
+.lb-viewer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  max-width: 100vw;
+  padding: 0 8px;
+}
+
+/* --- Arrows OUTSIDE the museum frame ------------------------------------- */
+.lb-arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: rgba(247, 243, 236, 0.07);
+  border: 1px solid rgba(247, 243, 236, 0.13);
+  border-radius: 50%;
+  color: rgba(247, 243, 236, 0.58);
+  cursor: pointer;
+  transition: background 180ms ease, color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  margin: 0 18px;
+}
+.lb-arrow:hover {
+  background: rgba(247, 243, 236, 0.15);
+  color: #F7F3EC;
+}
+.lb-arrow.is-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* --- Frame column: museum frame + caption below -------------------------- */
+.lb-frame-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* --- The museum frame: gold-tone border, dark mat, cinematic shadow ------ */
+.lb-museum-frame {
+  position: relative;
+  padding: 14px;                                 /* ivory mat area */
+  border: 1px solid rgba(201, 165, 112, 0.30);  /* brass-gold hairline */
+  background: rgba(10, 6, 2, 0.98);             /* near-black mat fill */
+  box-shadow:
+    inset 0 0 0 1px rgba(201, 165, 112, 0.09),  /* inner gold echo */
+    0 40px 100px rgba(0, 0, 0, 0.80),            /* deep gallery shadow */
+    0 10px 36px rgba(0, 0, 0, 0.55),
+    0 2px 8px  rgba(0, 0, 0, 0.40);
+  /* Entrance animation: rises gently into place */
+  transform: scale(0.95) translateY(12px);
+  opacity: 0;
+  transition:
+    transform 360ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity   300ms ease;
+}
+.vaca-lb.is-open .lb-museum-frame {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  transition-delay: 80ms;
+}
+
+/* --- Image container: clips zoom to frame bounds ------------------------- */
+.lb-img-container {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: min(76vw, 1000px);
+  max-height: min(74vh, 700px);
+  cursor: zoom-in;
+}
+.lb-img-container.is-zoomed   { cursor: grab; }
+.lb-img-container.is-dragging { cursor: grabbing; }
+
+/* --- The artwork image --------------------------------------------------- */
+.lb-img {
+  display: block;
+  max-width: min(76vw, 1000px);
+  max-height: min(74vh, 700px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transform-origin: center center;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  draggable: false;
+}
+.lb-img.is-loaded { opacity: 1; }
+
+/* --- Loading spinner (gold tint, inside frame) --------------------------- */
+.lb-loader {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: rgba(201, 165, 112, 0.40);
+  pointer-events: none;
+  z-index: 2;
+}
+.lb-loader.is-visible { display: flex; }
+.lb-loader svg { animation: lb-spin 1.2s linear infinite; }
+@keyframes lb-spin { to { transform: rotate(360deg); } }
+
+/* --- Caption + counter below the frame ----------------------------------- */
+.lb-frame-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 18px;
+  padding: 0 2px;
+  gap: 12px;
+}
+.lb-caption {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 0.87rem;
+  color: rgba(247, 243, 236, 0.50);
+  line-height: 1.4;
+  margin: 0;
+  flex: 1;
+}
+.lb-counter {
+  font-family: var(--font-body);
+  font-size: 0.59rem;
+  font-weight: 500;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: rgba(201, 165, 112, 0.42);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* --- Mobile (≤ 600px) ---------------------------------------------------- */
+@media (max-width: 600px) {
+  .lb-close { top: 12px; right: 12px; width: 38px; height: 38px; }
+  .lb-viewer { padding: 0 2px; }
+  .lb-arrow { width: 38px; height: 38px; margin: 0 6px; }
+  .lb-museum-frame { padding: 9px; }
+  .lb-img-container {
+    max-width: min(88vw, 100vw);
+    max-height: min(68vh, 100vh);
+  }
+  .lb-img {
+    max-width: min(88vw, 100vw);
+    max-height: min(68vh, 100vh);
+  }
+  .lb-caption { font-size: 0.78rem; }
+  .lb-frame-footer { gap: 8px; }
+}
