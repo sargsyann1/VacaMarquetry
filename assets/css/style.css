@@ -36,7 +36,12 @@
 
 /* --- 2. Reset & Base ----------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Prevent horizontal scroll without breaking position:fixed elements
+     (using html instead of body avoids the Safari fixed-element clipping bug) */
+  overflow-x: hidden;
+}
 
 body {
   margin: 0;
@@ -47,6 +52,8 @@ body {
   background: var(--bone);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Do NOT set overflow-x: hidden on body — it clips position:fixed children
+     in Safari/iOS. html overflow-x: hidden above is sufficient. */
 }
 
 h1, h2, h3, h4, h5 {
@@ -289,6 +296,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   .nav-links {
     position: fixed;
     top: 80px; left: 0; right: 0;
+    z-index: 200;                          /* explicit: above header(100), below cookie(99998)/WA(99999) */
     background: var(--bone);
     flex-direction: column;
     gap: 0;
@@ -297,6 +305,9 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
     opacity: 0;
     transition: transform 280ms ease, opacity 280ms ease;
     padding-bottom: var(--space-sm);
+    /* Prevent nav dropdown from creating a horizontal scroll */
+    max-width: 100vw;
+    overflow-x: hidden;
   }
   .nav-links.open { transform: translateY(0); opacity: 1; }
   .nav-links li { border-top: 1px solid var(--line); }
@@ -1338,14 +1349,18 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 9900;
+  z-index: 99998;                          /* below WA (99999) but above everything else */
   background: var(--bone);
   border-top: 1px solid rgba(76, 43, 15, 0.15);
   box-shadow: 0 -4px 24px rgba(38, 22, 8, 0.08);
   padding: 18px 0;
+  /* safe-area: iOS notch / Android gesture bar */
+  padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 300ms ease, transform 300ms ease;
+  will-change: opacity, transform;         /* GPU layer for smooth animation on mobile */
+  -webkit-transform: translateY(16px);
 }
 .cookie-inner {
   max-width: 1200px;
@@ -1392,16 +1407,21 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 }
 .cookie-btn-accept,
 .cookie-btn-decline {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-body);
   font-size: 0.62rem;
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 9px 20px;
+  min-height: 44px;                        /* WCAG AA touch target */
   border-radius: 0;
   border: 1px solid;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;              /* remove 300ms tap delay */
   transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
   line-height: 1;
 }
@@ -1426,24 +1446,27 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 @media (max-width: 600px) {
   .cookie-inner {
     padding: 0 var(--space-md);
-    gap: var(--space-md);
+    gap: 14px;
   }
   .cookie-actions {
     width: 100%;
+    gap: 10px;
   }
   .cookie-btn-accept,
   .cookie-btn-decline {
     flex: 1;
     text-align: center;
+    min-height: 48px;                      /* larger touch target on mobile */
   }
 }
 
 /* --- WhatsApp floating button -------------------------------------------- */
 .wa-float {
   position: fixed;
-  bottom: 28px;
+  /* safe-area: add env() so it sits above home bar on notched phones */
+  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
   right: 28px;
-  z-index: 9000;
+  z-index: 99999;                          /* highest — always on top */
   display: flex;
   align-items: center;
   gap: 9px;
@@ -1459,7 +1482,17 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   box-shadow: 0 4px 20px rgba(38, 22, 8, 0.10);
-  transition: color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  transition: bottom 220ms ease, color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;              /* remove 300ms tap delay on Android */
+  /* Force GPU compositing — prevents fixed element flicker on Android Chrome */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  will-change: bottom;
+}
+/* When cookie banner is visible, push WA button above it */
+body.has-cookie-banner .wa-float {
+  bottom: calc(var(--cookie-banner-h, 90px) + 20px + env(safe-area-inset-bottom, 0px));
 }
 .wa-float:hover {
   color: var(--brass-dark);
@@ -1475,10 +1508,17 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 }
 @media (max-width: 600px) {
   .wa-float {
-    bottom: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     right: 16px;
-    padding: 11px;
+    /* Explicit size so circle never collapses */
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    justify-content: center;
     border-radius: 50%;
+  }
+  body.has-cookie-banner .wa-float {
+    bottom: calc(var(--cookie-banner-h, 165px) + 16px + env(safe-area-inset-bottom, 0px));
   }
   .wa-label {
     display: none;

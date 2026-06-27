@@ -25,13 +25,29 @@
    - Accept → grants GA4 analytics_storage
    - Decline → remains denied, banner dismissed
    - Luxury minimal design via .cookie-banner CSS class
+   - Mobile: body.has-cookie-banner pushes WA button up via CSS
    ============================================================ */
 (function () {
   var KEY = 'vaca_cookie_consent';
 
+  // Check prior decision — if localStorage throws (iOS Private Browsing),
+  // do NOT return: still show the banner, just can't persist the choice.
+  var alreadyDecided = false;
   try {
-    if (localStorage.getItem(KEY)) return; // already decided
-  } catch (e) { return; }
+    if (localStorage.getItem(KEY)) alreadyDecided = true;
+  } catch (e) { /* storage unavailable — show banner anyway */ }
+
+  if (alreadyDecided) return;
+
+  function removeBanner() {
+    document.body.classList.remove('has-cookie-banner');
+    document.body.style.removeProperty('--cookie-banner-h');
+    banner.style.opacity   = '0';
+    banner.style.transform = 'translateY(16px)';
+    setTimeout(function () {
+      if (banner.parentNode) banner.parentNode.removeChild(banner);
+    }, 320);
+  }
 
   function applyConsent(value) {
     try { localStorage.setItem(KEY, value); } catch (e) {}
@@ -51,11 +67,7 @@
       }
     }
 
-    banner.style.opacity   = '0';
-    banner.style.transform = 'translateY(16px)';
-    setTimeout(function () {
-      if (banner.parentNode) banner.parentNode.removeChild(banner);
-    }, 320);
+    removeBanner();
   }
 
   var banner = document.createElement('div');
@@ -80,9 +92,16 @@
 
   document.body.appendChild(banner);
 
-  // Animate in after paint
+  // Animate in after paint + measure height to push WA button up on mobile
   requestAnimationFrame(function () {
     requestAnimationFrame(function () {
+      // Measure rendered height so CSS can push the WA button above the banner
+      var h = banner.offsetHeight;
+      if (h > 0) {
+        document.body.style.setProperty('--cookie-banner-h', h + 'px');
+      }
+      document.body.classList.add('has-cookie-banner');
+
       banner.style.opacity   = '1';
       banner.style.transform = 'translateY(0)';
     });
