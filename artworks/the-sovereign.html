@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage:        'denied',
+    wait_for_update:   500
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<script>
   gtag('js', new Date());
   gtag('config', 'G-1ZGRMFLES7');
 </script>
@@ -20,15 +27,15 @@
 <meta property="og:title" content="The Sovereign | Handmade Marquetry Artwork | VaCa Marquetry">
 <meta property="og:description" content="The Sovereign is a luxury marquetry artwork representing leadership, dignity, and timeless craftsmanship.">
 <meta property="og:url" content="https://vacamarquetry.shop/artworks/the-sovereign.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/the-sovereign/cover.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/cover.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Sovereign | Handmade Marquetry Artwork | VaCa Marquetry">
 <meta name="twitter:description" content="The Sovereign is a luxury marquetry artwork representing leadership, dignity, and timeless craftsmanship.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/the-sovereign/cover.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/cover.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="../assets/images/the-sovereign/hero.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="../assets/images/artworks/the-sovereign/hero.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -39,8 +46,8 @@
 {
   "title": "The Sovereign",
   "slug": "the-sovereign",
-  "status": "available",
-  "price": "Price on Request",
+  "status": "not_for_sale",
+  "price": "Private Collection — Not for Sale",
   "category": "Portrait",
   "pieceCount": "Over 910",
   "materials": "Natural wood veneer marquetry on birch panel",
@@ -73,8 +80,8 @@
   "name": "The Sovereign",
   "description": "The largest and most complex original in the collection. More than 910 veneer pieces — individually selected, cut, and placed over six weeks — converge into a portrait of uncommon stillness and authority. The Sovereign does not ask to be noticed. It simply is. This is a work for a wall that can hold it: one that becomes the room it occupies, and defines every space it enters.",
   "image": [
-    "https://vacamarquetry.shop/assets/images/the-sovereign/cover.jpg",
-    "https://vacamarquetry.shop/assets/images/the-sovereign/hero.jpg"
+    "https://vacamarquetry.shop/assets/images/artworks/the-sovereign/cover.jpg",
+    "https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg"
   ],
   "url": "https://vacamarquetry.shop/artworks/the-sovereign.html",
   "artMedium": "Natural wood veneer marquetry on birch panel",
@@ -118,6 +125,8 @@
     <ul class="nav-links">
       <li><a href="../custom-portraits.html">Custom Portraits</a></li>
       <li><a href="../collection.html" aria-current="page">Collection</a></li>
+      <li><a href="../not-for-sale.html">Not for Sale</a></li>
+      <li><a href="../exhibitions.html">Exhibitions</a></li>
       <li><a href="../the-craft.html">The Craft</a></li>
       <li><a href="../trade.html">Trade</a></li>
       <li><a href="../the-artist.html">The Artist</a></li>
@@ -235,6 +244,35 @@
   </section>
 
   <!-- ================================================================
+       ARTWORK DEPTH — concept, process, reflection
+  ================================================================= -->
+  <section class="artwork-depth section-soft">
+    <div class="container">
+      <div class="depth-grid">
+
+        <div class="depth-block">
+          <span class="eyebrow">Concept</span>
+          <h2>Authority Without Declaration</h2>
+          <p>The largest and most complex work in the collection. More than 910 individual pieces converging into a portrait of uncommon stillness. The Sovereign does not ask to be noticed. The scale is not for spectacle — it is for the quality of silence that only a large work can produce in a room.</p>
+        </div>
+
+        <div class="depth-block">
+          <span class="eyebrow">Process</span>
+          <h2>910+ Pieces, Six Weeks</h2>
+          <p>Production extended over six weeks — the longest sustained build in the studio's history. Twelve veneer species were sourced for this single panel, including burled walnut, quilted maple, rosewood, and satinwood. The background recedes not through value contrast but through grain direction alone — an effect that required dismantling and rebuilding the lower third twice before it resolved.</p>
+        </div>
+
+        <div class="depth-block">
+          <span class="eyebrow">Reflection</span>
+          <h2>&nbsp;</h2>
+          <blockquote>&ldquo;This is a work for a wall that can hold it — one that becomes the room it occupies, and defines every space it enters.&rdquo;</blockquote>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
        PROVENANCE — COA + Shipping
   ================================================================= -->
   <section style="padding-top: 0;">
@@ -308,7 +346,4 @@
 </footer>
 
 <script src="../assets/js/main.js" defer></script>
-<script src="artwork-loader.js" defer></script>
-
-</body>
-</html>
+<script src="artwork-loader.js" defer></scr

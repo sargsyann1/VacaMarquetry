@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage:        'denied',
+    wait_for_update:   500
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<script>
   gtag('js', new Date());
   gtag('config', 'G-1ZGRMFLES7');
 </script>
@@ -20,12 +27,12 @@
 <meta property="og:title" content="Trade & Interior Design Partnerships | VaCa Marquetry">
 <meta property="og:description" content="Partner with VaCa Marquetry for bespoke handmade wood artworks for interiors, collectors, designers, and luxury spaces.">
 <meta property="og:url" content="https://vacamarquetry.shop/trade.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/the-sovereign/hero.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Trade & Interior Design Partnerships | VaCa Marquetry">
 <meta name="twitter:description" content="Partner with VaCa Marquetry for bespoke handmade wood artworks for interiors, collectors, designers, and luxury spaces.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/the-sovereign/hero.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,6 +53,8 @@
     <ul class="nav-links">
       <li><a href="custom-portraits.html">Custom Portraits</a></li>
       <li><a href="collection.html">Collection</a></li>
+      <li><a href="not-for-sale.html">Not for Sale</a></li>
+      <li><a href="exhibitions.html">Exhibitions</a></li>
       <li><a href="the-craft.html">The Craft</a></li>
       <li><a href="trade.html" aria-current="page">Trade</a></li>
       <li><a href="the-artist.html">The Artist</a></li>

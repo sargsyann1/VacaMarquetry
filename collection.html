@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage:        'denied',
+    wait_for_update:   500
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<script>
   gtag('js', new Date());
   gtag('config', 'G-1ZGRMFLES7');
 </script>
@@ -20,15 +27,15 @@
 <meta property="og:title" content="Collection | Handmade Marquetry Artworks | VaCa Marquetry">
 <meta property="og:description" content="Explore the VaCa Marquetry collection of original handmade wood veneer artworks. One-of-a-kind marquetry pieces inspired by heritage, strength, and craftsmanship.">
 <meta property="og:url" content="https://vacamarquetry.shop/collection.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/king-of-ararat/cover.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/king-of-ararat/cover.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Collection | Handmade Marquetry Artworks | VaCa Marquetry">
 <meta name="twitter:description" content="Explore the VaCa Marquetry collection of original handmade wood veneer artworks. One-of-a-kind marquetry pieces inspired by heritage, strength, and craftsmanship.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/king-of-ararat/cover.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/king-of-ararat/cover.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="assets/images/black-woman/cover.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="assets/images/artworks/black-woman/cover.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -48,6 +55,8 @@
     <ul class="nav-links">
       <li><a href="custom-portraits.html">Custom Portraits</a></li>
       <li><a href="collection.html" aria-current="page">Collection</a></li>
+      <li><a href="not-for-sale.html">Not for Sale</a></li>
+      <li><a href="exhibitions.html">Exhibitions</a></li>
       <li><a href="the-craft.html">The Craft</a></li>
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html">The Artist</a></li>
@@ -87,18 +96,17 @@
 
   <!-- ================================================================
        GALLERY — Editorial portrait grid
-       5 artworks, 2:3 portrait ratio cards, no filter on any image.
+       4 available artworks. The Sovereign is in the Private Collection.
 
        Layout:
          Row 1  → 3 equal cards (span 2 of 6 columns each)
-         Row 2  → 2 wider cards (span 3 of 6 columns each)
+         Row 2  → 1 wider card (span 6 of 6 columns)
 
        Images used:
          black-woman/cover.jpg
          king-of-ararat/cover.jpg
          strength-in-harmony/cover.jpg
          the-lion-within/cover.jpg
-         the-sovereign/cover.jpg
   ================================================================= -->
   <section style="padding-top: 0;">
     <div class="container">
@@ -109,9 +117,9 @@
         <a href="artworks/black-woman.html" class="art-card">
           <div class="art-thumb">
             <picture>
-  <source srcset="assets/images/black-woman/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/black-woman/cover.webp" type="image/webp">
   <img
-              src="assets/images/black-woman/cover.jpg"
+              src="assets/images/artworks/black-woman/cover.jpg"
               alt="Black Woman — original marquetry portrait by VaCa Marquetry"
               loading="lazy">
 </picture>
@@ -119,6 +127,7 @@
           <div class="art-info">
             <h3>Black Woman</h3>
             <span class="art-meta">Portraits &middot; Original</span>
+            <span class="art-description">A study in luminosity and dignity. Pale ash gives way to walnut shadow — warmth that no paint can replicate.</span>
           </div>
         </a>
 
@@ -126,9 +135,9 @@
         <a href="artworks/king-of-ararat.html" class="art-card">
           <div class="art-thumb">
             <picture>
-  <source srcset="assets/images/king-of-ararat/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/king-of-ararat/cover.webp" type="image/webp">
   <img
-              src="assets/images/king-of-ararat/cover.jpg"
+              src="assets/images/artworks/king-of-ararat/cover.jpg"
               alt="King of Ararat — original marquetry artwork by VaCa Marquetry"
               loading="lazy">
 </picture>
@@ -136,6 +145,7 @@
           <div class="art-info">
             <h3>King of Ararat</h3>
             <span class="art-meta">Heritage &amp; Cultural Works &middot; Original</span>
+            <span class="art-description">Rooted in Armenian memory and the sacred mountain. Deep wenge and amboyna — identity held without nostalgia.</span>
           </div>
         </a>
 
@@ -143,9 +153,9 @@
         <a href="artworks/strength-in-harmony.html" class="art-card">
           <div class="art-thumb">
             <picture>
-  <source srcset="assets/images/strength-in-harmony/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/strength-in-harmony/cover.webp" type="image/webp">
   <img
-              src="assets/images/strength-in-harmony/cover.jpg"
+              src="assets/images/artworks/strength-in-harmony/cover.jpg"
               alt="Strength in Harmony — original marquetry portrait by VaCa Marquetry"
               loading="lazy">
 </picture>
@@ -153,6 +163,7 @@
           <div class="art-info">
             <h3>Strength in Harmony</h3>
             <span class="art-meta">Portraits &middot; Original</span>
+            <span class="art-description">Two presences. Two grain directions. A double portrait that insists on the connection it depicts.</span>
           </div>
         </a>
 
@@ -160,9 +171,9 @@
         <a href="artworks/the-lion-within.html" class="art-card feature">
           <div class="art-thumb">
             <picture>
-  <source srcset="assets/images/the-lion-within/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/the-lion-within/cover.webp" type="image/webp">
   <img
-              src="assets/images/the-lion-within/cover.jpg"
+              src="assets/images/artworks/the-lion-within/cover.jpg"
               alt="The Lion Within — original marquetry portrait by VaCa Marquetry"
               loading="lazy">
 </picture>
@@ -170,23 +181,7 @@
           <div class="art-info">
             <h3>The Lion Within</h3>
             <span class="art-meta">Portraits &middot; Original</span>
-          </div>
-        </a>
-
-        <!-- 5. The Sovereign — cover.jpg (feature: span 3) -->
-        <a href="artworks/the-sovereign.html" class="art-card feature">
-          <div class="art-thumb">
-            <picture>
-  <source srcset="assets/images/the-sovereign/cover.webp" type="image/webp">
-  <img
-              src="assets/images/the-sovereign/cover.jpg"
-              alt="The Sovereign — original marquetry portrait by VaCa Marquetry"
-              loading="lazy">
-</picture>
-          </div>
-          <div class="art-info">
-            <h3>The Sovereign</h3>
-            <span class="art-meta">Portraits &middot; Original</span>
+            <span class="art-description">850 pieces. Contained strength — not the lion that roars, but the one that rests with total awareness.</span>
           </div>
         </a>
 
@@ -202,9 +197,9 @@
   <section class="wall-section" style="margin-top: var(--space-xl);">
     <div class="wall-feature">
       <picture>
-  <source srcset="assets/images/the-lion-within/wall.webp" type="image/webp">
+  <source srcset="assets/images/artworks/the-lion-within/wall.webp" type="image/webp">
   <img
-        src="assets/images/the-lion-within/wall.jpg"
+        src="assets/images/artworks/the-lion-within/wall.jpg"
         alt="The Lion Within — marquetry portrait displayed on a gallery wall"
         loading="lazy">
 </picture>
@@ -233,23 +228,41 @@
       <div class="detail-pair">
         <div class="detail-frame">
           <picture>
-  <source srcset="assets/images/strength-in-harmony/detail-01.webp" type="image/webp">
+  <source srcset="assets/images/artworks/strength-in-harmony/detail-01.webp" type="image/webp">
   <img
-            src="assets/images/strength-in-harmony/detail-01.jpg"
+            src="assets/images/artworks/strength-in-harmony/detail-01.jpg"
             alt="Strength in Harmony — marquetry detail, hand-cut veneer close-up"
             loading="lazy">
 </picture>
         </div>
         <div class="detail-frame">
           <picture>
-  <source srcset="assets/images/strength-in-harmony/detail-02.webp" type="image/webp">
+  <source srcset="assets/images/artworks/strength-in-harmony/detail-02.webp" type="image/webp">
   <img
-            src="assets/images/strength-in-harmony/detail-02.jpg"
+            src="assets/images/artworks/strength-in-harmony/detail-02.jpg"
             alt="Strength in Harmony — marquetry detail, wood grain and texture"
             loading="lazy">
 </picture>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       PRIVATE COLLECTION TEASER
+  ================================================================= -->
+  <section class="section-soft" style="margin-top: var(--space-xl);">
+    <div class="container" style="max-width:780px; text-align:center;">
+      <span class="eyebrow">Private Collection</span>
+      <h2 style="font-family:var(--font-editorial); font-weight:400; font-style:italic;
+                 font-size:clamp(1.8rem,3.5vw,2.8rem); letter-spacing:-0.02em; margin-bottom:var(--space-md);">
+        Some works are not for sale
+      </h2>
+      <div class="seam center"></div>
+      <p class="opacity-75" style="max-width:520px; margin:0 auto var(--space-lg);">
+        Certain pieces are held permanently in the artist&rsquo;s private collection — milestones in the evolution of VaCa Marquetry. They are shown at exhibitions but are not available for acquisition.
+      </p>
+      <a href="not-for-sale.html" class="btn btn-ghost">View the Private Collection &rarr;</a>
     </div>
   </section>
 
@@ -301,13 +314,3 @@
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
-      <span>Handmade in Italy</span>
-    </div>
-  </div>
-</footer>
-
-<script src="assets/js/main.js" defer></script>
-</body>
-</html>

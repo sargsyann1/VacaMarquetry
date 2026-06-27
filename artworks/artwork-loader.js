@@ -41,7 +41,7 @@
     return;
   }
 
-  var jsonUrl = '../assets/images/' + slug + '/artwork.json';
+  var jsonUrl = '../assets/images/artworks/' + slug + '/artwork.json';
   console.log('[artwork-loader] Loading', jsonUrl);
 
   fetch(jsonUrl)
@@ -68,8 +68,9 @@
         data.pieceCount + ' hand-cut pieces. ' + data.dimensions + '.');
     }
 
-    var statusText = data.status === 'available' ? 'Available' :
-                     data.status === 'sold'      ? 'Sold'      : 'Enquire';
+    var statusText = data.status === 'available'    ? 'Available'          :
+                     data.status === 'sold'         ? 'Sold'               :
+                     data.status === 'not_for_sale' ? 'Private Collection' : 'Enquire';
     set('aw-availability', statusText);
     var badge = document.getElementById('aw-availability');
     if (badge) badge.className = 'artwork-availability ' + (data.status || 'available');
@@ -92,21 +93,34 @@
       primaryImg.onerror = function () {
         console.warn('[artwork-loader] hero.jpg not found for', slug);
       };
-      primaryImg.src = '../assets/images/' + slug + '/hero' + imgExt;
+      primaryImg.src = '../assets/images/artworks/' + slug + '/hero' + imgExt;
     }
 
     var btn = document.getElementById('aw-inquire');
     if (btn) {
-      var subject = encodeURIComponent('Inquiry about ' + data.title);
-      var mailBody = encodeURIComponent(
-        'Hello VaCa Marquetry,\n\nI am interested in "' + data.title + '". ' +
-        'Please send me more information about price, availability, and delivery.\n\nThank you.'
-      );
-      btn.href = 'mailto:vacamarquetry@vacamarquetry.shop?subject=' + subject + '&body=' + mailBody;
+      if (data.status === 'not_for_sale') {
+        // Hide CTA entirely and replace with a private collection notice
+        var ctaBlock = btn.closest('.artwork-cta');
+        if (ctaBlock) {
+          ctaBlock.innerHTML =
+            '<p style="font-family:var(--font-editorial);font-style:italic;font-size:1rem;' +
+            'color:var(--brass-dark);margin:0 0 var(--space-sm);">' +
+            'This work is held in the artist’s private collection.</p>' +
+            '<a href="../not-for-sale.html" class="btn btn-ghost" style="margin-top:4px;">' +
+            'View Private Collection →</a>';
+        }
+      } else {
+        var subject = encodeURIComponent('Inquiry about ' + data.title);
+        var mailBody = encodeURIComponent(
+          'Hello VaCa Marquetry,\n\nI am interested in "' + data.title + '". ' +
+          'Please send me more information about price, availability, and delivery.\n\nThank you.'
+        );
+        btn.href = 'mailto:vacamarquetry@vacamarquetry.shop?subject=' + subject + '&body=' + mailBody;
 
-      var cta = btn.closest('.artwork-cta');
-      if (cta) {
-        buildInquiryForm(cta, data, slug);
+        var cta = btn.closest('.artwork-cta');
+        if (cta) {
+          buildInquiryForm(cta, data, slug);
+        }
       }
     }
 
@@ -138,7 +152,7 @@
         console.warn('[artwork-loader] Gallery image missing:', file);
         thumb.style.display = 'none';
       };
-      img.src = '../assets/images/' + slug + '/' +
+      img.src = '../assets/images/artworks/' + slug + '/' +
         (imgExt === '.webp' ? file.replace(/\.jpg$/i, '.webp') : file);
 
       thumb.appendChild(img);

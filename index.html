@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage:        'denied',
+    wait_for_update:   500
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<script>
   gtag('js', new Date());
   gtag('config', 'G-1ZGRMFLES7');
 </script>
@@ -20,15 +27,15 @@
 <meta property="og:title" content="VaCa Marquetry | Luxury Handmade Marquetry Art from Italy">
 <meta property="og:description" content="Discover luxury handmade marquetry portraits and fine wood art crafted entirely by hand in Italy. Unique artworks created from hundreds of natural wood veneer pieces.">
 <meta property="og:url" content="https://vacamarquetry.shop/">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/the-sovereign/hero.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="VaCa Marquetry | Luxury Handmade Marquetry Art from Italy">
 <meta name="twitter:description" content="Discover luxury handmade marquetry portraits and fine wood art crafted entirely by hand in Italy. Unique artworks created from hundreds of natural wood veneer pieces.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/the-sovereign/hero.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="assets/images/the-sovereign/hero.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="assets/images/artworks/the-sovereign/hero.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -47,7 +54,7 @@
       "@id": "https://vacamarquetry.shop/#organization",
       "name": "VaCa Marquetry",
       "url": "https://vacamarquetry.shop",
-      "logo": "https://vacamarquetry.shop/assets/images/the-sovereign/hero.jpg",
+      "logo": "https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg",
       "description": "Luxury handmade marquetry portraits and fine wood art, crafted entirely by hand in Italy from natural wood veneers.",
       "address": {
         "@type": "PostalAddress",
@@ -83,6 +90,8 @@
     <ul class="nav-links">
       <li><a href="custom-portraits.html">Custom Portraits</a></li>
       <li><a href="collection.html">Collection</a></li>
+      <li><a href="not-for-sale.html">Not for Sale</a></li>
+      <li><a href="exhibitions.html">Exhibitions</a></li>
       <li><a href="the-craft.html">The Craft</a></li>
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html">The Artist</a></li>
@@ -121,9 +130,9 @@
       <!-- hero.jpg: the-sovereign — no filter, no overlay -->
       <div class="hero-image-wrap">
         <picture>
-  <source srcset="assets/images/the-sovereign/hero.webp" type="image/webp">
+  <source srcset="assets/images/artworks/the-sovereign/hero.webp" type="image/webp">
   <img
-          src="assets/images/the-sovereign/hero.jpg"
+          src="assets/images/artworks/the-sovereign/hero.jpg"
           alt="The Sovereign — marquetry portrait by VaCa, hand-cut from natural wood veneer"
           loading="eager" fetchpriority="high">
 </picture>
@@ -196,9 +205,9 @@
         <!-- cover.jpg: black-woman -->
         <div class="commission-thumb">
           <picture>
-  <source srcset="assets/images/black-woman/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/black-woman/cover.webp" type="image/webp">
   <img
-            src="assets/images/black-woman/cover.jpg"
+            src="assets/images/artworks/black-woman/cover.jpg"
             alt="Black Woman — marquetry portrait commission, VaCa Marquetry"
             loading="lazy">
 </picture>
@@ -207,9 +216,9 @@
         <!-- cover.jpg: king-of-ararat -->
         <div class="commission-thumb">
           <picture>
-  <source srcset="assets/images/king-of-ararat/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/king-of-ararat/cover.webp" type="image/webp">
   <img
-            src="assets/images/king-of-ararat/cover.jpg"
+            src="assets/images/artworks/king-of-ararat/cover.jpg"
             alt="King of Ararat — marquetry portrait commission, VaCa Marquetry"
             loading="lazy">
 </picture>
@@ -218,9 +227,9 @@
         <!-- cover.jpg: the-lion-within -->
         <div class="commission-thumb">
           <picture>
-  <source srcset="assets/images/the-lion-within/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/the-lion-within/cover.webp" type="image/webp">
   <img
-            src="assets/images/the-lion-within/cover.jpg"
+            src="assets/images/artworks/the-lion-within/cover.jpg"
             alt="The Lion Within — marquetry portrait commission, VaCa Marquetry"
             loading="lazy">
 </picture>
@@ -229,9 +238,9 @@
         <!-- cover.jpg: strength-in-harmony -->
         <div class="commission-thumb">
           <picture>
-  <source srcset="assets/images/strength-in-harmony/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/strength-in-harmony/cover.webp" type="image/webp">
   <img
-            src="assets/images/strength-in-harmony/cover.jpg"
+            src="assets/images/artworks/strength-in-harmony/cover.jpg"
             alt="Strength in Harmony — marquetry portrait commission, VaCa Marquetry"
             loading="lazy">
 </picture>
@@ -253,9 +262,9 @@
   <section class="wall-section">
     <div class="wall-feature">
       <picture>
-  <source srcset="assets/images/black-woman/wall.webp" type="image/webp">
+  <source srcset="assets/images/artworks/black-woman/wall.webp" type="image/webp">
   <img
-        src="assets/images/black-woman/wall.jpg"
+        src="assets/images/artworks/black-woman/wall.jpg"
         alt="Black Woman marquetry portrait displayed on a wall — VaCa Marquetry"
         loading="lazy">
 </picture>
@@ -318,9 +327,9 @@
         <a href="collection.html" class="art-card">
           <div class="art-thumb">
             <picture>
-  <source srcset="assets/images/the-sovereign/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/the-sovereign/cover.webp" type="image/webp">
   <img
-              src="assets/images/the-sovereign/cover.jpg"
+              src="assets/images/artworks/the-sovereign/cover.jpg"
               alt="The Sovereign — original marquetry artwork by VaCa"
               loading="lazy">
 </picture>
@@ -335,9 +344,9 @@
         <a href="collection.html" class="art-card">
           <div class="art-thumb">
             <picture>
-  <source srcset="assets/images/king-of-ararat/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/king-of-ararat/cover.webp" type="image/webp">
   <img
-              src="assets/images/king-of-ararat/cover.jpg"
+              src="assets/images/artworks/king-of-ararat/cover.jpg"
               alt="King of Ararat — original marquetry artwork by VaCa"
               loading="lazy">
 </picture>
@@ -352,9 +361,9 @@
         <a href="collection.html" class="art-card">
           <div class="art-thumb">
             <picture>
-  <source srcset="assets/images/the-lion-within/cover.webp" type="image/webp">
+  <source srcset="assets/images/artworks/the-lion-within/cover.webp" type="image/webp">
   <img
-              src="assets/images/the-lion-within/cover.jpg"
+              src="assets/images/artworks/the-lion-within/cover.jpg"
               alt="The Lion Within — original marquetry artwork by VaCa"
               loading="lazy">
 </picture>
@@ -388,9 +397,9 @@
       <!-- lifestyle.jpg: strength-in-harmony -->
       <div class="feature-media" style="aspect-ratio: 4/3;">
         <picture>
-  <source srcset="assets/images/strength-in-harmony/lifestyle.webp" type="image/webp">
+  <source srcset="assets/images/artworks/strength-in-harmony/lifestyle.webp" type="image/webp">
   <img
-          src="assets/images/strength-in-harmony/lifestyle.jpg"
+          src="assets/images/artworks/strength-in-harmony/lifestyle.jpg"
           alt="Marquetry artwork in an interior setting — VaCa Marquetry"
           loading="lazy">
 </picture>
@@ -407,9 +416,9 @@
       <!-- lifestyle.jpg: the-sovereign -->
       <div class="feature-media" style="aspect-ratio: 4/5;">
         <picture>
-  <source srcset="assets/images/the-sovereign/lifestyle.webp" type="image/webp">
+  <source srcset="assets/images/artworks/the-sovereign/lifestyle.webp" type="image/webp">
   <img
-          src="assets/images/the-sovereign/lifestyle.jpg"
+          src="assets/images/artworks/the-sovereign/lifestyle.jpg"
           alt="The Sovereign marquetry artwork — editorial presentation"
           loading="lazy">
 </picture>

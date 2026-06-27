@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage:        'denied',
+    wait_for_update:   500
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<script>
   gtag('js', new Date());
   gtag('config', 'G-1ZGRMFLES7');
 </script>
@@ -20,15 +27,15 @@
 <meta property="og:title" content="Black Woman | Handmade Marquetry Portrait | VaCa Marquetry">
 <meta property="og:description" content="Black Woman is an original handmade marquetry portrait crafted from carefully selected natural wood veneers.">
 <meta property="og:url" content="https://vacamarquetry.shop/artworks/black-woman.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/black-woman/cover.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/black-woman/cover.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Black Woman | Handmade Marquetry Portrait | VaCa Marquetry">
 <meta name="twitter:description" content="Black Woman is an original handmade marquetry portrait crafted from carefully selected natural wood veneers.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/black-woman/cover.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/black-woman/cover.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="../assets/images/black-woman/hero.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="../assets/images/artworks/black-woman/hero.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -72,8 +79,8 @@
   "name": "Black Woman",
   "description": "A study in luminosity and dignity. Every veneer piece in this portrait was selected for the way it carries light — pale ash pieces in the foreground giving way to deeper walnut shadows that model the face with a painter's precision. The warmth of the natural wood tones does what pigment cannot: it is a warmth that already existed inside the material, waiting to be revealed. This work began as a commission and became something larger.",
   "image": [
-    "https://vacamarquetry.shop/assets/images/black-woman/cover.jpg",
-    "https://vacamarquetry.shop/assets/images/black-woman/hero.jpg"
+    "https://vacamarquetry.shop/assets/images/artworks/black-woman/cover.jpg",
+    "https://vacamarquetry.shop/assets/images/artworks/black-woman/hero.jpg"
   ],
   "url": "https://vacamarquetry.shop/artworks/black-woman.html",
   "artMedium": "Natural wood veneer marquetry on birch panel",
@@ -117,6 +124,8 @@
     <ul class="nav-links">
       <li><a href="../custom-portraits.html">Custom Portraits</a></li>
       <li><a href="../collection.html" aria-current="page">Collection</a></li>
+      <li><a href="../not-for-sale.html">Not for Sale</a></li>
+      <li><a href="../exhibitions.html">Exhibitions</a></li>
       <li><a href="../the-craft.html">The Craft</a></li>
       <li><a href="../trade.html">Trade</a></li>
       <li><a href="../the-artist.html">The Artist</a></li>
@@ -229,6 +238,35 @@
       <span class="eyebrow" style="display: block; margin-bottom: var(--space-md);">The Work, in Full</span>
       <div id="aw-gallery" class="artwork-gallery">
         <!-- Thumbs injected by artwork-loader.js — missing files hidden automatically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       ARTWORK DEPTH — concept, process, reflection
+  ================================================================= -->
+  <section class="artwork-depth section-soft">
+    <div class="container">
+      <div class="depth-grid">
+
+        <div class="depth-block">
+          <span class="eyebrow">Concept</span>
+          <h2>Luminosity &amp; Dignity</h2>
+          <p>A portrait that confronts and reclaims the gaze. The subject does not pose — she simply is. Pale ash veneers carry a quality of light that no pigment can produce: a warmth native to the material itself, uncaught and unmanipulated. The face is not beautified. It is witnessed.</p>
+        </div>
+
+        <div class="depth-block">
+          <span class="eyebrow">Process</span>
+          <h2>620 Pieces of Light</h2>
+          <p>Construction began with the lightest veneers — ash, maple, and holly — laid in the highlight regions. Walnut and wenge were cut last, pressed into shadow zones to give the face its three-dimensional depth. No two grain directions repeat within the facial plane. Each cut was made freehand, without laser or template, over approximately four weeks.</p>
+        </div>
+
+        <div class="depth-block">
+          <span class="eyebrow">Reflection</span>
+          <h2>&nbsp;</h2>
+          <blockquote>&ldquo;This work began as a commission and became something I needed to finish for its own sake. I did not know that until it was done.&rdquo;</blockquote>
+        </div>
+
       </div>
     </div>
   </section>

@@ -1,41 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage:        'denied',
+    wait_for_update:   500
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<script>
   gtag('js', new Date());
   gtag('config', 'G-1ZGRMFLES7');
 </script>
 <meta name="google-site-verification" content="mS7Y14yKCTXGHSx5iCjmXuJjeBPLNYU204IBOsG8za4" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Artist | VaCa Marquetry Handmade Wood Art</title>
-<meta name="description" content="Learn about the artist behind VaCa Marquetry and the studio's dedication to handmade marquetry, heritage, and fine craftsmanship.">
+<title>The Artist — Sasun Sargsyan | VaCa Marquetry, Tuscany</title>
+<meta name="description" content="Sasun Sargsyan is a marquetry artist working from San Giuliano Terme, Tuscany. Born 1991 in Yerevan, he began working with wood at the age of nine. His work has been exhibited in Italy and Dubai.">
 <!-- Open Graph / Social -->
-<meta property="og:type" content="website">
+<meta property="og:type" content="profile">
 <meta property="og:site_name" content="VaCa Marquetry">
-<meta property="og:title" content="The Artist | VaCa Marquetry Handmade Wood Art">
-<meta property="og:description" content="Learn about the artist behind VaCa Marquetry and the studio's dedication to handmade marquetry, heritage, and fine craftsmanship.">
+<meta property="og:title" content="The Artist — Sasun Sargsyan | VaCa Marquetry">
+<meta property="og:description" content="Marquetry artist working from Tuscany, Italy. All cutting done by hand. No laser. No template.">
 <meta property="og:url" content="https://vacamarquetry.shop/the-artist.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/the-sovereign/hero.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artist/main-identity/artist-hero-01.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Artist | VaCa Marquetry Handmade Wood Art">
-<meta name="twitter:description" content="Learn about the artist behind VaCa Marquetry and the studio's dedication to handmade marquetry, heritage, and fine craftsmanship.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/the-sovereign/hero.jpg">
+<meta name="twitter:title" content="The Artist — Sasun Sargsyan | VaCa Marquetry">
+<meta name="twitter:description" content="Marquetry artist working from Tuscany, Italy. All cutting done by hand. No laser. No template.">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artist/main-identity/artist-hero-01.jpg">
+
+<!-- Hero preload (LCP) -->
+<link rel="preload" href="assets/images/artist/main-identity/artist-hero-01.jpg" as="image" fetchpriority="high">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"></noscript>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap"></noscript>
 <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://vacamarquetry.shop/#artist",
+  "name": "Sasun Sargsyan",
+  "birthDate": "1991-09-17",
+  "jobTitle": "Marquetry Artist",
+  "url": "https://vacamarquetry.shop/the-artist.html",
+  "image": "https://vacamarquetry.shop/assets/images/artist/main-identity/artist-hero-01.jpg",
+  "worksFor": {
+    "@type": "Organization",
+    "@id": "https://vacamarquetry.shop/#organization",
+    "name": "VaCa Marquetry"
+  },
+  "homeLocation": {
+    "@type": "Place",
+    "name": "San Giuliano Terme, Pisa, Tuscany, Italy"
+  },
+  "sameAs": [
+    "https://www.instagram.com/vacamarquetry",
+    "https://youtube.com/@vacamarquetry"
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -46,6 +82,8 @@
     <ul class="nav-links">
       <li><a href="custom-portraits.html">Custom Portraits</a></li>
       <li><a href="collection.html">Collection</a></li>
+      <li><a href="not-for-sale.html">Not for Sale</a></li>
+      <li><a href="exhibitions.html">Exhibitions</a></li>
       <li><a href="the-craft.html">The Craft</a></li>
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html" aria-current="page">The Artist</a></li>
@@ -57,87 +95,256 @@
 
 <main>
 
-  <section>
-    <div class="container hero" style="min-height:auto;">
-      <div>
-        <span class="eyebrow">The Artist</span>
-        <h1>Sasun Sargsyan</h1>
-        <p class="opacity-75">My name is Sasun, and I am a marquetry artist. For me, wood is not just a material — it's a living canvas waiting to tell a story.</p>
-      </div>
-      <div class="hero-media" aria-hidden="true">Portrait of the artist in the studio</div>
+  <!-- ================================================================
+       HERO — full-height artist photograph
+  ================================================================= -->
+  <div class="artist-hero-wrap" style="padding:0; margin:0;">
+    <img
+      src="assets/images/artist/main-identity/artist-hero-01.jpg"
+      alt="Sasun Sargsyan — marquetry artist in the studio, San Giuliano Terme, Tuscany"
+      width="1920" height="1080"
+      fetchpriority="high">
+    <div class="artist-hero-caption">
+      <span class="eyebrow">The Artist</span>
+      <h1>Sasun Sargsyan</h1>
+      <p style="font-family:var(--font-editorial); font-style:italic; font-size:1.1rem; opacity:0.85; margin:0;">
+        San Giuliano Terme &middot; Tuscany &middot; Italy
+      </p>
     </div>
-  </section>
+  </div>
 
+  <!-- ================================================================
+       BIOGRAPHY — full-width text, no images
+  ================================================================= -->
   <section class="section-soft">
-    <div class="container" style="max-width:760px;">
-      <div class="seam"></div>
-      <h2 style="font-size:1.6rem;">Origins</h2>
-      <p class="opacity-75">My path into marquetry began with a fascination for the texture and history held inside a single sheet of wood veneer — the way grain, tone, and color shift from one tree to the next, no two ever quite alike.</p>
+    <div class="container" style="max-width:860px;">
 
-      <div class="seam"></div>
-      <h2 style="font-size:1.6rem;">Discovering Marquetry</h2>
-      <p class="opacity-75">Through the intricate craft of marquetry, I transform individual pieces of wood veneer into detailed works of art. My studio is where I bring visions to life, meticulously cutting and fitting each tiny piece to create portraits, landscapes, and geometric designs.</p>
+      <span class="eyebrow">Biography</span>
+      <h2 style="font-family:var(--font-editorial); font-weight:400; font-style:italic;
+                 font-size:clamp(2rem,4vw,3.2rem); letter-spacing:-0.02em; line-height:1.1;
+                 margin-bottom:var(--space-lg);">Born 1991. Working since nine.</h2>
 
-      <div class="seam"></div>
-      <h2 style="font-size:1.6rem;">Philosophy</h2>
-      <p class="opacity-75">The process is a meditation — a slow, careful dance between precision and creativity. Every piece is a testament to the warmth, texture, and natural beauty of the wood itself.</p>
+      <div class="bio-chapter">
+        <h3>Origins</h3>
+        <p>Sasun Sargsyan was born on 17 September 1991 in Yerevan, Armenia. At the age of nine, he began working with wood — not as a lesson, not as a school exercise, but because something in the material compelled him. The precision of it. The irreversibility of each cut. He kept working with it for the next twenty-five years.</p>
+      </div>
 
-      <div class="seam"></div>
-      <h2 style="font-size:1.6rem;">What Collectors Should Know</h2>
-      <p class="opacity-75">Each work invites you to look closer — to appreciate the unique grain of every component, and to feel the history and dedication poured into every seam. Nothing leaves the studio that I would not be proud to sign.</p>
+      <div class="bio-chapter">
+        <h3>Formation</h3>
+        <p>He completed university education in Armenia and then built a real business — one that worked for several years, then didn't. The failure taught him what success doesn't: he learned to recognise what remains when everything provisional falls away. Throughout these years, the craft never stopped. It was never separate from who he was.</p>
+      </div>
+
+      <div class="bio-chapter">
+        <h3>Italy</h3>
+        <p>The conflict of 2020 in Nagorno-Karabakh interrupted the life he had planned. He relocated to Tuscany in 2021 — arriving with a language he did not yet speak and a decision, made quietly, about what mattered. He built a business in Italy too. That one also taught him something when it closed.</p>
+      </div>
+
+      <div class="bio-chapter">
+        <h3>Art as Vocation</h3>
+        <p>By 2022, for the first time in his adult life, there was space for nothing but the work. What had begun at nine became his full professional identity. He built his first major portraits — not as a new discovery, but as a long preparation finally given room. By 2023 the work was being shown in Italy. By 2024 it reached Dubai.</p>
+        <p style="font-family:var(--font-editorial); font-style:italic; color:var(--walnut); font-size:1.05rem;">Not a late start. A long preparation.</p>
+      </div>
+
+      <div class="bio-chapter" style="border-bottom:none; margin-bottom:0;">
+        <h3>Now &amp; Ahead</h3>
+        <p>He works from a small studio in San Giuliano Terme, in the hills above Pisa. All cutting is done by hand. No laser. No template. No assistant. Each work in the collection took between four and six weeks to complete.</p>
+        <p>He is building toward a furniture atelier, pursuing entry into international craft competitions, and intends to exhibit in major galleries in the United Kingdom and internationally. Commissions are accepted by private inquiry and begin with a conversation.</p>
+      </div>
+
     </div>
   </section>
 
+  <!-- ================================================================
+       PHILOSOPHY — quote
+  ================================================================= -->
   <section>
-    <div class="container grid grid-3 text-center">
-      <div class="stat">
-        <span class="stat-number">400&ndash;900+</span>
-        <span class="stat-label">Pieces per work</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number">100%</span>
-        <span class="stat-label">Hand-cut, no laser templates</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number">Italy</span>
-        <span class="stat-label">Studio &amp; origin</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-soft">
-    <div class="container text-center">
-      <span class="eyebrow">Watch the Process</span>
-      <h2>Inside the Studio</h2>
-      <div class="hero-media" style="aspect-ratio:16/9; max-width:800px; margin:var(--space-lg) auto 0;" aria-hidden="true">Embedded process video</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container text-center" style="max-width:720px;">
-      <p style="font-family: var(--font-display); font-size:1.6rem; color:var(--walnut);">&ldquo;Wood is not just a material; it's a living canvas.&rdquo;</p>
+    <div class="container text-center" style="max-width:740px;">
+      <div class="seam center"></div>
+      <p style="font-family:var(--font-editorial); font-size:clamp(1.5rem, 2.5vw, 2.2rem); color:var(--walnut); font-style:italic; line-height:1.4; margin-bottom:var(--space-md);">
+        &ldquo;The wood already knows what it wants to be. My job is to listen to it.&rdquo;
+      </p>
+      <p style="font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--brass-dark); opacity:0.7;">Sasun Sargsyan</p>
       <div class="seam center"></div>
     </div>
   </section>
 
-  <section class="section-soft">
+  <!-- ================================================================
+       PROCESS — working photographs
+  ================================================================= -->
+  <section class="section-soft" style="padding-bottom:0;">
     <div class="container">
-      <div class="section-header center">
-        <span class="eyebrow">Studio Gallery</span>
-        <h2>Behind the Work</h2>
+      <div class="section-header">
+        <span class="eyebrow">The Process</span>
+        <h2 class="section-title">What the hands know</h2>
+        <div class="seam"></div>
+        <p class="lead">Every cut is freehand. Every veneer is individually selected for grain direction, tone, and the way it holds light. Nothing is repeated and nothing is approximate.</p>
       </div>
-      <div class="grid grid-3">
-        <div class="hero-media" aria-hidden="true" style="aspect-ratio:1/1;">Studio photo</div>
-        <div class="hero-media" aria-hidden="true" style="aspect-ratio:1/1;">Studio photo</div>
-        <div class="hero-media" aria-hidden="true" style="aspect-ratio:1/1;">Studio photo</div>
+    </div>
+    <div class="process-grid">
+      <div class="process-cell">
+        <img src="assets/images/artist/main-identity/artist-working-01.jpg"
+             alt="Sasun Sargsyan cutting veneer by hand in the studio" loading="lazy">
+        <p class="process-cell-caption">Freehand cutting — no laser, no template</p>
+      </div>
+      <div class="process-cell">
+        <img src="assets/images/artist/main-identity/artist-working-02.jpg"
+             alt="Detail of marquetry veneer pieces being arranged" loading="lazy">
+        <p class="process-cell-caption">Each piece selected individually for grain and tone</p>
+      </div>
+      <div class="process-cell">
+        <img src="assets/images/artist/main-identity/artist-working-03.jpg"
+             alt="Marquetry construction in progress on the studio workbench" loading="lazy">
+        <p class="process-cell-caption">Construction in progress — the portrait emerges piece by piece</p>
+      </div>
+      <div class="process-cell">
+        <img src="assets/images/artist/main-identity/artist-working-04.jpg"
+             alt="Close view of veneer placement and grain alignment" loading="lazy">
+        <p class="process-cell-caption">Grain direction is not incidental — it is compositional</p>
+      </div>
+      <div class="process-cell">
+        <img src="assets/images/artist/main-identity/artist-working-05.jpg"
+             alt="Artist reviewing the work under studio lighting" loading="lazy">
+        <p class="process-cell-caption">Reviewed under multiple light conditions before sealing</p>
+      </div>
+      <div class="process-cell">
+        <img src="assets/images/artist/main-identity/artist-tools-01.jpg"
+             alt="Marquetry cutting tools — knives and cutting mat" loading="lazy">
+        <p class="process-cell-caption">The tools: knife, mat, and patience</p>
       </div>
     </div>
   </section>
 
+  <!-- ================================================================
+       MATERIALS — studio materials photography
+  ================================================================= -->
+  <section class="section-soft">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Materials</span>
+        <h2 class="section-title">Wood as palette</h2>
+        <div class="seam"></div>
+        <p class="lead">No pigment. No paint. The entire tonal range — from pale ash highlights to deep wenge shadow — is the natural colour of the wood itself. What you see is the material.</p>
+      </div>
+      <div class="process-grid" style="grid-template-columns:repeat(2,1fr);">
+        <div class="process-cell">
+          <img src="assets/images/artist/main-identity/artist-materials-01.jpg"
+               alt="Wood veneer selection — various species and grain directions" loading="lazy">
+          <p class="process-cell-caption">Veneer selection — each species carries its own light</p>
+        </div>
+        <div class="process-cell">
+          <img src="assets/images/artist/main-identity/artist-materials-02.jpg"
+               alt="Natural wood veneer sheets — tonal range from pale to dark" loading="lazy">
+          <p class="process-cell-caption">The tonal palette is entirely natural — ash to wenge</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       ATMOSPHERE
+  ================================================================= -->
+  <section style="padding:0;">
+    <div class="atmosphere-grid">
+      <div class="atm-a">
+        <img src="assets/images/artist/main-identity/artist-atmosphere-02.jpg"
+             alt="Studio atmosphere — light through the workshop window" loading="lazy">
+      </div>
+      <div class="atm-b">
+        <img src="assets/images/artist/main-identity/artist-atmosphere-03.jpg"
+             alt="VaCa Marquetry studio — the workspace in Tuscany" loading="lazy">
+      </div>
+      <div class="atm-c">
+        <img src="assets/images/artist/main-identity/artist-atmosphere-04.jpg"
+             alt="Detail of the studio environment" loading="lazy">
+      </div>
+      <div class="atm-d">
+        <img src="assets/images/artist/main-identity/artist-atmosphere-05.jpg"
+             alt="The studio in San Giuliano Terme, Pisa" loading="lazy">
+      </div>
+      <div class="atm-e">
+        <img src="assets/images/artist/main-identity/artist-atmosphere-01.jpg"
+             alt="Studio atmosphere — VaCa Marquetry, San Giuliano Terme" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       STATS
+  ================================================================= -->
+  <section>
+    <div class="container grid grid-3 text-center">
+      <div class="stat">
+        <span class="stat-number">400&ndash;910+</span>
+        <span class="stat-label">Pieces per work</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">Hand-cut, no laser or template</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">Tuscany</span>
+        <span class="stat-label">Studio, San Giuliano Terme, Pisa</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       RECOGNITION — Municipal award, no exhibition content
+  ================================================================= -->
+  <section class="section-soft" id="recognition">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Recognition</span>
+        <h2 class="section-title">Recognised by the community</h2>
+        <div class="seam"></div>
+        <p class="lead">The work of VaCa Marquetry has been formally recognised by the Municipality of San Giuliano Terme for its contribution to Italian cultural and artistic life. For exhibition records, see the <a href="exhibitions.html" style="color:var(--brass-dark);">Exhibitions</a> page.</p>
+      </div>
+
+      <!-- Awards -->
+      <div class="exhibition-block">
+        <div class="awards-wrap">
+          <div>
+            <img src="assets/images/exhibitions/awards/certificate-san-giuliano.jpg"
+                 alt="Certificate of recognition from the Municipality of San Giuliano Terme, Italy — awarded to VaCa Marquetry"
+                 loading="lazy">
+          </div>
+          <div class="awards-text">
+            <span class="eyebrow">Municipal Certificate</span>
+            <h2>Municipal Recognition<br>San Giuliano Terme, Italy</h2>
+            <div class="seam"></div>
+            <p class="opacity-75">The Municipality of San Giuliano Terme, Pisa — the community where VaCa Marquetry works — formally recognised the studio's contribution to Italian cultural and artistic life. A recognition of the work, and of the place it has made for itself.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Packaging -->
+      <div class="exhibition-block">
+        <div class="exhibition-header">
+          <span class="eyebrow">Presentation</span>
+          <h2>Packaging &amp; Delivery</h2>
+          <p class="opacity-75" style="max-width:540px;">Every original leaves the studio in bespoke protective packaging, suitable for international white-glove courier. The presentation is part of the experience of acquiring a VaCa Marquetry work.</p>
+        </div>
+        <div class="packaging-pair">
+          <img src="assets/images/exhibitions/packaging/packaging-01.jpg"
+               alt="VaCa Marquetry packaging — artwork protected for international delivery" loading="lazy">
+          <img src="assets/images/exhibitions/packaging/packaging-02.jpg"
+               alt="VaCa Marquetry packaging detail — bespoke protective presentation" loading="lazy">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       CLOSING CTA
+  ================================================================= -->
   <section class="section-dark text-center">
     <div class="container">
-      <h2>Commission a Piece of Your Own</h2>
-      <a href="custom-portraits.html" class="btn btn-primary mt-lg">Start Your Portrait</a>
+      <span class="eyebrow on-dark">Commission</span>
+      <h2 class="section-title on-dark" style="font-size:clamp(2.2rem, 4vw, 3.6rem); margin-bottom:var(--space-md);">A Portrait Made<br>Entirely for You</h2>
+      <div class="seam center on-dark" style="margin-bottom:var(--space-lg);"></div>
+      <p class="opacity-75" style="max-width:480px; margin:0 auto var(--space-lg);">Each commission begins with a conversation. A free preview is provided within 24&nbsp;hours, with no commitment required.</p>
+      <a href="custom-portraits.html" class="btn btn-secondary">Begin a Custom Portrait</a>
     </div>
   </section>
 
@@ -147,14 +354,16 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <h3>VaCa Marquetry</h3>
-        <p style="font-size:0.9rem; opacity:0.8;">Handmade marquetry portraits and fine wood art, crafted entirely by hand in Italy.</p>
+        <span class="footer-logo">VaCa Marquetry</span>
+        <p style="font-size:0.88rem; opacity:0.65; line-height:1.7;">Handmade marquetry portraits and fine wood art, crafted entirely by hand in Italy.</p>
       </div>
       <div>
         <h3>Explore</h3>
         <ul>
           <li><a href="custom-portraits.html">Custom Portraits</a></li>
           <li><a href="collection.html">Collection</a></li>
+          <li><a href="not-for-sale.html">Private Collection</a></li>
+          <li><a href="exhibitions.html">Exhibitions</a></li>
           <li><a href="the-craft.html">The Craft</a></li>
           <li><a href="trade.html">Trade</a></li>
         </ul>
@@ -164,12 +373,15 @@
         <ul>
           <li><a href="the-artist.html">The Artist</a></li>
           <li><a href="contact.html">Contact</a></li>
+          <li><a href="contact.html">Certificate of Authenticity</a></li>
         </ul>
       </div>
       <div>
         <h3>Connect</h3>
         <ul>
           <li><a href="https://www.instagram.com/vacamarquetry" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/share/171k4NAM6L/" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://youtube.com/@vacamarquetry" target="_blank" rel="noopener">YouTube</a></li>
         </ul>
       </div>
     </div>
@@ -178,8 +390,4 @@
       <span>Handmade in Italy</span>
     </div>
   </div>
-</footer>
-
-<script src="assets/js/main.js" defer></script>
-</body>
-</html>
+</footer                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                

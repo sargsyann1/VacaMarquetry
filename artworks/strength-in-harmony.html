@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage:        'denied',
+    wait_for_update:   500
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
+<script>
   gtag('js', new Date());
   gtag('config', 'G-1ZGRMFLES7');
 </script>
@@ -20,15 +27,15 @@
 <meta property="og:title" content="Strength in Harmony | Handmade Marquetry Artwork | VaCa Marquetry">
 <meta property="og:description" content="Strength in Harmony is an original marquetry artwork symbolizing unity, courage, and balance through handcrafted wood veneer artistry.">
 <meta property="og:url" content="https://vacamarquetry.shop/artworks/strength-in-harmony.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/strength-in-harmony/cover.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/strength-in-harmony/cover.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Strength in Harmony | Handmade Marquetry Artwork | VaCa Marquetry">
 <meta name="twitter:description" content="Strength in Harmony is an original marquetry artwork symbolizing unity, courage, and balance through handcrafted wood veneer artistry.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/strength-in-harmony/cover.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/strength-in-harmony/cover.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="../assets/images/strength-in-harmony/hero.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="../assets/images/artworks/strength-in-harmony/hero.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -73,8 +80,8 @@
   "name": "Strength in Harmony",
   "description": "A double portrait that resists easy reading. Two presences, two grain directions, two emotional temperatures — placed side by side in a composition that cannot be separated from the relationship it depicts. The contrast between the lighter and deeper veneer palettes is not a stylistic choice: it is the subject of the work. Harmony does not require sameness. These two figures are distinct and inseparable in the same breath.",
   "image": [
-    "https://vacamarquetry.shop/assets/images/strength-in-harmony/cover.jpg",
-    "https://vacamarquetry.shop/assets/images/strength-in-harmony/hero.jpg"
+    "https://vacamarquetry.shop/assets/images/artworks/strength-in-harmony/cover.jpg",
+    "https://vacamarquetry.shop/assets/images/artworks/strength-in-harmony/hero.jpg"
   ],
   "url": "https://vacamarquetry.shop/artworks/strength-in-harmony.html",
   "artMedium": "Natural wood veneer marquetry on birch panel",
@@ -118,6 +125,8 @@
     <ul class="nav-links">
       <li><a href="../custom-portraits.html">Custom Portraits</a></li>
       <li><a href="../collection.html" aria-current="page">Collection</a></li>
+      <li><a href="../not-for-sale.html">Not for Sale</a></li>
+      <li><a href="../exhibitions.html">Exhibitions</a></li>
       <li><a href="../the-craft.html">The Craft</a></li>
       <li><a href="../trade.html">Trade</a></li>
       <li><a href="../the-artist.html">The Artist</a></li>
@@ -230,6 +239,35 @@
       <span class="eyebrow" style="display: block; margin-bottom: var(--space-md);">The Work, in Full</span>
       <div id="aw-gallery" class="artwork-gallery">
         <!-- Thumbs injected by artwork-loader.js — missing files hidden automatically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       ARTWORK DEPTH — concept, process, reflection
+  ================================================================= -->
+  <section class="artwork-depth section-soft">
+    <div class="container">
+      <div class="depth-grid">
+
+        <div class="depth-block">
+          <span class="eyebrow">Concept</span>
+          <h2>Two, and Inseparable</h2>
+          <p>The piece resists a single reading. Two figures, two emotional temperatures, two veneer palettes — and yet the composition insists they cannot be separated. Harmony here is not the absence of tension. It is tension held with enough care that it becomes something else entirely.</p>
+        </div>
+
+        <div class="depth-block">
+          <span class="eyebrow">Process</span>
+          <h2>540 Pieces of Contrast</h2>
+          <p>Both figures share the same panel surface but were constructed in opposing directions — lighter values in the left figure give way to deeper ones on the right, with the boundary between them resolved through a narrow band of transitional maple. The cutting sequence took three passes to balance. Some seams remain visible under raking light. That is intentional.</p>
+        </div>
+
+        <div class="depth-block">
+          <span class="eyebrow">Reflection</span>
+          <h2>&nbsp;</h2>
+          <blockquote>&ldquo;Harmony does not require sameness. These two are distinct and inseparable in the same breath.&rdquo;</blockquote>
+        </div>
+
       </div>
     </div>
   </section>
