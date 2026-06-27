@@ -513,3 +513,47 @@ window.resetCookies = function () {
   console.log('[VaCa] All cookie and session data cleared.');
   return 'Done — reload the page to see the cookie consent banner.';
 };
+
+/* ================================================================
+   SECTION 7 — FAQ ACCORDION
+   Toggles .open class on .faq-item when .faq-question is clicked.
+   CSS handles the expand animation via max-height transition.
+   Only one item open at a time (accordion behaviour).
+   ================================================================ */
+(function () {
+  'use strict';
+
+  function initFaq () {
+    var questions = document.querySelectorAll('.faq-question');
+    if (!questions.length) return;
+
+    questions.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.faq-item');
+        if (!item) return;
+
+        var isOpen = item.classList.contains('open');
+
+        /* Close all open items */
+        document.querySelectorAll('.faq-item.open').forEach(function (el) {
+          el.classList.remove('open');
+          var icon = el.querySelector('.faq-icon');
+          if (icon) icon.textContent = '+';
+        });
+
+        /* If clicked item was closed, open it */
+        if (!isOpen) {
+          item.classList.add('open');
+          var icon = btn.querySelector('.faq-icon');
+          if (icon) icon.textContent = '×';
+        }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFaq);
+  } else {
+    initFaq();
+  }
+})();

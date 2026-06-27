@@ -309,7 +309,8 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
     max-width: 100vw;
     overflow-x: hidden;
   }
-  .nav-links.open { transform: translateY(0); opacity: 1; }
+  .nav-links.is-open { transform: translateY(0); opacity: 1; }
+  body.nav-open { overflow: hidden; }    /* prevent body scroll while mobile nav is open */
   .nav-links li { border-top: 1px solid var(--line); }
   .nav-links a { display: block; padding: 16px var(--space-md); border-bottom: none; white-space: normal; }
   .nav-links a:hover,
@@ -533,7 +534,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 */
 .art-card {
   display: block;
-  cursor: pointer;
+  cursor: zoom-in;
   text-decoration: none;
 }
 
@@ -542,6 +543,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   overflow: hidden;
   aspect-ratio: 2/3;       /* portrait-first: taller than wide */
   background: var(--bone-soft);
+  border-radius: 6px;
 }
 .art-thumb img {
   width: 100%;
@@ -605,26 +607,68 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   .commission-grid { grid-template-columns: repeat(2, 1fr); gap: 3px; }
 }
 
-/* --- 15. Gallery editorial grid — 5 works in luxury layout --------------- */
-/*
-   Row 1: 3 equal portrait cards (each 2/6 = 1/3 width)
-   Row 2: 2 wider cards (each 3/6 = 1/2 width) — centered, more breathing room
-*/
+/* --- 15. Collection grid ——————————————————————————————————————————————————
+   Container : .gallery-editorial  (set in collection.html)
+   Cards     : .art-card / .art-card.feature
+   NOTE: selectors .collection-grid / .art-grid / .art-grid do NOT exist.  */
+
+/* Grid container */
 .gallery-editorial {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: var(--space-lg);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
 }
-.gallery-editorial .art-card         { grid-column: span 2; }
-.gallery-editorial .art-card.feature { grid-column: span 3; }
 
-@media (max-width: 960px) {
-  .gallery-editorial { grid-template-columns: repeat(2, 1fr); }
-  .gallery-editorial .art-card,
-  .gallery-editorial .art-card.feature { grid-column: span 1; }
+/* Regular cards */
+.gallery-editorial .art-card {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
 }
+
+/* Feature card — full-width highlight row */
+.gallery-editorial .art-card.feature {
+  grid-column: 1 / -1;
+}
+
+/* Scoped thumb ratios — override base 2/3 only inside collection grid */
+.gallery-editorial .art-thumb {
+  aspect-ratio: 4 / 3;
+}
+
+/* Collection images: contain (full artwork visible) not cover (cropped)
+   object-fit: contain + object-position: center centres the image inside
+   the 4:3 container; var(--bone-soft) background acts as a neutral mat.  */
+.gallery-editorial .art-thumb img {
+  object-fit: contain;
+  object-position: center center;
+}
+
+.gallery-editorial .art-card.feature .art-thumb {
+  aspect-ratio: 16 / 7;
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 860px) {
+  .gallery-editorial {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .gallery-editorial .art-card.feature {
+    grid-column: span 1;
+  }
+  .gallery-editorial .art-card.feature .art-thumb {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* Mobile: 1 column */
 @media (max-width: 500px) {
-  .gallery-editorial { grid-template-columns: 1fr; }
+  .gallery-editorial {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 
 /* --- 16. Wall feature — artwork on a wall, edge-to-edge ------------------ */
@@ -1067,24 +1111,70 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 }
 
 /* --- 28. Artwork detail page --------------------------------------------- */
+
+/* ── Back link ─────────────────────────────────────────────────────────── */
+.artwork-back {
+  padding: var(--space-md) 0 var(--space-sm);
+}
+.artwork-back a {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  opacity: 0.6;
+  transition: opacity 200ms ease, color 200ms ease;
+}
+.artwork-back a:hover {
+  opacity: 1;
+  color: var(--brass-dark);
+}
+
+/* ── Two-column split: dominant image left, structured text right ───────── */
 .artwork-split {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-xl);
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
   align-items: start;
 }
-.artwork-frame {
+
+/* ── Left column: sticky image pane ────────────────────────────────────── */
+.artwork-primary {
+  position: sticky;
+  top: 100px;   /* clears 80px nav + breathing room */
+}
+
+/* Primary image frame — cinematic shadow, rounded, zoom cursor */
+.artwork-primary-frame {
   position: relative;
+  border-radius: 8px;
+  overflow: hidden;
   background: var(--bone-soft);
-  border: 1px solid var(--line);
-  padding: var(--space-sm);
+  box-shadow:
+    0  4px 16px rgba(26, 14, 6, 0.12),
+    0 24px 64px rgba(26, 14, 6, 0.16);
+  cursor: zoom-in;
 }
-.artwork-frame img {
+
+/* Primary image */
+#aw-primary-img {
   width: 100%;
-  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  object-position: center top;
   display: block;
-  object-fit: contain;
+  transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+.artwork-primary-frame:hover #aw-primary-img {
+  transform: scale(1.03);
+}
+
+/* ── Right column: structured metadata panel ────────────────────────────── */
+.artwork-detail {
+  padding-top: 8px;
+}
+
+/* Availability badge */
 .artwork-availability {
   display: inline-block;
   font-size: 0.65rem;
@@ -1104,13 +1194,193 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   background: var(--bone-soft);
   color: var(--charcoal);
   border: 1px solid var(--line);
-  opacity: 0.70;             /* raised from 0.6 (3.56:1) → 4.68:1 on bone-soft */
+  opacity: 0.70;
 }
 .artwork-availability.not_for_sale {
   background: transparent;
   color: var(--brass-dark);
   border: 1px solid var(--brass);
   letter-spacing: 0.12em;
+}
+
+/* Title */
+.artwork-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--walnut);
+  line-height: 1.1;
+  margin: var(--space-sm) 0;
+}
+
+/* Specs table — hairline-divided rows */
+.artwork-specs {
+  list-style: none;
+  margin: 0 0 var(--space-md);
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.artwork-specs li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+.spec-label {
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  opacity: 0.50;
+  flex-shrink: 0;
+  padding-right: 16px;
+}
+.spec-value {
+  text-align: right;
+  color: var(--walnut);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Price — editorial italic, brass tone */
+.artwork-price {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-style: italic;
+  color: var(--brass-dark);
+  margin: var(--space-sm) 0 var(--space-md);
+}
+
+/* CTA button group */
+.artwork-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: var(--space-md);
+}
+
+/* Fine-print notes beneath CTA */
+.artwork-note {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--charcoal);
+  opacity: 0.58;
+  margin: 0 0 4px;
+}
+
+/* .artwork-frame kept for legacy compat — not used in current HTML */
+.artwork-frame {
+  position: relative;
+  background: var(--bone-soft);
+  border: 1px solid var(--line);
+  padding: var(--space-sm);
+}
+.artwork-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* ── Mobile: stack to single column ────────────────────────────────────── */
+@media (max-width: 860px) {
+  .artwork-split {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  .artwork-primary {
+    position: static;    /* un-stick on mobile — avoid scroll lock */
+  }
+  #aw-primary-img {
+    max-height: 72vw;
+  }
+}
+
+/* ── Gallery strip — luxury museum viewing experience ─────────────────────
+   Injected by artwork-loader.js into #aw-gallery (.artwork-gallery).
+   Pure CSS enhancement — no JS changes.                                   */
+
+/* Container: horizontal cinematic scroll with breathing room */
+.artwork-gallery {
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+  padding: 32px 40px 40px;    /* top / sides / bottom — last image off edge = depth */
+  margin-top: var(--space-md, 24px);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;        /* smooth momentum on iOS */
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass, #A87C45) transparent;
+  /* Subtle inset shadow to reinforce the gallery-wall depth feeling */
+  background: linear-gradient(
+    to bottom,
+    var(--bone-soft, #EDE7D9) 0%,
+    var(--bone, #F7F3EC) 100%
+  );
+  border-top: 1px solid var(--line, rgba(38,22,8,.09));
+  border-bottom: 1px solid var(--line, rgba(38,22,8,.09));
+}
+
+/* Each thumb is a framed gallery piece */
+.artwork-gallery-thumb {
+  flex: 0 0 180px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--bone-soft, #EDE7D9);
+  border-radius: 6px;
+  cursor: zoom-in;
+  scroll-snap-align: center;
+  /* Cinematic shadow: soft ambient layer + close contact shadow */
+  box-shadow:
+    0 2px  6px rgba(26, 14,  6, 0.08),
+    0 8px 24px rgba(26, 14,  6, 0.12),
+    0 0   0 1px rgba(38, 22, 8, 0.06);
+  /* Transition covers transform + shadow + opacity */
+  transition:
+    transform  500ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity    350ms ease;
+}
+
+/* Image fill — no distortion under any condition */
+.artwork-gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: 6px;           /* match parent clip */
+  transition: transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Museum spotlight: dim siblings when any thumb is hovered */
+.artwork-gallery:hover .artwork-gallery-thumb {
+  opacity: 0.68;
+}
+
+/* Hovered piece: lift, strengthen shadow, stay at full brightness */
+.artwork-gallery:hover .artwork-gallery-thumb:hover {
+  opacity: 1;
+  transform: translateY(-4px) scale(1.03);
+  box-shadow:
+    0  4px 12px rgba(26, 14,  6, 0.14),
+    0 18px 40px rgba(26, 14,  6, 0.22),
+    0  0   0 1px rgba(38, 22, 8, 0.10);
+}
+.artwork-gallery-thumb:hover img {
+  transform: scale(1.03);       /* subtle inner zoom without thumb overflow */
+}
+
+/* Mobile: smaller thumbs, reduced padding */
+@media (max-width: 600px) {
+  .artwork-gallery {
+    gap: 20px;
+    padding: 24px 24px 32px;
+  }
+  .artwork-gallery-thumb { flex: 0 0 130px; }
 }
 
 /* --- Not for Sale page --------------------------------------------------- */
@@ -1628,10 +1898,491 @@ body.lb-open { overflow: hidden; }
   .lb-museum-frame { padding: 9px; }
   .lb-img-container {
     max-width: min(88vw, 100vw);
-    max-height: min(68vh, 100vh);
-  }
-  .lb-img {
     max-width: min(88vw, 100vw);
-    max-height: min(68vh, 100vh);
+    max-height: min(68vh, 1000px);
   }
+}
+
+/* ================================================================
+   STABILITY PATCH v3 — 2026-06
+   Fixes: artist hero distortion, collection h3 title styling,
+   bio-chapter layout, NFS hover cursor.
+   ================================================================ */
+
+/* ── Artist page hero ─────────────────────────────────────────── */
+.artist-hero-wrap {
+  position: relative;
+  width: 100%;
+  height: clamp(320px, 70vh, 800px);
+  overflow: hidden;
+  background: var(--espresso);
+}
+.artist-hero-wrap img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+.artist-hero-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
+  background: linear-gradient(to top, rgba(6,3,1,0.72) 0%, transparent 100%);
+  color: var(--cream-text);
+}
+.artist-hero-caption .eyebrow {
+  color: rgba(201,165,112,0.80);
+}
+.artist-hero-caption h1 {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--cream-text);
+  letter-spacing: -0.02em;
+  margin: 6px 0 8px;
+  line-height: 1.05;
+}
+@media (max-width: 600px) {
+  .artist-hero-wrap { height: clamp(260px, 55vw, 420px); }
+  .artist-hero-caption { padding: var(--space-lg) var(--space-md) var(--space-md); }
+}
+
+/* ── Biography chapters ───────────────────────────────────────── */
+.bio-chapter {
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--line);
+}
+.bio-chapter:last-of-type { border-bottom: none; }
+.bio-chapter h3 {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+  margin: 0 0 var(--space-sm);
+}
+.bio-chapter p {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--charcoal);
+  margin: 0;
+}
+
+/* ── Collection grid — h3 title fix ──────────────────────────── */
+.art-info h3 {
+  font-family: var(--font-editorial);
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--walnut);
+  margin: 0 0 4px;
+  letter-spacing: 0.01em;
+}
+
+/* ── NFS cards — lightbox-enabled card cursor ────────────────── */
+.nfs-card[data-lb-group] { cursor: default; }
+.nfs-card[data-lb-group] .nfs-thumb img { cursor: zoom-in; }
+
+
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  LAYOUT ARCHITECTURE PATCH — v4                                 ║
+   ║  Applied: 2026-06                                               ║
+   ║  Goals:                                                         ║
+   ║   • picture elements: block display + fill their containers     ║
+   ║   • .art-description: styled body text                          ║
+   ║   • Layout aliases for .page-container / .content-wrapper       ║
+   ║     (.section-block / .image-grid) — CSS-only, no HTML rewrite  ║
+   ║   • Mobile stack improvements                                   ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ── 1. picture element — block display prevents inline baseline gap ─
+   Default display:inline on <picture> creates a 4-5px whitespace gap
+   at the bottom of every image container (baseline alignment artefact).
+   Setting display:block + line-height:0 eliminates this entirely.    */
+/* picture: display:contents makes it transparent to layout.
+   The <img> inside resolves width/height directly against the
+   image container (.art-thumb, .nfs-thumb, etc.) — no intermediate
+   containing block, no height:100% resolution failure.
+   img { display:block } (global rule) already eliminates baseline gap. */
+picture {
+  display: inline;   /* explicit browser default — NOT block (avoids containing-block break) */
+}
+
+/* ── 2. picture container-fill — REMOVED
+   With picture { display: contents }, the <img> is a direct child
+   of the container (.art-thumb etc.) and fills it via the existing
+   .art-thumb img { width:100%; height:100%; } rules.
+   No picture-level width/height override needed.                     */
+
+/* ── 3. .art-description — card body text ───────────────────────────
+   <span class="art-description"> exists in collection cards but had
+   no CSS rule — rendered as plain inline text.                       */
+.art-description {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--charcoal);
+  opacity: 0.72;
+  margin-top: 6px;
+  /* Clamp to 2 lines — luxury brevity */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── 4. Layout architecture aliases ─────────────────────────────────
+   Maps semantic class names onto existing layout patterns.
+   No HTML changes needed — add these classes alongside existing ones
+   or use them as standalone aliases.                                 */
+.page-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(var(--space-md), 5vw, var(--space-xl));
+}
+.content-wrapper {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+.section-block {
+  padding: var(--space-2xl) 0;
+}
+/* .image-grid — luxury 6-col editorial grid (same as gallery-editorial) */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-lg);
+}
+.image-grid .art-card         { grid-column: span 2; }
+.image-grid .art-card.feature { grid-column: span 3; }
+
+@media (max-width: 960px) {
+  .image-grid { grid-template-columns: repeat(2, 1fr); }
+  .image-grid .art-card,
+  .image-grid .art-card.feature { grid-column: span 1; }
+}
+@media (max-width: 500px) {
+  .image-grid { grid-template-columns: 1fr; }
+}
+
+/* ── 5. Mobile structure improvements ───────────────────────────────
+   Ensure no section, card, or image causes horizontal overflow.
+   Supplements html { overflow-x: hidden } already in place.         */
+
+/* All top-level grid containers collapse safely at small viewports */
+@media (max-width: 560px) {
+  .feature-split,
+  .artwork-split,
+  .grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-md);
+  }
+  /* Remove any inline height that could distort portrait images */
+  .hero-image-wrap {
+    height: 75vw;
+    min-height: 240px;
+    max-height: 440px;
+  }
+  /* NFS grid: single column on small phones */
+  .nfs-grid,
+  .nfs-grid-wide {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  /* Commission grid: 1 col below 560 (already 2-col at 700) */
+  .commission-grid {
+    grid-template-columns: 1fr;
+  }
+  /* Detail pair: already 1 col at 600, keep consistent */
+  .detail-pair {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+}
+
+/* ── 6. Container max-width guard — REMOVED
+   main > section > * was too broad: it targeted grid containers
+   that are direct children of <section> (e.g. .atmosphere-grid),
+   adding box-sizing:border-box which interfered with gap calculation.
+   Container max-width is handled per-component via .container class. */
+
+/* ── 7. Prevent stray inline images from breaking flow ──────────────
+   Mirrors the base img rule for SVG/canvas too.                     */
+svg, canvas, video, iframe {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── 8. NFS cards: consistent hover for div.nfs-card (non-link) ─────
+   <a class="nfs-card"> already has :hover. <div.nfs-card> needs it. */
+div.nfs-card:not(.nfs-card-tbd):hover .nfs-thumb img {
+  transform: scale(1.025);
+}
+div.nfs-card:not(.nfs-card-tbd) {
+  cursor: default;
+}
+
+
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  UNIFIED IMAGE SYSTEM — v5                                      ║
+   ║  Applied: 2026-06                                               ║
+   ║  Fixes:                                                         ║
+   ║   • .process-grid / .process-cell — was MISSING, caused chaos  ║
+   ║   • .atmosphere-grid / .atm-* — was MISSING, unsized images    ║
+   ║   • .image-frame — new unified container class                  ║
+   ║   • .exh-photo-set — was missing spacing                       ║
+   ║   • Mobile breakpoints for all new grids                        ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ── PROCESS GRID (artist page — 6 working process photos) ───────────
+   Was entirely absent from CSS. Images were rendering at natural size
+   with no grid structure, causing the "random image sizes" issue.    */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-top: var(--space-lg);
+}
+.process-cell {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: var(--bone-soft);
+  cursor: zoom-in;
+}
+.process-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.process-cell:hover img { transform: scale(1.03); }
+.process-cell-caption {
+  padding: 8px 12px 10px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--charcoal);
+  opacity: 0.70;
+  font-style: italic;
+  text-align: center;
+  background: var(--bone);
+  border-top: 1px solid var(--line);
+}
+/* Materials grid uses inline style="grid-template-columns:repeat(2,1fr)"
+   — that inline style is kept intentional for the 2-col materials layout */
+
+@media (max-width: 720px) {
+  .process-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .process-grid { grid-template-columns: 1fr; }
+}
+
+/* ── ATMOSPHERE GRID (artist page — 5 studio ambiance photos) ─────────
+   Was entirely absent from CSS. Bento-style layout: row 1 spans
+   three cells (5-4-3 columns), row 2 is a 50/50 wide pair.           */
+.atmosphere-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  margin-top: 4px;
+  /* NO padding — full bleed edge to edge */
+}
+.atmosphere-grid > div {
+  overflow: hidden;
+  background: var(--bone-soft);
+  cursor: zoom-in;
+}
+.atmosphere-grid > div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.atmosphere-grid > div:hover img { transform: scale(1.03); }
+/* Individual cell column spans + aspect ratios */
+.atm-a { grid-column: span 5; aspect-ratio: 4/3; }
+.atm-b { grid-column: span 4; aspect-ratio: 4/3; }
+.atm-c { grid-column: span 3; aspect-ratio: 4/3; }
+.atm-d { grid-column: span 6; aspect-ratio: 16/9; }
+.atm-e { grid-column: span 6; aspect-ratio: 16/9; }
+
+@media (max-width: 840px) {
+  .atmosphere-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+  .atm-a, .atm-b, .atm-c,
+  .atm-d, .atm-e {
+    grid-column: span 1;
+    aspect-ratio: 4/3;
+  }
+}
+@media (max-width: 480px) {
+  .atmosphere-grid { grid-template-columns: 1fr; }
+  .atm-a, .atm-b, .atm-c,
+  .atm-d, .atm-e {
+    aspect-ratio: 3/2;
+  }
+}
+
+/* ── EXHIBITION PHOTO SET spacing ─────────────────────────────────────
+   .exh-photo-set had no CSS — groups a cover + grid, needs spacing.  */
+.exh-photo-set {
+  margin-bottom: var(--space-xl);
+}
+
+/* ── UNIFIED IMAGE FRAME — .image-frame ──────────────────────────────
+   New utility container class for any image that needs:
+   constrained aspect ratio + cover fill + hover zoom.
+   Use alongside aspect-ratio modifiers below.                         */
+.image-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--bone-soft);
+  border-radius: 6px;
+}
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.image-frame:hover img { transform: scale(1.02); }
+/* Aspect ratio modifiers */
+.image-frame.ratio-1-1  { aspect-ratio: 1/1; }
+.image-frame.ratio-4-3  { aspect-ratio: 4/3; }
+.image-frame.ratio-3-2  { aspect-ratio: 3/2; }
+.image-frame.ratio-16-9 { aspect-ratio: 16/9; }
+.image-frame.ratio-2-3  { aspect-ratio: 2/3; }
+.image-frame.ratio-3-4  { aspect-ratio: 3/4; }
+
+/* ── GLOBAL img[width]/img[height] override — REMOVED
+   The global img[width], img[height] { height: auto !important } rule
+   with !important was overriding height:100% on container-fill images,
+   collapsing art-thumb / nfs-thumb / process-cell heights.
+   width/height HTML attributes were already removed from all img tags
+   in the previous HTML audit pass, so this rule is no longer needed. */
+
+/* ═══════════════════════════════════════════════════════════════════
+   FINAL UI POLISH — v10
+   1. Collection: transparent background on art-thumb (no mat block)
+   2. Craft page: hero-media image constraint + process grid
+   3. Artist page: awards-wrap grid + image containment
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Collection — no empty background blocks ─────────────────────
+   object-fit:contain inside bone-soft background shows the mat colour
+   as a prominent block. Set transparent so only the artwork is visible. */
+.gallery-editorial .art-thumb {
+  background: transparent;
+}
+/* Remove the border around the image-only focus area */
+.gallery-editorial .art-card .art-info {
+  border-top: none;
+  padding-top: 10px;
+}
+
+/* ── 2. Craft page — hero-media image constraint ─────────────────────
+   .hero-media had zero CSS rules; image rendered at full natural size.
+   Constrain to a premium editorial ratio with proper overflow. */
+.hero-media {
+  flex: 1;
+  min-width: 0;
+  max-width: 560px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--bone-soft);
+}
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+@media (max-width: 860px) {
+  .hero-media {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ── 3. Artist page — awards-wrap grid + image constraint ────────────
+   .awards-wrap had zero CSS; image had no container constraint.
+   2-column grid: certificate image left, text right. */
+.awards-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.awards-wrap > div:first-child {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--bone-soft);
+  aspect-ratio: 3 / 4;
+  box-shadow: 0 4px 16px rgba(26,14,6,.10), 0 1px 4px rgba(26,14,6,.06);
+}
+.awards-wrap > div:first-child img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  cursor: zoom-in;
+  transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.awards-wrap > div:first-child:hover img {
+  transform: scale(1.03);
+}
+.awards-wrap .awards-text {
+  padding-top: 8px;
+}
+@media (max-width: 700px) {
+  .awards-wrap {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ── Packaging pair ──────────────────────────────────────────────────
+   Two packaging images side by side, consistent sizing. */
+.packaging-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: var(--space-lg);
+}
+.packaging-pair img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 4px;
+  cursor: zoom-in;
+  transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.packaging-pair img:hover { transform: scale(1.02); }
+@media (max-width: 600px) {
+  .packaging-pair { grid-template-columns: 1fr; }
 }

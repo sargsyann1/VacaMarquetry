@@ -60,6 +60,8 @@
 
   /* Populate all page fields from data object */
   function populatePage(data, slug) {
+    console.log('[artwork-loader] ARTWORK DATA', data);
+    console.log('[artwork-loader] GALLERY ARRAY', data.gallery);
     document.title = data.title + ' | VaCa Marquetry Collection';
     var metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
@@ -129,6 +131,7 @@
 
   /* Build gallery strip */
   function buildGallery(data, slug) {
+    console.log('[artwork-loader] buildGallery — container:', document.getElementById('aw-gallery'), 'gallery:', data.gallery);
     var container = document.getElementById('aw-gallery');
     if (!container || !data.gallery || !data.gallery.length) return;
 
@@ -152,6 +155,8 @@
         console.warn('[artwork-loader] Gallery image missing:', file);
         thumb.style.display = 'none';
       };
+      /* Wire into museum viewer — data-lb-group set before main.js scans */
+      img.dataset.lbGroup = slug + '-gallery';
       img.src = '../assets/images/artworks/' + slug + '/' +
         (imgExt === '.webp' ? file.replace(/\.jpg$/i, '.webp') : file);
 
