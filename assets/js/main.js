@@ -163,12 +163,78 @@
     });
   });
 
+  /* ── Cookie Intelligence webhook ────────────────────────────────── */
+  var COOKIE_WEBHOOK_URL = 'https://hook.eu2.make.com/pj775ngcim51f24g9v7m1mrr06xbrac5';
+
   banner.querySelector('#cookie-accept').addEventListener('click', function () {
     try { localStorage.setItem(KEY, 'accepted'); } catch (e) {}
     if (typeof gtag === 'function') {
       gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted' });
       gtag('event', 'cookie_consent', { choice: 'accepted' });
     }
+
+    /* ── Fire CRM payload ──────────────────────────────────────── */
+    if (COOKIE_WEBHOOK_URL) {
+      try {
+        var ua = navigator.userAgent;
+        var isTablet   = /iPad|Android(?!.*Mobile)/i.test(ua);
+        var isMobile   = /Mobi|Android|iPhone|iPad/i.test(ua);
+        var deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
+
+        var os = 'Unknown';
+        if      (/Windows/i.test(ua))                              os = 'Windows';
+        else if (/Mac OS X/.test(ua) && !/iPhone|iPad/.test(ua))  os = 'macOS';
+        else if (/iPhone/.test(ua))                                os = 'iOS';
+        else if (/iPad/.test(ua))                                  os = 'iPadOS';
+        else if (/Android/.test(ua))                               os = 'Android';
+        else if (/Linux/.test(ua))                                 os = 'Linux';
+
+        var browser = 'Unknown';
+        if      (/Firefox/i.test(ua))   browser = 'Firefox';
+        else if (/Edg/i.test(ua))       browser = 'Edge';
+        else if (/OPR|Opera/i.test(ua)) browser = 'Opera';
+        else if (/Chrome/i.test(ua))    browser = 'Chrome';
+        else if (/Safari/i.test(ua))    browser = 'Safari';
+
+        var visitorId = '', sessionId = '', pagesCount = 1, timeOnSite = 0, intentScore = 1;
+        try {
+          visitorId    = localStorage.getItem('vaca_visitor_id')  || '';
+          sessionId    = sessionStorage.getItem('vaca_session_id') || '';
+          pagesCount   = parseInt(sessionStorage.getItem('vaca_pages_visited')  || '1');
+          timeOnSite   = Math.round((Date.now() - parseInt(sessionStorage.getItem('vaca_session_start') || String(Date.now()))) / 1000);
+          intentScore  = parseInt(sessionStorage.getItem('vaca_intent_score') || '1');
+        } catch (ex) {}
+
+        var tz = '';
+        try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (ex) {}
+
+        var cookiePayload = {
+          visitor_id:    visitorId,
+          session_id:    sessionId,
+          device_type:   deviceType,
+          os:            os,
+          browser:       browser,
+          timezone:      tz,
+          pages_visited: pagesCount,
+          time_on_site:  timeOnSite,
+          scroll_depth:  0,
+          intent_score:  intentScore,
+          event_type:    'Cookie Accept',
+          source_page:   window.location.href,
+          timestamp:     new Date().toISOString()
+        };
+
+        console.log('[VaCa Cookie] CRM payload:', cookiePayload);
+
+        fetch(COOKIE_WEBHOOK_URL, {
+          method:    'POST',
+          headers:   { 'Content-Type': 'application/json' },
+          body:      JSON.stringify(cookiePayload),
+          keepalive: true
+        }).catch(function (err) { console.warn('[VaCa Cookie] Webhook error:', err); });
+      } catch (cookieErr) { console.warn('[VaCa Cookie] Payload error:', cookieErr); }
+    }
+
     removeBanner(banner);
   });
 
@@ -549,13 +615,15 @@
    Access from browser console: window.resetCookies()
    ================================================================ */
 window.resetCookies = function () {
-  var keys = [
+  var sessionKeys = [
     'vaca_intent_score', 'vaca_lead_source', 'vaca_page_visited',
-    'vaca_interaction_type', 'vaca_last_artwork'
+    'vaca_interaction_type', 'vaca_last_artwork',
+    'vaca_session_id', 'vaca_session_start', 'vaca_pages_visited'
   ];
   try { localStorage.removeItem('vaca_cookie_consent'); } catch (e) {}
-  keys.forEach(function (k) { try { sessionStorage.removeItem(k); } catch (e) {} });
-  console.log('[VaCa] All cookie and session data cleared.');
+  try { localStorage.removeItem('vaca_visitor_id'); } catch (e) {}
+  sessionKeys.forEach(function (k) { try { sessionStorage.removeItem(k); } catch (e) {} });
+  console.log('[VaCa] All cookie, session and visitor data cleared.');
   return 'Done — reload the page to see the cookie consent banner.';
 };
 
@@ -601,4 +669,38 @@ window.resetCookies = function () {
   } else {
     initFaq();
   }
+})();
+
+/* ================================================================
+   SECTION 8 — VISITOR IDENTITY & SESSION TRACKING
+   Generates persistent visitor_id (localStorage UUID) and per-session
+   session_id (sessionStorage UUID). Counts pages visited and records
+   session start time — used by Cookie Intelligence CRM pipeline.
+   ================================================================ */
+(function () {
+  'use strict';
+
+  function uuid4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
+  try {
+    /* Visitor ID — survives across sessions (localStorage) */
+    if (!localStorage.getItem('vaca_visitor_id')) {
+      localStorage.setItem('vaca_visitor_id', uuid4());
+    }
+    /* Session ID — new each tab/session */
+    if (!sessionStorage.getItem('vaca_session_id')) {
+      sessionStorage.setItem('vaca_session_id',    uuid4());
+      sessionStorage.setItem('vaca_session_start', String(Date.now()));
+      sessionStorage.setItem('vaca_pages_visited', '1');
+    } else {
+      /* Increment page counter on each subsequent page load */
+      var pv = parseInt(sessionStorage.getItem('vaca_pages_visited') || '1');
+      sessionStorage.setItem('vaca_pages_visited', String(pv + 1));
+    }
+  } catch (e) {}
 })();
