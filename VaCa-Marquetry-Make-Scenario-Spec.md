@@ -689,3 +689,161 @@ Once you create the three webhooks in Make.com, copy the three URLs and give the
 
 *End of Make.com scenario specification.*  
 *Next step: Website implementation — form JS, artwork inquiry form, webhook integration.*
+
+---
+
+---
+
+# SCENARIO 4 — WhatsApp Lead
+
+**Scenario name:** `VaCa — WhatsApp Lead`  
+**Trigger:** Webhooks — Custom webhook  
+**Total modules:** 2  
+**Operations per run:** 2  
+
+> **Why this exists:** When a visitor clicks the WhatsApp button, the website fires a
+> JSON POST to this webhook *before* opening WhatsApp. No form is submitted — the lead
+> is anonymous but carries page, artwork interest, and intent score.
+
+---
+
+## Step 1 — Create the webhook in Make.com
+
+1. Open Make.com → Create a new scenario
+2. Add module: **Webhooks → Custom webhook**
+3. Click **Add** → name it `VaCa WhatsApp Lead`
+4. Click **Save** — Make.com gives you a URL like:  
+   `https://hook.eu2.make.com/xxxxxxxxxxxxxxxxxxxxxxxxx`
+5. Copy that URL
+
+## Step 2 — Paste the URL into main.js
+
+Open `assets/js/main.js` and find line 61:
+
+```js
+var WA_WEBHOOK_URL = '';  /* ← PASTE MAKE.COM WA SCENARIO WEBHOOK URL */
+```
+
+Replace `''` with your URL:
+
+```js
+var WA_WEBHOOK_URL = 'https://hook.eu2.make.com/xxxxxxxxxxxxxxxxxxxxxxxxx';
+```
+
+Save and redeploy.
+
+## Step 3 — Capture the data structure
+
+1. In Make.com, click **Run once** on the scenario
+2. Click the WhatsApp button on the live website
+3. Make.com captures the incoming payload:
+
+```json
+{
+  "lead_type":        "WhatsApp Lead",
+  "lead_source":      "WhatsApp",
+  "interaction_type": "WhatsApp Click",
+  "artwork_context":  "Black Woman",
+  "intent_score":     3,
+  "source_page":      "https://vacamarquetry.shop/artworks/black-woman.html",
+  "submitted_at":     "2026-06-27T14:32:00.000Z"
+}
+```
+
+4. Click **OK** to confirm the data structure
+
+---
+
+## Module 1 — Webhook Trigger
+
+**App:** Webhooks  
+**Module type:** Custom webhook
+
+**Expected incoming fields:**
+
+| Field name | Type | Example |
+|---|---|---|
+| `lead_type` | text | `WhatsApp Lead` |
+| `lead_source` | text | `WhatsApp` |
+| `interaction_type` | text | `WhatsApp Click` |
+| `artwork_context` | text | `Black Woman` *(empty string if no artwork viewed)* |
+| `intent_score` | number | `1–3` |
+| `source_page` | text | Full page URL |
+| `submitted_at` | text | ISO 8601 datetime |
+| `incoming_message` | text | Pre-filled WhatsApp message text |
+
+---
+
+## Module 2 — Create Airtable Lead Record
+
+**App:** Airtable  
+**Module type:** Create a Record
+
+**Configuration:**
+
+| Setting | Value |
+|---|---|
+| Base | `appgaZWpeSTTkjoUa` |
+| Table | `tblCOVYuKMZq28Usi` (Leads) |
+
+**Field mappings:**
+
+| Airtable Field | Field ID | Map to |
+|---|---|---|
+| Lead Type | `fld4W3TE9wPeg4WWA` | `WhatsApp Lead` *(hardcoded — add this option first — see note)* |
+| Status | `fldqHNgvHnC4DNORq` | `New` *(hardcoded)* |
+| Lead Source | `fldwk0CgCYqw8s51V` | `WhatsApp` |
+| Interaction Type | `fldRN40zMJuQ3tGzY` | `WhatsApp Click` |
+| Artwork Title | `fldDbFmHJI1yWOGOK` | `{{1.artwork_context}}` |
+| Source Page | `fldQjvWaXDKHJ651y` | `{{1.source_page}}` |
+| Lead Score | `fldENjUV5MUonr2p8` | `{{1.intent_score}}` |
+| Incoming Message | `fldLikiOEnMDXp3a5` | `{{1.incoming_message}}` |
+| Submitted At | `fldvsie6oEf4ySLqI` | `{{formatDate(now; "YYYY-MM-DDTHH:mm:ss")}}` |
+| Make Run ID | `fldlNCz7JYyvhQ8Xi` | `{{executionId}}` |
+
+> **⚠️ Note — Add "WhatsApp Lead" to Lead Type field:**  
+> The `Lead Type` singleSelect currently has: Portrait Inquiry, Artwork Inquiry, Contact.  
+> Before activating this scenario, open Airtable → Leads table → click the `Lead Type`
+> field header → Edit field → add a new option: **WhatsApp Lead** (colour: greenBright).
+
+---
+
+## Testing checklist
+
+- [ ] Scenario is **Active**
+- [ ] `WA_WEBHOOK_URL` is set in `main.js` and deployed
+- [ ] Clicked WhatsApp button on live site
+- [ ] Airtable record created with `Lead Type = WhatsApp Lead`
+- [ ] `Lead Source = WhatsApp`, `Interaction Type = WhatsApp Click`
+- [ ] `Artwork Title` populated when clicking from an artwork page
+- [ ] `Incoming Message` contains the pre-filled WhatsApp text
+- [ ] `Lead Score` reflects session intent (1–3)
+- [ ] `Source Page` shows the correct URL
+
+---
+
+# Airtable — Filtered Views Setup
+
+The MCP cannot create views programmatically. Set these up manually in Airtable.
+
+Go to: **Leads table → + Add view → Grid view**
+
+### View 1 — 🔥 Hot Leads
+- **Filter:** `🌡 Lead Heat` is `🔥 Hot`
+- **Sort:** `Submitted At` → newest first
+- **Hidden fields:** remove Photos, Portrait Size, Deposit Amount, etc. — keep: Name, Email, Lead Type, Artwork Title, Lead Score, Source Page, Status, Studio Notes
+
+### View 2 — 🟡 Warm Leads
+- **Filter:** `🌡 Lead Heat` is `🟡 Warm`
+- **Sort:** `Days Since Submitted` → descending (oldest warm leads need attention)
+
+### View 3 — 📱 WhatsApp Leads
+- **Filter:** `Lead Source` is `WhatsApp`
+- **Sort:** `Submitted At` → newest first
+- **Colour rows by:** `🌡 Lead Heat`
+
+### View 4 — 🖼 Collection Leads
+- **Filter:** `Lead Source` is `Collection` OR `Lead Type` is `Artwork Inquiry`
+- **Sort:** `Lead Score` → highest first
+- **Group by:** `Artwork Title`
+

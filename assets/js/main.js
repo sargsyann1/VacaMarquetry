@@ -55,6 +55,11 @@
     '</svg>';
   document.body.appendChild(btn);
 
+  /* ── WhatsApp webhook URL ──────────────────────────────────────────
+     Paste the Make.com webhook URL for the WA Lead scenario here.
+     Leave blank ('') to skip CRM logging without breaking the WA button. */
+  var WA_WEBHOOK_URL = 'https://hook.eu2.make.com/enneb60q3m64izxwj0r5ae3t5mgp91m7';
+
   btn.addEventListener('click', function (e) {
     var artwork = '', score = 1;
     try {
@@ -64,10 +69,50 @@
       sessionStorage.setItem('vaca_interaction_type', 'WhatsApp Click');
       sessionStorage.setItem('vaca_lead_source',      'WhatsApp');
     } catch (ex) {}
+
     var msg = artwork
-      ? 'Hello VaCa Marquetry, I\'m interested in the artwork “' + artwork + '”. Could you share more details?'
+      ? 'Hello VaCa Marquetry, I\'m interested in the artwork \u201c' + artwork + '\u201d. Could you share more details?'
       : 'Hello VaCa Marquetry, I would like to inquire about an artwork or Private Collection piece.';
+
+    /* Update href FIRST — WA opens in new tab so page stays alive */
     this.href = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg);
+
+    /* ── CRM webhook — fire-and-forget ──────────────────────────── */
+    /* intent_score maps to HOT/WARM/COLD router in Make.com:
+       (session_score × 2) + artwork_bonus → COLD ≤2, WARM 3-6, HOT ≥7
+       e.g. artwork zoom + WA click → score 3 → crm_score 8 = HOT          */
+    var crm_score = (score * 2) + (artwork ? 2 : 0);
+    var payload = {
+      lead_type:        'WhatsApp Lead',
+      lead_source:      'WhatsApp',
+      interaction_type: 'WhatsApp Click',
+      artwork_context:  artwork || '',
+      intent_score:     crm_score,
+      incoming_message: msg,
+      source_page:      window.location.href,
+      submitted_at:     new Date().toISOString()
+    };
+
+    console.log('WA_CLICK_TRIGGERED');
+    console.log(payload);
+
+    if (WA_WEBHOOK_URL) {
+      try {
+        fetch(WA_WEBHOOK_URL, {
+          method:    'POST',
+          headers:   { 'Content-Type': 'application/json' },
+          body:      JSON.stringify(payload),
+          keepalive: true
+        }).catch(function (err) {
+          console.warn('[VaCa WA] Webhook error:', err);
+        });
+      } catch (fetchErr) {
+        console.warn('[VaCa WA] Fetch failed:', fetchErr);
+      }
+    } else {
+      console.warn('[VaCa WA] WA_WEBHOOK_URL not configured — CRM logging skipped.');
+    }
+
     if (typeof gtag === 'function') {
       gtag('event', 'whatsapp_click', {
         source:          'floating_button',
