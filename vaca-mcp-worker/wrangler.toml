@@ -1,0 +1,15 @@
+name = "vaca-mcp-worker"
+main = "src/index.js"
+compatibility_date = "2026-06-29"
+
+[vars]
+VACA_MODE                    = "shadow"
+AIRTABLE_PROD_BASE_ID        = "appgaZWpeSTTkjoUa"
+AIRTABLE_LEADS_TABLE_ID      = "tblCOVYuKMZq28Usi"
+AIRTABLE_COLLECTORS_TABLE_ID = "tbltxJzIzrSzLWc3m"
+AIRTABLE_ANALYTICS_TABLE_ID  = "tblANALYTICS_REPLACE_ME"
+AIRTABLE_DEADLETTER_TABLE_ID = "tblDEADLETTER_REPLACE_ME"
+TELEGRAM_CHAT_ID             = "7890260831"
+
+# Secrets: wrangler secret put AIRTABLE_TOKEN
+#          wrangler secret put TELEGRAM_BOT_TOKEN

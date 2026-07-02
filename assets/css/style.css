@@ -609,14 +609,14 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 
 /* --- 15. Collection grid ——————————————————————————————————————————————————
    Container : .gallery-editorial  (set in collection.html)
-   Cards     : .art-card / .art-card.feature
+   Cards     : .art-card — all cards uniform size, strict N-column grid.
    NOTE: selectors .collection-grid / .art-grid / .art-grid do NOT exist.  */
 
-/* Grid container */
+/* Grid container — strict 3 columns on desktop, larger premium cards */
 .gallery-editorial {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 32px;
   align-items: start;
 }
 
@@ -628,38 +628,33 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   color: inherit;
 }
 
-/* Feature card — full-width highlight row */
-.gallery-editorial .art-card.feature {
-  grid-column: 1 / -1;
-}
-
-/* Scoped thumb ratios — override base 2/3 only inside collection grid */
+/* Scoped thumb ratios — override base 2/3 only inside collection grid.
+   Same ratio at every breakpoint keeps every card the same height in its row. */
 .gallery-editorial .art-thumb {
   aspect-ratio: 4 / 3;
 }
 
-/* Collection images: contain (full artwork visible) not cover (cropped)
-   object-fit: contain + object-position: center centres the image inside
-   the 4:3 container; var(--bone-soft) background acts as a neutral mat.  */
+/* Collection images: contain, not cover — the entire artwork must stay
+   visible with no cropped faces or composition edges. var(--bone-soft),
+   set on .art-thumb's base rule, shows through as a neutral mat behind
+   any letterboxing rather than leaving hard empty space. */
 .gallery-editorial .art-thumb img {
   object-fit: contain;
   object-position: center center;
-}
-
-.gallery-editorial .art-card.feature .art-thumb {
-  aspect-ratio: 16 / 7;
 }
 
 /* Tablet: 2 columns */
 @media (max-width: 860px) {
   .gallery-editorial {
     grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
-  .gallery-editorial .art-card.feature {
-    grid-column: span 1;
-  }
-  .gallery-editorial .art-card.feature .art-thumb {
-    aspect-ratio: 4 / 3;
+  /* 5 cards / 2 columns leaves the last card alone in its row. Center it
+     at normal card width instead of flush-left against an empty cell. */
+  .gallery-editorial .art-card:last-child:nth-child(2n+1) {
+    grid-column: 1 / -1;
+    max-width: calc((100% - 24px) / 2);
+    margin: 0 auto;
   }
 }
 
@@ -668,6 +663,13 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   .gallery-editorial {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+  /* 1 column: every card fills its own row. Reset the tablet orphan rule
+     above, which would otherwise still apply at mobile widths too. */
+  .gallery-editorial .art-card:last-child {
+    grid-column: auto;
+    max-width: none;
+    margin: 0;
   }
 }
 
@@ -1197,6 +1199,12 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   opacity: 0.70;
 }
 .artwork-availability.not_for_sale {
+  background: transparent;
+  color: var(--brass-dark);
+  border: 1px solid var(--brass);
+  letter-spacing: 0.12em;
+}
+.artwork-availability.collection {
   background: transparent;
   color: var(--brass-dark);
   border: 1px solid var(--brass);

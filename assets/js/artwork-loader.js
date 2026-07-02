@@ -72,7 +72,8 @@
 
     var statusText = data.status === 'available'    ? 'Available'          :
                      data.status === 'sold'         ? 'Sold'               :
-                     data.status === 'not_for_sale' ? 'Private Collection' : 'Enquire';
+                     data.status === 'not_for_sale' ? 'Private Collection' :
+                     data.status === 'collection'   ? 'Collection Piece'   : 'Enquire';
     set('aw-availability', statusText);
     var badge = document.getElementById('aw-availability');
     if (badge) badge.className = 'artwork-availability ' + (data.status || 'available');
@@ -100,14 +101,17 @@
 
     var btn = document.getElementById('aw-inquire');
     if (btn) {
-      if (data.status === 'not_for_sale') {
-        // Hide CTA entirely and replace with a private collection notice
+      if (data.status === 'not_for_sale' || data.status === 'collection') {
+        // Hide CTA entirely and replace with a private collection / brand-collection notice
         var ctaBlock = btn.closest('.artwork-cta');
         if (ctaBlock) {
+          var ctaNote = data.status === 'collection'
+            ? 'This work is part of the VaCa Marquetry Collection series — not for sale.'
+            : 'This work is held in the artist’s private collection.';
           ctaBlock.innerHTML =
             '<p style="font-family:var(--font-editorial);font-style:italic;font-size:1rem;' +
             'color:var(--brass-dark);margin:0 0 var(--space-sm);">' +
-            'This work is held in the artist’s private collection.</p>' +
+            ctaNote + '</p>' +
             '<a href="../not-for-sale.html" class="btn btn-ghost" style="margin-top:4px;">' +
             'View Private Collection →</a>';
         }
@@ -141,7 +145,10 @@
       'lifestyle.jpg': 'In an interior setting',
       'detail-01.jpg': 'Veneer detail -- close up',
       'detail-02.jpg': 'Wood grain and texture detail',
-      'gallery.jpg':   'Additional view'
+      'detail-03.jpg': 'Fine veneer detail — extreme close up',
+      'gallery.jpg':   'Additional view',
+      'front.jpg':     'Full frontal view',
+      'hospital.jpg':  'Displayed in situ'
     };
 
     data.gallery.forEach(function (file) {
@@ -167,7 +174,7 @@
 
   /* Inline artwork inquiry form */
   function buildInquiryForm(ctaEl, data, slug) {
-    var ARTWORK_WEBHOOK_URL = 'https://hook.eu2.make.com/jute9hiso8mnsoyxtls58zhvqedbfqej';
+    var ARTWORK_WEBHOOK_URL = 'https://hook.eu2.make.com/0fw3v3txv385q8e4olynxkjypujvjs3p';
 
     var wrap = document.createElement('div');
     wrap.className = 'artwork-inquiry-wrap';

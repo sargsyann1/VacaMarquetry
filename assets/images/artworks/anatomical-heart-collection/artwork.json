@@ -1,0 +1,25 @@
+{
+  "title": "Anatomical Heart",
+  "slug": "anatomical-heart-collection",
+  "status": "collection",
+  "price": "Not for Sale",
+  "category": "Collection",
+  "pieceCount": 95,
+  "materials": "Natural wood veneer marquetry on birch panel",
+  "dimensions": "32 × 42 cm",
+  "weight": "Approx. 3 kg",
+  "year": "2026",
+  "finish": "Matte acrylic varnish sealant",
+  "framed": "Framed — ready to hang",
+  "certificate": false,
+  "shipping": "Not applicable — Collection piece",
+  "story": "A geometric anatomical heart constructed from precision-cut wooden veneers. This piece explores the tension between organic form and mathematical fragmentation, where natural wood becomes a structural language for human anatomy. Designed as part of the VaCa Marquetry Collection series, it is not intended for sale, but for brand expression, gallery presentation, and architectural storytelling.",
+  "gallery": [
+    "cover.jpg",
+    "front.jpg",
+    "detail-01.jpg",
+    "detail-02.jpg",
+    "wall.jpg",
+    "hospital.jpg"
+  ]
+}

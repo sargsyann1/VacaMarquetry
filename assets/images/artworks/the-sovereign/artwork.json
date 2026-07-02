@@ -1,8 +1,8 @@
 {
   "title": "The Sovereign",
   "slug": "the-sovereign",
-  "status": "available",
-  "price": "Price on Request",
+  "status": "not_for_sale",
+  "price": "Private Collection — Not for Sale",
   "category": "Portrait",
   "pieceCount": "Over 910",
   "materials": "Natural wood veneer marquetry on birch panel",
@@ -14,5 +14,12 @@
   "certificate": true,
   "shipping": "White-glove fine art courier, worldwide, fully insured in transit",
   "story": "The largest and most complex original in the collection. More than 910 veneer pieces — individually selected, cut, and placed over six weeks — converge into a portrait of uncommon stillness and authority. The Sovereign does not ask to be noticed. It simply is. This is a work for a wall that can hold it: one that becomes the room it occupies, and defines every space it enters.",
-  "gallery": ["cover.jpg", "wall.jpg", "lifestyle.jpg", "detail-01.jpg", "detail-02.jpg"]
+  "gallery": [
+    "cover.jpg",
+    "wall.jpg",
+    "lifestyle.jpg",
+    "detail-01.jpg",
+    "detail-02.jpg",
+    "detail-03.jpg"
+  ]
 }
