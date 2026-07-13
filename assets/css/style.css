@@ -2394,3 +2394,49 @@ div.nfs-card:not(.nfs-card-tbd) {
 @media (max-width: 600px) {
   .packaging-pair { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE UX PATCH — v11 (2026-07)
+   Additive overrides only — no desktop layout or visual-design changes.
+   1. 16px form inputs on mobile — prevents iOS focus auto-zoom
+   2. >=44px touch targets — mobile nav toggle + lightbox controls
+   3. prefers-reduced-motion support
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1 — iOS Safari force-zooms the viewport when a focused field is < 16px.
+   Bump to 16px on small screens only; desktop keeps its 0.94rem sizing. */
+@media (max-width: 600px) {
+  .field input,
+  .field select,
+  .field textarea { font-size: 16px; }
+}
+
+/* 2 — Minimum 44x44px touch targets. The nav toggle is only shown at
+   <=1000px, so this override lives inside that same breakpoint (later rule
+   wins) and never affects the desktop hidden state. */
+@media (max-width: 1000px) {
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+/* Lightbox close/arrows drop to 38px at <=600px above — raise to 44px. */
+@media (max-width: 600px) {
+  .lb-close { width: 44px; height: 44px; }
+  .lb-arrow { width: 44px; height: 44px; }
+}
+
+/* 3 — Respect reduced-motion: neutralize animations, transitions and
+   smooth-scroll. End states are preserved; only the movement is removed. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

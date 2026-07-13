@@ -164,8 +164,16 @@
       };
       /* Wire into museum viewer — data-lb-group set before main.js scans */
       img.dataset.lbGroup = slug + '-gallery';
-      img.src = '../assets/images/artworks/' + slug + '/' +
-        (imgExt === '.webp' ? file.replace(/\.jpg$/i, '.webp') : file);
+      var base = '../assets/images/artworks/' + slug + '/';
+      var stem = file.replace(/\.jpe?g$/i, '');
+      img.src = base + (imgExt === '.webp' ? stem + '.webp' : file);
+      /* Responsive thumbs: the gallery renders at 130–180px, so the small
+         renditions are more than enough. WebP-only (no responsive JPG exists);
+         non-WebP browsers keep the single full-size src above. */
+      if (imgExt === '.webp') {
+        img.srcset = base + stem + '-480.webp 480w, ' + base + stem + '-800.webp 800w';
+        img.sizes  = '180px';
+      }
 
       thumb.appendChild(img);
       container.appendChild(thumb);

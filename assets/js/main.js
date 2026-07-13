@@ -310,6 +310,25 @@
   var lastTap  = 0;
   var swipeStartX = 0, swipeStartY = 0;
 
+  /* WebP support — lets the viewer load the lightweight WebP twin at full
+     resolution instead of the multi-MB JPG fallback baked into <img src>. */
+  var _c = document.createElement('canvas');
+  var WEBP_OK = !!(_c.getContext && _c.getContext('2d') &&
+    _c.toDataURL('image/webp').indexOf('data:image/webp') === 0);
+
+  /* Resolve the full-resolution source for the museum viewer.
+     The thumbnail's src already points at the FULL image (scaled down by CSS),
+     so we keep full resolution and only swap the extension to WebP. Every JPG
+     under assets/images/ has a generated .webp twin, so this is always safe. */
+  function fullResSrc(img) {
+    if (img.dataset.lbSrc) return img.dataset.lbSrc;
+    var s = img.getAttribute('src') || img.src;
+    if (WEBP_OK && /\.jpe?g(\?|#|$)/i.test(s)) {
+      return s.replace(/\.jpe?g(\?|#|$)/i, '.webp$1');
+    }
+    return s;
+  }
+
   /* ── Transform helpers ────────────────────────────────────── */
   function applyTransform(animate) {
     lbImg.style.transition = animate ? 'transform 260ms ease' : 'none';
@@ -382,7 +401,7 @@
 
   function loadSlide(gIdx, iIdx) {
     var srcImg   = groups[gIdx].images[iIdx];
-    var hiResSrc = srcImg.dataset.lbSrc || srcImg.src;
+    var hiResSrc = fullResSrc(srcImg);
     var cap      = srcImg.alt || '';
     var total    = groups[gIdx].images.length;
     var multi    = total > 1;
@@ -393,9 +412,10 @@
     lbCounter.textContent = multi ? (iIdx + 1) + ' / ' + total : '';
     lbPrev.classList.toggle('is-hidden', !(multi && iIdx > 0));
     lbNext.classList.toggle('is-hidden', !(multi && iIdx < total - 1));
-    /* Show thumb immediately if cached */
+    /* Show thumb immediately if cached — use currentSrc so we reuse the
+       already-loaded WebP rendition rather than kicking off a JPG download */
     if (srcImg.complete && srcImg.naturalWidth) {
-      lbImg.src = srcImg.src; lbImg.alt = cap;
+      lbImg.src = srcImg.currentSrc || srcImg.src; lbImg.alt = cap;
       lbImg.classList.add('is-loaded');
       lbLoader.classList.remove('is-visible');
     }
