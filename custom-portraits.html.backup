@@ -15,7 +15,6 @@
 <script>
   gtag('js', new Date());
   gtag('config', 'G-1ZGRMFLES7');
-  gtag('config', 'AW-18268154934');
 </script>
 <meta name="google-site-verification" content="mS7Y14yKCTXGHSx5iCjmXuJjeBPLNYU204IBOsG8za4" />
 <meta charset="UTF-8">
@@ -635,10 +634,7 @@
         form.style.display = 'none';
         successEl.style.display = 'block';
         successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        if (typeof gtag === 'function') {
-          gtag('event', 'portrait_inquiry', { event_category: 'form', event_label: 'custom_portrait' });
-          gtag('event', 'conversion', { send_to: 'AW-18268154934/tkDKCMvCj88cELbY94ZE' });
-        }
+        if (typeof gtag === 'function') { gtag('event', 'portrait_inquiry', { event_category: 'form', event_label: 'custom_portrait' }); }
       })
       .catch(function (err) {
         console.error('[portrait-form]', err);
