@@ -159,6 +159,7 @@
   </div>
 </footer>
 
+<script src="assets/js/attribution.js?v=1" defer></script>
 <script src="assets/js/main.js?v=14" defer></script>
 <script>
 (function () {
@@ -199,12 +200,18 @@
 
     setLoading(true);
 
-    var payload = JSON.stringify({
+    var payloadObj = {
       name:       nameEl.value.trim(),
       email:      emailEl.value.trim(),
       message:    msgEl.value.trim(),
       source_url: window.location.href
-    });
+    };
+    /* Phase 2 — attach marketing attribution (hidden payload only) */
+    var attribution = (window.vacaAttributionPayload && window.vacaAttributionPayload()) || {};
+    for (var ak in attribution) {
+      if (Object.prototype.hasOwnProperty.call(attribution, ak)) payloadObj[ak] = attribution[ak];
+    }
+    var payload = JSON.stringify(payloadObj);
 
     fetch(CONTACT_WEBHOOK_URL, {
       method:  'POST',

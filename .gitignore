@@ -11,3 +11,4 @@ vaca-mcp-worker/*.txt
 vaca-mcp-worker/WR*
 secrets/
 .secrets
+deploy/

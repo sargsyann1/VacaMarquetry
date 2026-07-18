@@ -260,7 +260,7 @@
       submitBtn.textContent = 'Sending…';
       submitBtn.style.opacity = '0.6';
 
-      var payload = JSON.stringify({
+      var payloadObj = {
         name:          nameInput.value.trim(),
         email:         emailInput.value.trim(),
         message:       msgInput ? msgInput.value.trim() : defaultMsg,
@@ -268,7 +268,13 @@
         artwork_slug:  slug,
         artwork_url:   window.location.href,
         source_url:    window.location.href
-      });
+      };
+      /* Phase 2 — attach marketing attribution (hidden payload only) */
+      var attribution = (window.vacaAttributionPayload && window.vacaAttributionPayload()) || {};
+      for (var ak in attribution) {
+        if (Object.prototype.hasOwnProperty.call(attribution, ak)) payloadObj[ak] = attribution[ak];
+      }
+      var payload = JSON.stringify(payloadObj);
 
       fetch(ARTWORK_WEBHOOK_URL, {
         method:  'POST',

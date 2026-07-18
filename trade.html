@@ -169,7 +169,7 @@
         <span class="eyebrow">Get Started</span>
         <h2>Trade Inquiry</h2>
       </div>
-      <form class="form-card" action="#" method="POST">
+      <form id="trade-form" class="form-card" action="#" method="POST">
         <div class="field-row">
           <div class="field">
             <label for="t-company">Company Name</label>
@@ -214,10 +214,11 @@
           <label for="t-budget">Budget Band</label>
           <select id="t-budget" name="budget">
             <option value="">Select one</option>
-            <option>€[X]–€[Y]</option>
-            <option>€[Y]–€[Z]</option>
-            <option>€[Z]+</option>
-            <option>Prefer to Discuss</option>
+            <option value="€1K - €5K">€1K – €5K</option>
+            <option value="€5K - €20K">€5K – €20K</option>
+            <option value="€20K - €50K">€20K – €50K</option>
+            <option value="€50K+">€50K+</option>
+            <option value="Prefer to Discuss">Prefer to Discuss</option>
           </select>
         </div>
         <div class="field">
@@ -276,6 +277,115 @@
   </div>
 </footer>
 
+<script src="assets/js/attribution.js?v=1" defer></script>
 <script src="assets/js/main.js?v=14" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  var TRADE_WEBHOOK_URL = 'https://hook.eu2.make.com/t7fhusnf0kjm4qmbfh93ow5xtor0n1v7';
+
+  var form      = document.getElementById('trade-form');
+  var submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+  if (!form || !submitBtn) return;
+
+  /* ── Success banner injected after form ──────────────────────── */
+  var successEl = document.createElement('div');
+  successEl.style.cssText = 'display:none;padding:1.5rem;background:var(--color-surface,#faf9f6);border:1px solid var(--color-border,#e5e0d8);border-radius:8px;text-align:center;margin-top:1rem;';
+  successEl.innerHTML = '<p style="font-size:1.1rem;font-weight:600;margin:0 0 0.5rem;">Thank you — inquiry received.</p><p style="margin:0;opacity:0.7;">We\'ll be in touch within 2 business days.</p>';
+  form.parentNode.insertBefore(successEl, form.nextSibling);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+
+    /* ── Validation ───────────────────────────────────────────── */
+    var companyEl  = form.querySelector('[name="company"]');
+    var contactEl  = form.querySelector('[name="contact_name"]');
+    var emailEl    = form.querySelector('[name="email"]');
+    var valid      = true;
+
+    if (!companyEl.value.trim())  { fieldError(companyEl, 'Please enter your company name.'); valid = false; }
+    if (!contactEl.value.trim())  { fieldError(contactEl, 'Please enter your name.'); valid = false; }
+    if (!emailEl.value.trim()) {
+      fieldError(emailEl, 'Please enter your email address.'); valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+      fieldError(emailEl, 'Please enter a valid email address.'); valid = false;
+    }
+    if (!valid) return;
+
+    setLoading(true);
+
+    var payloadObj = {
+      company:      companyEl.value.trim(),
+      contact_name: contactEl.value.trim(),
+      role:         (form.querySelector('[name="role"]')         || {}).value || '',
+      email:        emailEl.value.trim(),
+      project_type: (form.querySelector('[name="project_type"]') || {}).value || '',
+      scale:        (form.querySelector('[name="scale"]')        || {}).value || '',
+      budget:       (form.querySelector('[name="budget"]')       || {}).value || '',
+      notes:        (form.querySelector('[name="notes"]')        || {}).value || '',
+      source_url:   window.location.href
+    };
+    /* Phase 2 — attach marketing attribution (hidden payload only) */
+    var attribution = (window.vacaAttributionPayload && window.vacaAttributionPayload()) || {};
+    for (var ak in attribution) {
+      if (Object.prototype.hasOwnProperty.call(attribution, ak)) payloadObj[ak] = attribution[ak];
+    }
+    var payload = JSON.stringify(payloadObj);
+
+    fetch(TRADE_WEBHOOK_URL, {
+      method:    'POST',
+      headers:   { 'Content-Type': 'application/json' },
+      body:      payload,
+      keepalive: true
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        form.style.display = 'none';
+        successEl.style.display = 'block';
+        if (typeof gtag === 'function') {
+          gtag('event', 'trade_inquiry_submit', { event_category: 'form', event_label: 'trade' });
+        }
+      })
+      .catch(function (err) {
+        console.error('[VaCa Trade]', err);
+        setLoading(false);
+        formError('Something went wrong. Please try again, or email us at vacamarquetry@vacamarquetry.shop');
+      });
+  });
+
+  function setLoading(on) {
+    submitBtn.disabled    = on;
+    submitBtn.textContent = on ? 'Sending…' : 'Submit Trade Inquiry';
+    submitBtn.style.opacity = on ? '0.6' : '';
+  }
+
+  function clearErrors() {
+    form.querySelectorAll('.has-error').forEach(function (el) { el.classList.remove('has-error'); });
+    form.querySelectorAll('.field-error-text').forEach(function (el) { el.remove(); });
+    var fe = form.querySelector('.form-error-msg');
+    if (fe) fe.remove();
+  }
+
+  function fieldError(input, msg) {
+    var field = input.closest ? input.closest('.field') : input.parentElement;
+    if (!field) return;
+    field.classList.add('has-error');
+    var p = document.createElement('p');
+    p.className   = 'field-error-text';
+    p.textContent = msg;
+    field.appendChild(p);
+    input.focus();
+  }
+
+  function formError(msg) {
+    var p = document.createElement('p');
+    p.className   = 'form-error-msg';
+    p.textContent = msg;
+    submitBtn.parentNode.insertBefore(p, submitBtn);
+  }
+})();
+</script>
 </body>
 </html>
