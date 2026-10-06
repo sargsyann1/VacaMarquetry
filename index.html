@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
+<!-- Google tag — Consent Mode v2: analytics + ads denied by default; a stored "accepted" choice is restored on every page load -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage:        'denied',
-    wait_for_update:   500
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    wait_for_update:    500
   });
+  try {
+    if (localStorage.getItem('vaca_cookie_consent') === 'accepted') {
+      gtag('consent', 'update', {
+        analytics_storage:  'granted',
+        ad_storage:         'granted',
+        ad_user_data:       'granted',
+        ad_personalization: 'granted'
+      });
+    }
+  } catch (e) {}
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
 <script>
@@ -27,20 +39,20 @@
 <meta property="og:title" content="VaCa Marquetry | Luxury Handmade Marquetry Art from Italy">
 <meta property="og:description" content="Discover luxury handmade marquetry portraits and fine wood art crafted entirely by hand in Italy. Unique artworks created from hundreds of natural wood veneer pieces.">
 <meta property="og:url" content="https://vacamarquetry.shop/">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/cover.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="VaCa Marquetry | Luxury Handmade Marquetry Art from Italy">
 <meta name="twitter:description" content="Discover luxury handmade marquetry portraits and fine wood art crafted entirely by hand in Italy. Unique artworks created from hundreds of natural wood veneer pieces.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/cover.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="assets/images/artworks/the-sovereign/hero.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="assets/images/homepage-hero-marquetry.webp" as="image" type="image/webp" imagesrcset="assets/images/homepage-hero-marquetry-480.webp 480w, assets/images/homepage-hero-marquetry-800.webp 800w, assets/images/homepage-hero-marquetry-1200.webp 1200w, assets/images/homepage-hero-marquetry.webp 1448w" imagesizes="(max-width: 960px) 100vw, 1340px" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="assets/css/style.css?v=14">
+<link rel="stylesheet" href="assets/css/style.css?v=33">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -54,13 +66,13 @@
       "@id": "https://vacamarquetry.shop/#organization",
       "name": "VaCa Marquetry",
       "url": "https://vacamarquetry.shop",
-      "logo": "https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg",
+      "logo": "https://vacamarquetry.shop/assets/images/artworks/the-sovereign/cover.jpg",
       "description": "Luxury handmade marquetry portraits and fine wood art, crafted entirely by hand in Italy from natural wood veneers.",
       "address": {
         "@type": "PostalAddress",
         "addressCountry": "IT"
       },
-      "email": "vacamarquetry@vacamarquetry.shop",
+      "email": "vacamarquetrysales@gmail.com",
       "sameAs": [
         "https://www.instagram.com/vacamarquetry",
         "https://www.facebook.com/share/171k4NAM6L/",
@@ -81,6 +93,9 @@
 }
 </script>
 <link rel="canonical" href="https://vacamarquetry.shop/">
+<link rel="alternate" hreflang="en" href="https://vacamarquetry.shop/">
+<link rel="alternate" hreflang="it" href="https://vacamarquetry.shop/it/">
+<link rel="alternate" hreflang="x-default" href="https://vacamarquetry.shop/">
 </head>
 <body>
 
@@ -97,8 +112,9 @@
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html">The Artist</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li class="nav-lang"><a href="index.html" lang="en" hreflang="en" class="is-active" aria-current="true">EN</a><span aria-hidden="true">|</span><a href="it/index.html" lang="it" hreflang="it">IT</a></li>
     </ul>
-    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta">Start Your Portrait</a>
+    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta"><span class="nav-cta-long">Start Your Portrait</span><span class="nav-cta-short">Free Preview</span></a>
   </div>
 </header>
 
@@ -121,20 +137,21 @@
           Hand&#8209;Cut in Wood
         </h1>
         <div class="seam"></div>
-        <p class="lead">A likeness of someone you love, recreated entirely by hand from natural wood veneer&thinsp;&mdash;&thinsp;a work no machine can replicate, and no one else will ever own.</p>
+        <p class="lead">A likeness of someone you love, recreated entirely by hand from natural wood veneer<span class="lead-extra">&thinsp;&mdash;&thinsp;a work no machine can replicate, and no one else will ever own</span>.</p>
+        <p class="hero-price hero-price--compact"><strong>From &euro;690</strong> &middot; Free preview within 24 hours</p>
         <div class="hero-cta-row">
           <a href="custom-portraits.html#inquiry" class="btn btn-primary">Start Your Portrait</a>
           <a href="collection.html" class="btn btn-ghost">Browse the Collection &rarr;</a>
         </div>
       </div>
 
-      <!-- hero.jpg: the-sovereign — no filter, no overlay -->
-      <div class="hero-image-wrap">
+      <!-- homepage-hero-marquetry: workbench scene, veneer being hand-cut — no filter, no overlay -->
+      <div class="hero-image-wrap hero-image-wrap--workshop">
         <picture>
-  <source type="image/webp" srcset="assets/images/artworks/the-sovereign/hero-480.webp 480w, assets/images/artworks/the-sovereign/hero-800.webp 800w, assets/images/artworks/the-sovereign/hero-1200.webp 1200w, assets/images/artworks/the-sovereign/hero.webp 1600w" sizes="(max-width: 960px) 100vw, 50vw">
+  <source type="image/webp" srcset="assets/images/homepage-hero-marquetry-480.webp 480w, assets/images/homepage-hero-marquetry-800.webp 800w, assets/images/homepage-hero-marquetry-1200.webp 1200w, assets/images/homepage-hero-marquetry.webp 1448w" sizes="(max-width: 960px) 100vw, 1340px">
   <img
-          src="assets/images/artworks/the-sovereign/hero.jpg"
-          alt="The Sovereign — marquetry portrait by VaCa, hand-cut from natural wood veneer"
+          src="assets/images/homepage-hero-marquetry.jpg"
+          alt="Hands cutting wood veneer at the workbench for a marquetry lion portrait"
           loading="eager" fetchpriority="high">
 </picture>
       </div>
@@ -189,14 +206,14 @@
   </section>
 
   <!-- ================================================================
-       RECENT COMMISSIONS
+       SELECTED WORKS
        4 cover.jpg images — portrait 2:3, tight 4-column editorial grid
        cover.jpg: black-woman, king-of-ararat, the-lion-within, strength-in-harmony
   ================================================================= -->
   <section class="section-soft">
     <div class="container">
       <div class="section-header center">
-        <span class="eyebrow">Recent Commissions</span>
+        <span class="eyebrow">Selected Works</span>
         <h2 class="section-title" style="text-align:center;">Portraits, Realized in Wood</h2>
         <div class="seam center"></div>
       </div>
@@ -209,7 +226,7 @@
   <source type="image/webp" srcset="assets/images/artworks/black-woman/cover-480.webp 480w, assets/images/artworks/black-woman/cover-800.webp 800w, assets/images/artworks/black-woman/cover-1200.webp 1200w, assets/images/artworks/black-woman/cover.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
   <img
             src="assets/images/artworks/black-woman/cover.jpg"
-            alt="Black Woman — marquetry portrait commission, VaCa Marquetry"
+            alt="Black Woman — hand-cut marquetry portrait, VaCa Marquetry"
             loading="lazy">
 </picture>
         </div>
@@ -220,7 +237,7 @@
   <source type="image/webp" srcset="assets/images/artworks/king-of-ararat/cover-480.webp 480w, assets/images/artworks/king-of-ararat/cover-800.webp 800w, assets/images/artworks/king-of-ararat/cover-1200.webp 1200w, assets/images/artworks/king-of-ararat/cover.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
   <img
             src="assets/images/artworks/king-of-ararat/cover.jpg"
-            alt="King of Ararat — marquetry portrait commission, VaCa Marquetry"
+            alt="King of Ararat — hand-cut marquetry portrait, VaCa Marquetry"
             loading="lazy">
 </picture>
         </div>
@@ -231,7 +248,7 @@
   <source type="image/webp" srcset="assets/images/artworks/the-lion-within/cover-480.webp 480w, assets/images/artworks/the-lion-within/cover-800.webp 800w, assets/images/artworks/the-lion-within/cover-1200.webp 1200w, assets/images/artworks/the-lion-within/cover.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
   <img
             src="assets/images/artworks/the-lion-within/cover.jpg"
-            alt="The Lion Within — marquetry portrait commission, VaCa Marquetry"
+            alt="The Lion Within — hand-cut marquetry portrait, VaCa Marquetry"
             loading="lazy">
 </picture>
         </div>
@@ -242,7 +259,7 @@
   <source type="image/webp" srcset="assets/images/artworks/strength-in-harmony/cover-480.webp 480w, assets/images/artworks/strength-in-harmony/cover-800.webp 800w, assets/images/artworks/strength-in-harmony/cover-1200.webp 1200w, assets/images/artworks/strength-in-harmony/cover.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
   <img
             src="assets/images/artworks/strength-in-harmony/cover.jpg"
-            alt="Strength in Harmony — marquetry portrait commission, VaCa Marquetry"
+            alt="Strength in Harmony — hand-cut marquetry portrait, VaCa Marquetry"
             loading="lazy">
 </picture>
         </div>
@@ -257,23 +274,83 @@
 
   <!-- ================================================================
        WALL FEATURE
-       wall.jpg: black-woman — artwork displayed in situ.
-       Full-width. No overlay. No filter. Original room & wood tones.
+       dubai-11.jpg — real exhibition photo (World Art Dubai 2024): the artist
+       with a visitor beside Black Woman. Visual audit 2026-09: replaces the
+       rendered gallery (black-woman/wall.jpg); dubai-03 swapped for dubai-11
+       so the homepage no longer repeats the same two works (dubai-01 is in
+       the proof strip below).
+       Full-width. No overlay. No filter.
   ================================================================= -->
   <section class="wall-section">
     <div class="wall-feature">
       <picture>
-  <source type="image/webp" srcset="assets/images/artworks/black-woman/wall-480.webp 480w, assets/images/artworks/black-woman/wall-800.webp 800w, assets/images/artworks/black-woman/wall-1200.webp 1200w, assets/images/artworks/black-woman/wall.webp 1500w" sizes="100vw">
+  <source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-11-480.webp 480w, assets/images/exhibitions/dubai/dubai-11-800.webp 800w, assets/images/exhibitions/dubai/dubai-11-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-11.webp 1800w" sizes="100vw">
   <img
-        src="assets/images/artworks/black-woman/wall.jpg"
-        alt="Black Woman marquetry portrait displayed on a wall — VaCa Marquetry"
-        loading="lazy">
+        src="assets/images/exhibitions/dubai/dubai-11.jpg"
+        alt="Sasun Sargsyan with a visitor beside his marquetry portrait Black Woman at World Art Dubai 2024 — VaCa Marquetry"
+        loading="lazy" style="object-position: 50% 35%;">
 </picture>
     </div>
     <div class="container">
       <div class="wall-caption">
-        <span class="eyebrow">In Situ</span>
-        <p>Black Woman &mdash; hand-cut from natural wood veneer, displayed as acquired</p>
+        <span class="eyebrow">On Exhibition</span>
+        <p>The artist with a visitor beside <em>Black Woman</em> &mdash; World Art Dubai, 2024</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       PROOF STRIP — exhibitions + recognition (visual audit 2026-09)
+       Real photos: dubai-01 (the two works), italy2-01 (Gesù, Pala Todisco), municipal
+       certificate. Fourth tile is a staging placeholder (data-staging).
+  ================================================================= -->
+  <section style="padding-top: var(--space-xl); padding-bottom: var(--space-xl);">
+    <div class="container">
+      <div class="section-header center">
+        <span class="eyebrow">Exhibited &amp; Recognised</span>
+        <h2 class="section-title" style="text-align:center;">Shown in Dubai and Tuscany</h2>
+        <div class="seam center"></div>
+      </div>
+      <div class="proof-strip proof-strip--staged">
+        <a href="exhibitions.html" class="proof-tile">
+          <div class="proof-tile__media">
+            <picture>
+  <source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-01-480.webp 480w, assets/images/exhibitions/dubai/dubai-01-800.webp 800w, assets/images/exhibitions/dubai/dubai-01-1200.webp 1200w" sizes="(max-width: 520px) 100vw, (max-width: 960px) 50vw, 25vw">
+  <img src="assets/images/exhibitions/dubai/dubai-01.jpg" alt="VaCa Marquetry portraits at World Art Dubai 2024" loading="lazy" style="object-position: 12% center;">
+</picture>
+          </div>
+          <p class="proof-tile__caption"><strong>World Art Dubai</strong>Dubai World Trade Centre, March 2024</p>
+        </a>
+        <a href="exhibitions.html" class="proof-tile">
+          <div class="proof-tile__media">
+            <picture>
+  <source type="image/webp" srcset="assets/images/exhibitions/italy-exhibition-2/italy2-01-480.webp 480w, assets/images/exhibitions/italy-exhibition-2/italy2-01-800.webp 800w" sizes="(max-width: 520px) 100vw, (max-width: 960px) 50vw, 25vw">
+  <img src="assets/images/exhibitions/italy-exhibition-2/italy2-01.jpg" alt="Gesù — VaCa Marquetry exhibition at Pala Todisco, San Giuliano Terme" loading="lazy">
+</picture>
+          </div>
+          <p class="proof-tile__caption"><strong><em>Ges&ugrave;</em></strong>Pala Todisco, San Giuliano Terme</p>
+        </a>
+        <a href="the-artist.html#recognition" class="proof-tile">
+          <div class="proof-tile__media">
+            <picture>
+  <source type="image/webp" srcset="assets/images/exhibitions/awards/certificate-san-giuliano-480.webp 480w, assets/images/exhibitions/awards/certificate-san-giuliano-800.webp 800w" sizes="(max-width: 520px) 100vw, (max-width: 960px) 50vw, 25vw">
+  <img src="assets/images/exhibitions/awards/certificate-san-giuliano.jpg" alt="Certificate of recognition from the Municipality of San Giuliano Terme, awarded to VaCa Marquetry" loading="lazy">
+</picture>
+          </div>
+          <p class="proof-tile__caption"><strong>Municipal Recognition</strong>Comune di San Giuliano Terme</p>
+        </a>
+        <div class="proof-tile" data-stage-only>
+          <div class="proof-tile__media">
+            <div class="img-required" role="img" data-staging="home-coa" aria-label="Image required: Certificate of Authenticity beside a finished portrait">
+              <span class="img-required__tag">Image required</span>
+              <strong class="img-required__title">Certificate of Authenticity beside a finished portrait</strong>
+              <dl><dt>Purpose</dt><dd>Show that every work is signed, numbered and registered</dd>
+              <dt>Recommended</dt><dd>4:5 &middot; 1200&times;1500px</dd>
+              <dt>Status</dt><dd>Awaiting photography</dd></dl>
+            </div>
+          </div>
+          <p class="proof-tile__caption"><strong>Certificate of Authenticity</strong>Signed and numbered, with every work</p>
+        </div>
       </div>
     </div>
   </section>
@@ -312,7 +389,9 @@
 
   <!-- ================================================================
        COLLECTION TEASER — secondary goal
-       cover.jpg: the-sovereign, king-of-ararat, the-lion-within
+       cover.jpg: geometric-dog-collection-wood-series, king-of-ararat, the-lion-within
+       Visual audit 2026-09: The Sovereign (not for sale) replaced by an
+       available work.
        3-column portrait card grid
   ================================================================= -->
   <section>
@@ -324,20 +403,20 @@
       </div>
       <div class="grid grid-3">
 
-        <!-- cover.jpg: the-sovereign -->
+        <!-- cover.jpg: geometric-dog-collection-wood-series -->
         <a href="collection.html" class="art-card">
           <div class="art-thumb">
             <picture>
-  <source type="image/webp" srcset="assets/images/artworks/the-sovereign/cover-480.webp 480w, assets/images/artworks/the-sovereign/cover-800.webp 800w, assets/images/artworks/the-sovereign/cover-1200.webp 1200w, assets/images/artworks/the-sovereign/cover.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
+  <source type="image/webp" srcset="assets/images/artworks/geometric-dog-collection-wood-series/cover-480.webp 480w, assets/images/artworks/geometric-dog-collection-wood-series/cover-800.webp 800w, assets/images/artworks/geometric-dog-collection-wood-series/cover.webp 1048w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
   <img
-              src="assets/images/artworks/the-sovereign/cover.jpg"
-              alt="The Sovereign — original marquetry artwork by VaCa"
+              src="assets/images/artworks/geometric-dog-collection-wood-series/cover.jpg"
+              alt="Geometric German Shepherd — original marquetry artwork by VaCa"
               loading="lazy">
 </picture>
           </div>
           <div class="art-info">
-            <h3>The Sovereign</h3>
-            <span class="art-meta">Portraits &middot; Original</span>
+            <h3>Geometric German Shepherd</h3>
+            <span class="art-meta">Animals &middot; Original</span>
           </div>
         </a>
 
@@ -392,7 +471,7 @@
         <span class="eyebrow">For the Trade</span>
         <h2 class="section-title">Sourcing for a&nbsp;Project?</h2>
         <div class="seam"></div>
-        <p class="opacity-75">Trade pricing and bespoke commissions for interior designers, architects, and hospitality&thinsp;&mdash;&thinsp;works scaled and framed for any interior.</p>
+        <p class="opacity-75">Project-based quotations and bespoke commissions for interior designers, architects, and hospitality&thinsp;&mdash;&thinsp;works scaled and framed for the space.</p>
         <a href="trade.html" class="btn btn-secondary" style="margin-top: var(--space-md);">Explore Trade Services</a>
       </div>
       <!-- lifestyle.jpg: strength-in-harmony -->
@@ -401,26 +480,28 @@
   <source type="image/webp" srcset="assets/images/artworks/strength-in-harmony/lifestyle-480.webp 480w, assets/images/artworks/strength-in-harmony/lifestyle-800.webp 800w, assets/images/artworks/strength-in-harmony/lifestyle-1200.webp 1200w, assets/images/artworks/strength-in-harmony/lifestyle.webp 1500w" sizes="(max-width: 840px) 100vw, 50vw">
   <img
           src="assets/images/artworks/strength-in-harmony/lifestyle.jpg"
-          alt="Marquetry artwork in an interior setting — VaCa Marquetry"
+          alt="Room visualisation of Strength in Harmony in an interior — VaCa Marquetry"
           loading="lazy">
 </picture>
+        <span class="vis-label" data-staging="visualisation">Visualisation</span>
       </div>
     </div>
   </section>
 
   <!-- ================================================================
        ARTIST STATEMENT
-       lifestyle.jpg: the-sovereign — editorial room context
+       artist-working-01.jpg — the artist cutting veneer (real studio photo).
+       Visual audit 2026-09: replaces the-sovereign/lifestyle.jpg (render).
   ================================================================= -->
   <section>
     <div class="container feature-split">
-      <!-- lifestyle.jpg: the-sovereign -->
+      <!-- artist-working-01.jpg -->
       <div class="feature-media" style="aspect-ratio: 4/5;">
         <picture>
-  <source type="image/webp" srcset="assets/images/artworks/the-sovereign/lifestyle-480.webp 480w, assets/images/artworks/the-sovereign/lifestyle-800.webp 800w, assets/images/artworks/the-sovereign/lifestyle-1200.webp 1200w, assets/images/artworks/the-sovereign/lifestyle.webp 1500w" sizes="(max-width: 840px) 100vw, 50vw">
+  <source type="image/webp" srcset="assets/images/artist/main-identity/artist-working-01-480.webp 480w, assets/images/artist/main-identity/artist-working-01-800.webp 800w, assets/images/artist/main-identity/artist-working-01-1200.webp 1200w, assets/images/artist/main-identity/artist-working-01.webp 1536w" sizes="(max-width: 840px) 100vw, 50vw">
   <img
-          src="assets/images/artworks/the-sovereign/lifestyle.jpg"
-          alt="The Sovereign marquetry artwork — editorial presentation"
+          src="assets/images/artist/main-identity/artist-working-01.jpg"
+          alt="Sasun Sargsyan cutting wood veneer by hand in the VaCa Marquetry studio"
           loading="lazy">
 </picture>
       </div>
@@ -483,12 +564,14 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
+      <span class="footer-legal"><a href="privacy.html">Privacy Policy</a> &middot; <a href="cookie-policy.html">Cookie Policy</a></span>
       <span>Handmade in Italy</span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/attribution.js?v=1" defer></script>
-<script src="assets/js/main.js?v=14" defer></script>
+<script src="assets/js/attribution.js?v=2" defer></script>
+<script src="assets/js/main.js?v=22" defer></script>
+<script src="assets/js/conversion-ux.js?v=1" data-sticky-cta defer></script>
 </body>
 </html>

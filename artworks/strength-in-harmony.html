@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
+<!-- Google tag — Consent Mode v2: analytics + ads denied by default; a stored "accepted" choice is restored on every page load -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage:        'denied',
-    wait_for_update:   500
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    wait_for_update:    500
   });
+  try {
+    if (localStorage.getItem('vaca_cookie_consent') === 'accepted') {
+      gtag('consent', 'update', {
+        analytics_storage:  'granted',
+        ad_storage:         'granted',
+        ad_user_data:       'granted',
+        ad_personalization: 'granted'
+      });
+    }
+  } catch (e) {}
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
 <script>
@@ -35,12 +47,12 @@
 <meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/strength-in-harmony/cover.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="../assets/images/artworks/strength-in-harmony/hero.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="../assets/images/artworks/strength-in-harmony/cover.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="../assets/css/style.css?v=14">
+<link rel="stylesheet" href="../assets/css/style.css?v=33">
 
 <script type="application/json" id="artwork-data">
 {
@@ -65,7 +77,8 @@
     "lifestyle.jpg",
     "detail-01.jpg",
     "detail-02.jpg"
-  ]
+  ],
+  "visualisations": ["wall.jpg", "lifestyle.jpg"]
 }
 </script>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
@@ -80,8 +93,7 @@
   "name": "Strength in Harmony",
   "description": "A double portrait that resists easy reading. Two presences, two grain directions, two emotional temperatures — placed side by side in a composition that cannot be separated from the relationship it depicts. The contrast between the lighter and deeper veneer palettes is not a stylistic choice: it is the subject of the work. Harmony does not require sameness. These two figures are distinct and inseparable in the same breath.",
   "image": [
-    "https://vacamarquetry.shop/assets/images/artworks/strength-in-harmony/cover.jpg",
-    "https://vacamarquetry.shop/assets/images/artworks/strength-in-harmony/hero.jpg"
+    "https://vacamarquetry.shop/assets/images/artworks/strength-in-harmony/cover.jpg"
   ],
   "url": "https://vacamarquetry.shop/artworks/strength-in-harmony.html",
   "artMedium": "Natural wood veneer marquetry on birch panel",
@@ -116,6 +128,9 @@
 }
 </script>
 <link rel="canonical" href="https://vacamarquetry.shop/artworks/strength-in-harmony.html">
+<link rel="alternate" hreflang="en" href="https://vacamarquetry.shop/artworks/strength-in-harmony.html">
+<link rel="alternate" hreflang="it" href="https://vacamarquetry.shop/it/opere/strength-in-harmony.html">
+<link rel="alternate" hreflang="x-default" href="https://vacamarquetry.shop/artworks/strength-in-harmony.html">
 </head>
 <body data-slug="strength-in-harmony">
 
@@ -132,8 +147,9 @@
       <li><a href="../trade.html">Trade</a></li>
       <li><a href="../the-artist.html">The Artist</a></li>
       <li><a href="../contact.html">Contact</a></li>
+      <li class="nav-lang"><a href="strength-in-harmony.html" lang="en" hreflang="en" class="is-active" aria-current="true">EN</a><span aria-hidden="true">|</span><a href="../it/opere/strength-in-harmony.html" lang="it" hreflang="it">IT</a></li>
     </ul>
-    <a href="../custom-portraits.html#inquiry" class="btn btn-primary nav-cta">Start Your Portrait</a>
+    <a href="../custom-portraits.html#inquiry" class="btn btn-primary nav-cta"><span class="nav-cta-long">Start Your Portrait</span><span class="nav-cta-short">Free Preview</span></a>
   </div>
 </header>
 
@@ -215,7 +231,7 @@
 
           <!-- CTA -->
           <div class="artwork-cta">
-            <a id="aw-inquire" href="mailto:vacamarquetry@vacamarquetry.shop" class="btn btn-primary">Inquire About This Piece</a>
+            <a id="aw-inquire" href="mailto:vacamarquetrysales@gmail.com" class="btn btn-primary">Inquire About This Piece</a>
             <a href="../custom-portraits.html" class="btn btn-ghost">Commission Your Own Portrait &rarr;</a>
           </div>
 
@@ -341,14 +357,16 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
+      <span class="footer-legal"><a href="../privacy.html">Privacy Policy</a> &middot; <a href="../cookie-policy.html">Cookie Policy</a></span>
       <span>Handmade in Italy</span>
     </div>
   </div>
 </footer>
 
-<script src="../assets/js/artwork-loader.js?v=15" defer></script>
-<script src="../assets/js/attribution.js?v=1" defer></script>
-<script src="../assets/js/main.js?v=14" defer></script>
+<script src="../assets/js/artwork-loader.js?v=21" defer></script>
+<script src="../assets/js/attribution.js?v=2" defer></script>
+<script src="../assets/js/main.js?v=22" defer></script>
+<script src="../assets/js/conversion-ux.js?v=1" data-sticky-cta defer></script>
 
 </body>
 </html>

@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
+<!-- Google tag — Consent Mode v2: analytics + ads denied by default; a stored "accepted" choice is restored on every page load -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage:        'denied',
-    wait_for_update:   500
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    wait_for_update:    500
   });
+  try {
+    if (localStorage.getItem('vaca_cookie_consent') === 'accepted') {
+      gtag('consent', 'update', {
+        analytics_storage:  'granted',
+        ad_storage:         'granted',
+        ad_user_data:       'granted',
+        ad_personalization: 'granted'
+      });
+    }
+  } catch (e) {}
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
 <script>
@@ -27,25 +39,28 @@
 <meta property="og:title" content="Custom Marquetry Portraits | Commission a Handmade Artwork | VaCa Marquetry">
 <meta property="og:description" content="Commission a bespoke handmade marquetry portrait crafted from natural wood veneers. Personalized fine art made in Italy and delivered worldwide.">
 <meta property="og:url" content="https://vacamarquetry.shop/custom-portraits.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/black-woman/hero.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/black-woman/cover.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Custom Marquetry Portraits | Commission a Handmade Artwork | VaCa Marquetry">
 <meta name="twitter:description" content="Commission a bespoke handmade marquetry portrait crafted from natural wood veneers. Personalized fine art made in Italy and delivered worldwide.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/black-woman/hero.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/black-woman/cover.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="assets/images/artworks/black-woman/hero.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="preload" href="assets/images/artworks/black-woman/cover.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="assets/css/style.css?v=14">
+<link rel="stylesheet" href="assets/css/style.css?v=33">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="canonical" href="https://vacamarquetry.shop/custom-portraits.html">
+<link rel="alternate" hreflang="en" href="https://vacamarquetry.shop/custom-portraits.html">
+<link rel="alternate" hreflang="it" href="https://vacamarquetry.shop/it/ritratti-su-misura.html">
+<link rel="alternate" hreflang="x-default" href="https://vacamarquetry.shop/custom-portraits.html">
 </head>
 <body>
 
@@ -62,8 +77,9 @@
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html">The Artist</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li class="nav-lang"><a href="custom-portraits.html" lang="en" hreflang="en" class="is-active" aria-current="true">EN</a><span aria-hidden="true">|</span><a href="it/ritratti-su-misura.html" lang="it" hreflang="it">IT</a></li>
     </ul>
-    <a href="#inquiry" class="btn btn-primary nav-cta">Start Your Portrait</a>
+    <a href="#inquiry" class="btn btn-primary nav-cta"><span class="nav-cta-long">Start Your Portrait</span><span class="nav-cta-short">Free Preview</span></a>
   </div>
 </header>
 
@@ -71,18 +87,19 @@
 
   <!-- ================================================================
        HERO — inner-page portrait split
-       hero.jpg: black-woman — 2:3 portrait ratio, no filter
+       cover.jpg: black-woman — real studio photo of the artwork (visual audit
+       2026-09: replaces the rendered room hero.jpg). 2:3 portrait ratio, no filter
   ================================================================= -->
-  <section class="page-hero-section">
+  <section class="page-hero-section page-hero-section--portrait">
     <div class="container page-hero-split">
 
-      <!-- hero.jpg: black-woman -->
-      <div class="page-hero-image">
+      <!-- cover.jpg: black-woman -->
+      <div class="page-hero-image page-hero-image--artwork">
         <picture>
-  <source type="image/webp" srcset="assets/images/artworks/black-woman/hero-480.webp 480w, assets/images/artworks/black-woman/hero-800.webp 800w, assets/images/artworks/black-woman/hero-1200.webp 1200w, assets/images/artworks/black-woman/hero.webp 1500w" sizes="(max-width: 900px) 100vw, 50vw">
+  <source type="image/webp" srcset="assets/images/artworks/black-woman/cover-480.webp 480w, assets/images/artworks/black-woman/cover-800.webp 800w, assets/images/artworks/black-woman/cover-1200.webp 1200w" sizes="(max-width: 900px) 100vw, 50vw">
   <img
-          src="assets/images/artworks/black-woman/hero.jpg"
-          alt="Black Woman — marquetry portrait commission by VaCa Marquetry, hand-cut in Italy"
+          src="assets/images/artworks/black-woman/cover.jpg"
+          alt="Black Woman — marquetry portrait by VaCa Marquetry, hand-cut in Italy"
           loading="eager" fetchpriority="high"
                 data-lb-solo>
 </picture>
@@ -90,11 +107,10 @@
 
       <div>
         <span class="eyebrow">Bespoke Marquetry &middot; Made by Hand in Italy</span>
-        <h1 style="font-family: var(--font-editorial); font-weight:400; font-style:italic;
-                   font-size: clamp(2.8rem, 5vw, 5.2rem); letter-spacing:-0.025em;
-                   line-height:1.02; margin-bottom: var(--space-md);">From Photograph<br>to Heirloom</h1>
+        <h1 class="page-hero-title">From Photograph<br>to Heirloom</h1>
         <div class="seam"></div>
-        <p class="lead">A portrait of someone you love, recreated entirely by hand from hundreds of individually cut wood veneer pieces. No machine. No edition. No one else will ever own the same work.</p>
+        <p class="lead">A portrait of someone you love, recreated entirely by hand from hundreds of individually cut wood veneer pieces.<span class="lead-extra"> No machine. No edition. No one else will ever own the same work.</span></p>
+        <p class="hero-price"><strong>From &euro;690</strong> &middot; Free preview before you commit</p>
         <div class="hero-cta-row">
           <a href="#inquiry" class="btn btn-primary">Begin Your Portrait</a>
           <a href="#process" class="btn btn-ghost">See How It Works &darr;</a>
@@ -164,16 +180,33 @@
           <div>
             <h3>Receive Your Free Preview <span style="font-family:var(--font-editorial); font-style:italic; color:var(--brass); font-size:0.9em;">(Within 24 Hours)</span></h3>
             <p class="opacity-75">We translate your photograph into a polygonal preview showing exactly how your portrait will be composed in wood &mdash; at no cost and with no commitment.</p>
-            <!-- detail-01.jpg: the-lion-within — shows polygonal artwork detail -->
-            <div class="timeline-media">
-              <picture>
-  <source type="image/webp" srcset="assets/images/artworks/the-lion-within/detail-01-480.webp 480w, assets/images/artworks/the-lion-within/detail-01-800.webp 800w, assets/images/artworks/the-lion-within/detail-01.webp 924w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
-  <img
-                src="assets/images/artworks/the-lion-within/detail-01.jpg"
-                alt="Marquetry portrait preview — polygonal wood detail, VaCa Marquetry"
-                loading="lazy"
-                data-lb-group="portraits-gallery">
-</picture>
+            <!-- Visual audit 2026-09: photo → preview → wood journey.
+                 Replaces the-lion-within/detail-01.jpg (low-res, not a preview).
+                 Staging placeholders until one real commission is documented. -->
+            <div class="preview-journey" data-stage-only>
+              <div class="img-required" role="img" data-staging="portrait-before" aria-label="Image required: the client's source photograph">
+                <span class="img-required__tag">Image required &middot; 1</span>
+                <strong class="img-required__title">The client&rsquo;s photograph</strong>
+                <dl><dt>Purpose</dt><dd>Show what the client sends (with permission)</dd>
+                <dt>Recommended</dt><dd>1:1 &middot; 800&times;800px</dd>
+                <dt>Status</dt><dd>Awaiting a documented commission</dd></dl>
+              </div>
+              <span class="preview-journey__arrow" aria-hidden="true">&rarr;</span>
+              <div class="img-required" role="img" data-staging="portrait-preview" aria-label="Image required: the digital polygonal preview">
+                <span class="img-required__tag">Image required &middot; 2</span>
+                <strong class="img-required__title">The digital preview</strong>
+                <dl><dt>Purpose</dt><dd>The polygonal preview sent within 24 hours</dd>
+                <dt>Recommended</dt><dd>1:1 &middot; 800&times;800px</dd>
+                <dt>Status</dt><dd>Awaiting a documented commission</dd></dl>
+              </div>
+              <span class="preview-journey__arrow" aria-hidden="true">&rarr;</span>
+              <div class="img-required" role="img" data-staging="portrait-result" aria-label="Image required: the finished marquetry portrait">
+                <span class="img-required__tag">Image required &middot; 3</span>
+                <strong class="img-required__title">The finished portrait in wood</strong>
+                <dl><dt>Purpose</dt><dd>The same subject, completed by hand</dd>
+                <dt>Recommended</dt><dd>1:1 &middot; 800&times;800px</dd>
+                <dt>Status</dt><dd>Awaiting a documented commission</dd></dl>
+              </div>
             </div>
           </div>
         </div>
@@ -268,11 +301,12 @@
         loading="lazy"
                 data-lb-group="portraits-gallery">
 </picture>
+      <span class="vis-label" data-staging="visualisation">Visualisation</span>
     </div>
     <div class="container">
       <div class="wall-caption">
-        <span class="eyebrow">Commission Result</span>
-        <p>The Sovereign &mdash; displayed as received, wood tones and grain exactly as crafted</p>
+        <span class="eyebrow">The Finished Work</span>
+        <p>The Sovereign &mdash; wood tones and grain exactly as crafted</p>
       </div>
     </div>
   </section>
@@ -390,29 +424,30 @@
         <div class="field-row">
           <div class="field">
             <label for="cp-name">Full Name</label>
-            <input type="text" id="cp-name" name="name" required>
+            <input type="text" id="cp-name" name="name" autocomplete="name" required>
           </div>
           <div class="field">
             <label for="cp-email">Email Address</label>
-            <input type="email" id="cp-email" name="email" required>
+            <input type="email" id="cp-email" name="email" autocomplete="email" required>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label for="cp-phone">Phone Number <span style="opacity:0.5;">(optional)</span></label>
-            <input type="tel" id="cp-phone" name="phone">
+            <input type="tel" id="cp-phone" name="phone" autocomplete="tel">
           </div>
           <div class="field">
             <label for="cp-needed-by">Needed By <span style="opacity:0.5;">(optional)</span></label>
             <input type="date" id="cp-needed-by" name="needed_by">
           </div>
         </div>
-        <div class="field">
+        <div class="field is-required">
           <label for="portrait-photos">Upload Your Photo(s)</label>
           <label class="upload-zone" for="portrait-photos">
-            <span class="upload-zone-text">Click or drag to upload &nbsp;&middot;&nbsp; 1&ndash;5 images accepted</span>
+            <span class="upload-zone-text">Tap to add a photo &nbsp;&middot;&nbsp; 1&ndash;5 images</span>
+            <span class="upload-zone-hint">A clear, well-lit photo gives the best preview.</span>
           </label>
-          <input type="file" id="portrait-photos" name="photos" accept="image/*" multiple style="display:none;" required>
+          <input type="file" id="portrait-photos" name="photos" accept="image/*" multiple required aria-required="true" style="display:none;">
         </div>
         <div class="field-row">
           <div class="field">
@@ -466,7 +501,8 @@
           <textarea id="cp-notes" name="notes" rows="4" placeholder="Special requests, context about the subject, preferred wood tones&hellip;"></textarea>
         </div>
         <button type="submit" id="portrait-submit" class="btn btn-primary" style="width:100%; padding:20px; font-size:0.78rem; letter-spacing:0.2em;">Request My Free Preview</button>
-        <p class="form-microcopy">No payment required to receive your preview &middot; We respond within 24 hours</p>
+        <p class="form-microcopy">No payment required to receive your preview &middot; We respond within 24 hours &middot; Commissions from &euro;690</p>
+        <p class="form-privacy">By submitting this form, you acknowledge that your personal data will be processed according to our <a href="privacy.html">Privacy Policy</a>.</p>
       </form>
 
       <!-- Success state — shown after submission, form hidden -->
@@ -474,7 +510,7 @@
         <p class="form-success-mark">&#10022;</p>
         <h3>Your enquiry has been received.</h3>
         <p>We&rsquo;ll prepare your free portrait preview and be in touch within 24&nbsp;hours. A confirmation email is on its way to your inbox.</p>
-        <p style="font-size:.8rem;">Didn&rsquo;t receive it? Check your spam folder, or write to us at <a href="mailto:vacamarquetry@vacamarquetry.shop" style="color:var(--brass);">vacamarquetry@vacamarquetry.shop</a></p>
+        <p style="font-size:.8rem;">Didn&rsquo;t receive it? Check your spam folder, or write to us at <a href="mailto:vacamarquetrysales@gmail.com" style="color:var(--brass);">vacamarquetrysales@gmail.com</a></p>
       </div>
     </div>
   </section>
@@ -534,10 +570,10 @@
           loading="lazy"
                 data-lb-group="portraits-gallery">
 </picture>
+        <span class="vis-label" data-staging="visualisation">Visualisation</span>
       </div>
       <div style="text-align:center;">
         <span class="eyebrow">Begin Today</span>
-        <h2 class="sectio
         <h2 class="section-title" style="font-family:var(--font-editorial);font-weight:400;font-style:italic;">Your Photograph,<br>Made Timeless</h2>
         <div class="seam center"></div>
         <p class="opacity-75">Commission a marquetry portrait that will outlast a lifetime of photographs.</p>
@@ -580,13 +616,15 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
+      <span class="footer-legal"><a href="privacy.html">Privacy Policy</a> &middot; <a href="cookie-policy.html">Cookie Policy</a></span>
       <span>Handmade in Italy</span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/attribution.js?v=1" defer></script>
-<script src="assets/js/main.js?v=14" defer></script>
+<script src="assets/js/attribution.js?v=2" defer></script>
+<script src="assets/js/main.js?v=22" defer></script>
+<script src="assets/js/conversion-ux.js?v=1" data-sticky-cta defer></script>
 <script>
 (function () {
   'use strict';
@@ -598,6 +636,18 @@
   var successEl = document.getElementById('portrait-success');
   if (!form) return;
 
+  /* Upload feedback — show how many photos were picked */
+  var photoInput = form.querySelector('[name="photos"]');
+  var uploadZone = form.querySelector('.upload-zone');
+  var uploadText = uploadZone && uploadZone.querySelector('.upload-zone-text');
+  var uploadIdle = uploadText ? uploadText.innerHTML : '';
+  if (photoInput && uploadZone && uploadText) {
+    photoInput.addEventListener('change', function () {
+      var n = photoInput.files ? photoInput.files.length : 0;
+      uploadZone.classList.toggle('has-files', n > 0);
+      uploadText.innerHTML = n > 0 ? ('&#10003; ' + n + (n === 1 ? ' photo' : ' photos') + ' selected &middot; tap to change') : uploadIdle;    });
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     clearErrors();
@@ -606,6 +656,7 @@
     var nameEl   = form.querySelector('[name="name"]');
     var emailEl  = form.querySelector('[name="email"]');
     var photosEl = form.querySelector('[name="photos"]');
+    var budgetEl = form.querySelector('[name="budget"]');
 
     if (!nameEl.value.trim()) {
       fieldError(nameEl, 'Please enter your full name.');
@@ -618,8 +669,18 @@
       fieldError(emailEl, 'Please enter a valid email address.');
       valid = false;
     }
-    if (!photosEl.files || photosEl.files.length === 0) {
-      fieldError(photosEl, 'Please upload at least one photo of your subject.');
+    /* Price qualification — budget was marked required but never enforced */
+    if (budgetEl && !budgetEl.value) {
+      fieldError(budgetEl, 'Please select a budget range.');
+      valid = false;
+    }
+    /* Photo required (1–5): the Make portrait scenario is only proven with attachments */
+    var photoCount = (photosEl && photosEl.files) ? photosEl.files.length : 0;
+    if (photoCount === 0) {
+      fieldError(photosEl, 'Please add at least one photo.');
+      valid = false;
+    } else if (photoCount > 5) {
+      fieldError(photosEl, 'Please select up to 5 photos.');
       valid = false;
     }
     if (!valid) return;
@@ -627,6 +688,9 @@
     setLoading(true);
 
     var fd = new FormData(form);
+    /* No photo selected → drop the empty file part so Make receives no bogus attachment */
+    if (photoCount === 0 && fd.delete) fd.delete('photos');
+    fd.append('photos_count', String(photoCount));
     fd.append('source_url', window.location.href);
     /* Phase 2 — attach marketing attribution (hidden payload only) */
     var attribution = (window.vacaAttributionPayload && window.vacaAttributionPayload()) || {};
@@ -640,12 +704,14 @@
         form.style.display = 'none';
         successEl.style.display = 'block';
         successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        if (typeof gtag === 'function') { gtag('event', 'portrait_inquiry', { event_category: 'form', event_label: 'custom_portrait' }); }
+        var convParams = { event_category: 'form', event_label: 'custom_portrait', budget: budgetEl ? budgetEl.value : '', photos_count: photoCount, page_language: 'en' };
+        if (window.vacaTrackConversion) { window.vacaTrackConversion('portrait_inquiry', convParams); }
+        else if (typeof gtag === 'function') { gtag('event', 'portrait_inquiry', convParams); }
       })
       .catch(function (err) {
         console.error('[portrait-form]', err);
         setLoading(false);
-        formError('Something went wrong. Please try again, or email us directly at vacamarquetry@vacamarquetry.shop');
+        formError('Something went wrong. Please try again, or email us directly at vacamarquetrysales@gmail.com');
       });
   });
 

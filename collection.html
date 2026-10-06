@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
+<!-- Google tag — Consent Mode v2: analytics + ads denied by default; a stored "accepted" choice is restored on every page load -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage:        'denied',
-    wait_for_update:   500
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    wait_for_update:    500
   });
+  try {
+    if (localStorage.getItem('vaca_cookie_consent') === 'accepted') {
+      gtag('consent', 'update', {
+        analytics_storage:  'granted',
+        ad_storage:         'granted',
+        ad_user_data:       'granted',
+        ad_personalization: 'granted'
+      });
+    }
+  } catch (e) {}
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
 <script>
@@ -40,12 +52,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="assets/css/style.css?v=14">
+<link rel="stylesheet" href="assets/css/style.css?v=33">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="canonical" href="https://vacamarquetry.shop/collection.html">
+<link rel="alternate" hreflang="en" href="https://vacamarquetry.shop/collection.html">
+<link rel="alternate" hreflang="it" href="https://vacamarquetry.shop/it/collezione.html">
+<link rel="alternate" hreflang="x-default" href="https://vacamarquetry.shop/collection.html">
 </head>
 <body>
 
@@ -62,8 +77,9 @@
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html">The Artist</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li class="nav-lang"><a href="collection.html" lang="en" hreflang="en" class="is-active" aria-current="true">EN</a><span aria-hidden="true">|</span><a href="it/collezione.html" lang="it" hreflang="it">IT</a></li>
     </ul>
-    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta">Start Your Portrait</a>
+    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta"><span class="nav-cta-long">Start Your Portrait</span><span class="nav-cta-short">Free Preview</span></a>
   </div>
 </header>
 
@@ -87,11 +103,11 @@
        FILTER BAR
   ================================================================= -->
   <div style="padding-bottom: var(--space-xl);">
-    <div class="filter-bar">
-      <a href="javascript:void(0)" class="filter-btn active">All Works</a>
-      <a href="javascript:void(0)" class="filter-btn">Portraits</a>
-      <a href="javascript:void(0)" class="filter-btn">Heritage &amp; Cultural</a>
-      <a href="javascript:void(0)" class="filter-btn">Animals</a>
+    <div class="filter-bar" role="group" aria-label="Filter artworks" data-filter-for="collection-grid">
+      <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All Works</button>
+      <button type="button" class="filter-btn" data-filter="portraits" aria-pressed="false">Portraits</button>
+      <button type="button" class="filter-btn" data-filter="heritage" aria-pressed="false">Heritage &amp; Cultural</button>
+      <button type="button" class="filter-btn" data-filter="animals" aria-pressed="false">Animals</button>
     </div>
   </div>
 
@@ -112,10 +128,10 @@
   <section style="padding-top: 0;">
     <div class="container">
 
-      <div class="gallery-editorial">
+      <div class="gallery-editorial" id="collection-grid">
 
         <!-- 1. Black Woman — cover.jpg -->
-        <a href="artworks/black-woman.html" class="art-card">
+        <a href="artworks/black-woman.html" class="art-card" data-category="portraits">
           <div class="art-thumb">
             <picture>
   <source type="image/webp" srcset="assets/images/artworks/black-woman/cover-480.webp 480w, assets/images/artworks/black-woman/cover-800.webp 800w, assets/images/artworks/black-woman/cover-1200.webp 1200w, assets/images/artworks/black-woman/cover.webp 1200w" sizes="(max-width: 500px) 100vw, (max-width: 860px) 50vw, 33vw">
@@ -133,7 +149,7 @@
         </a>
 
         <!-- 2. King of Ararat — cover.jpg -->
-        <a href="artworks/king-of-ararat.html" class="art-card">
+        <a href="artworks/king-of-ararat.html" class="art-card" data-category="heritage">
           <div class="art-thumb">
             <picture>
   <source type="image/webp" srcset="assets/images/artworks/king-of-ararat/cover-480.webp 480w, assets/images/artworks/king-of-ararat/cover-800.webp 800w, assets/images/artworks/king-of-ararat/cover-1200.webp 1200w, assets/images/artworks/king-of-ararat/cover.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
@@ -151,7 +167,7 @@
         </a>
 
         <!-- 3. Strength in Harmony — cover.jpg -->
-        <a href="artworks/strength-in-harmony.html" class="art-card">
+        <a href="artworks/strength-in-harmony.html" class="art-card" data-category="portraits">
           <div class="art-thumb">
             <picture>
   <source type="image/webp" srcset="assets/images/artworks/strength-in-harmony/cover-480.webp 480w, assets/images/artworks/strength-in-harmony/cover-800.webp 800w, assets/images/artworks/strength-in-harmony/cover-1200.webp 1200w, assets/images/artworks/strength-in-harmony/cover.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
@@ -169,7 +185,7 @@
         </a>
 
         <!-- 4. The Lion Within — cover.jpg -->
-        <a href="artworks/the-lion-within.html" class="art-card">
+        <a href="artworks/the-lion-within.html" class="art-card" data-category="portraits">
           <div class="art-thumb">
             <picture>
   <source type="image/webp" srcset="assets/images/artworks/the-lion-within/cover-480.webp 480w, assets/images/artworks/the-lion-within/cover-800.webp 800w, assets/images/artworks/the-lion-within/cover-1200.webp 1200w, assets/images/artworks/the-lion-within/cover.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
@@ -187,7 +203,7 @@
         </a>
 
         <!-- 5. Geometric German Shepherd — cover.jpg -->
-        <a href="artworks/geometric-dog-collection-wood-series.html" class="art-card">
+        <a href="artworks/geometric-dog-collection-wood-series.html" class="art-card" data-category="animals">
           <div class="art-thumb">
             <picture>
   <source type="image/webp" srcset="assets/images/artworks/geometric-dog-collection-wood-series/cover-480.webp 480w, assets/images/artworks/geometric-dog-collection-wood-series/cover-800.webp 800w, assets/images/artworks/geometric-dog-collection-wood-series/cover.webp 1048w" sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw">
@@ -223,11 +239,12 @@
         loading="lazy"
                 data-lb-solo>
 </picture>
+      <span class="vis-label" data-staging="visualisation">Visualisation</span>
     </div>
     <div class="container">
       <div class="wall-caption">
         <span class="eyebrow">Featured Work</span>
-        <p>The Lion Within &mdash; wood veneer marquetry, displayed as acquired</p>
+        <p>The Lion Within &mdash; wood veneer marquetry, shown in situ</p>
       </div>
     </div>
   </section>
@@ -338,12 +355,13 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
+      <span class="footer-legal"><a href="privacy.html">Privacy Policy</a> &middot; <a href="cookie-policy.html">Cookie Policy</a></span>
       <span>Handmade in Italy</span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/attribution.js?v=1" defer></script>
-<script src="assets/js/main.js?v=14" defer></script>
+<script src="assets/js/attribution.js?v=2" defer></script>
+<script src="assets/js/main.js?v=22" defer></script>
 </body>
 </html>

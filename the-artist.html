@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
+<!-- Google tag — Consent Mode v2: analytics + ads denied by default; a stored "accepted" choice is restored on every page load -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage:        'denied',
-    wait_for_update:   500
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    wait_for_update:    500
   });
+  try {
+    if (localStorage.getItem('vaca_cookie_consent') === 'accepted') {
+      gtag('consent', 'update', {
+        analytics_storage:  'granted',
+        ad_storage:         'granted',
+        ad_user_data:       'granted',
+        ad_personalization: 'granted'
+      });
+    }
+  } catch (e) {}
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
 <script>
@@ -27,21 +39,21 @@
 <meta property="og:title" content="The Artist — Sasun Sargsyan | VaCa Marquetry">
 <meta property="og:description" content="Marquetry artist working from Tuscany, Italy. All cutting done by hand. No laser. No template.">
 <meta property="og:url" content="https://vacamarquetry.shop/the-artist.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artist/main-identity/artist-hero-01.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artist/main-identity/artist-working-01.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Artist — Sasun Sargsyan | VaCa Marquetry">
 <meta name="twitter:description" content="Marquetry artist working from Tuscany, Italy. All cutting done by hand. No laser. No template.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artist/main-identity/artist-hero-01.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artist/main-identity/artist-working-01.jpg">
 
 <!-- Hero preload (LCP) -->
-<link rel="preload" href="assets/images/artist/main-identity/artist-hero-01.jpg" as="image" fetchpriority="high">
+<link rel="preload" href="assets/images/artist/main-identity/artist-working-01.jpg" as="image" fetchpriority="high">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="assets/css/style.css?v=14">
+<link rel="stylesheet" href="assets/css/style.css?v=33">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -56,7 +68,7 @@
   "birthDate": "1991-09-17",
   "jobTitle": "Marquetry Artist",
   "url": "https://vacamarquetry.shop/the-artist.html",
-  "image": "https://vacamarquetry.shop/assets/images/artist/main-identity/artist-hero-01.jpg",
+  "image": "https://vacamarquetry.shop/assets/images/artist/main-identity/artist-working-01.jpg",
   "worksFor": {
     "@type": "Organization",
     "@id": "https://vacamarquetry.shop/#organization",
@@ -73,6 +85,9 @@
 }
 </script>
 <link rel="canonical" href="https://vacamarquetry.shop/the-artist.html">
+<link rel="alternate" hreflang="en" href="https://vacamarquetry.shop/the-artist.html">
+<link rel="alternate" hreflang="it" href="https://vacamarquetry.shop/it/l-artista.html">
+<link rel="alternate" hreflang="x-default" href="https://vacamarquetry.shop/the-artist.html">
 </head>
 <body>
 
@@ -89,8 +104,9 @@
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html" aria-current="page">The Artist</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li class="nav-lang"><a href="the-artist.html" lang="en" hreflang="en" class="is-active" aria-current="true">EN</a><span aria-hidden="true">|</span><a href="it/l-artista.html" lang="it" hreflang="it">IT</a></li>
     </ul>
-    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta">Start Your Portrait</a>
+    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta"><span class="nav-cta-long">Start Your Portrait</span><span class="nav-cta-short">Free Preview</span></a>
   </div>
 </header>
 
@@ -98,11 +114,15 @@
 
   <!-- ================================================================
        HERO — full-height artist photograph
+       Visual audit 2026-09: stopgap artist-working-01.jpg (real studio photo)
+       replaces artist-hero-01.jpg (sponsor-wall crop) until a studio
+       portrait of Sasun is shot.
   ================================================================= -->
   <div class="artist-hero-wrap" style="padding:0; margin:0;">
-    <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-hero-01-480.webp 480w, assets/images/artist/main-identity/artist-hero-01-800.webp 800w, assets/images/artist/main-identity/artist-hero-01.webp 924w" sizes="100vw"><img
-      src="assets/images/artist/main-identity/artist-hero-01.jpg"
-      alt="Sasun Sargsyan — marquetry artist in the studio, San Giuliano Terme, Tuscany"
+    <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-working-01-480.webp 480w, assets/images/artist/main-identity/artist-working-01-800.webp 800w, assets/images/artist/main-identity/artist-working-01-1200.webp 1200w, assets/images/artist/main-identity/artist-working-01.webp 1536w" sizes="100vw"><img
+      src="assets/images/artist/main-identity/artist-working-01.jpg"
+      alt="Sasun Sargsyan cutting wood veneer by hand in his studio, San Giuliano Terme, Tuscany"
+      style="object-position: center 40%;"
       fetchpriority="high"></picture>
     <div class="artist-hero-caption">
       <span class="eyebrow">The Artist</span>
@@ -136,7 +156,7 @@
 
       <div class="bio-chapter">
         <h3>Italy</h3>
-        <p>The conflict of 2020 in Nagorno-Karabakh interrupted the life he had planned. He relocated to Tuscany in 2021 — arriving with a language he did not yet speak and a decision, made quietly, about what mattered. He built a business in Italy too. That one also taught him something when it closed.</p>
+        <p>The conflict of 2020 in Arcax interrupted the life he had planned. He relocated to Tuscany in 2021 — arriving with a language he did not yet speak and a decision, made quietly, about what mattered. He built a business in Italy too. That one also taught him something when it closed.</p>
       </div>
 
       <div class="bio-chapter">
@@ -231,17 +251,26 @@
         <div class="seam"></div>
         <p class="lead">No pigment. No paint. The entire tonal range — from pale ash highlights to deep wenge shadow — is the natural colour of the wood itself. What you see is the material.</p>
       </div>
-      <div class="process-grid" style="grid-template-columns:repeat(2,1fr);">
+      <!-- Visual audit 2026-09: artist-materials-01/02.jpg (staged) replaced by staging placeholders; files kept on disk. -->
+      <div class="process-grid" style="grid-template-columns:repeat(2,1fr);" data-stage-only>
         <div class="process-cell">
-          <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-materials-01-480.webp 480w, assets/images/artist/main-identity/artist-materials-01.webp 704w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/artist/main-identity/artist-materials-01.jpg"
-               alt="Wood veneer selection — various species and grain directions" loading="lazy"
-                data-lb-group="artist-materials"></picture>
+          <div class="img-required" role="img" data-staging="materials-veneer-1" aria-label="Image required: real veneer and material selection in the VaCa studio">
+            <span class="img-required__tag">Image required &middot; 1</span>
+            <strong class="img-required__title">Real veneer and material selection in the VaCa studio</strong>
+            <dl><dt>Purpose</dt><dd>Show the authentic, handmade material process</dd>
+            <dt>Recommended</dt><dd>16:10 &middot; 1600&times;1000px</dd>
+            <dt>Status</dt><dd>Awaiting real studio photography</dd></dl>
+          </div>
           <p class="process-cell-caption">Veneer selection — each species carries its own light</p>
         </div>
         <div class="process-cell">
-          <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-materials-02-480.webp 480w, assets/images/artist/main-identity/artist-materials-02.webp 704w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/artist/main-identity/artist-materials-02.jpg"
-               alt="Natural wood veneer sheets — tonal range from pale to dark" loading="lazy"
-                data-lb-group="artist-materials"></picture>
+          <div class="img-required" role="img" data-staging="materials-veneer-2" aria-label="Image required: real veneer and material selection in the VaCa studio">
+            <span class="img-required__tag">Image required &middot; 2</span>
+            <strong class="img-required__title">Real veneer and material selection in the VaCa studio</strong>
+            <dl><dt>Purpose</dt><dd>Show the authentic, handmade material process</dd>
+            <dt>Recommended</dt><dd>16:10 &middot; 1600&times;1000px</dd>
+            <dt>Status</dt><dd>Awaiting real studio photography</dd></dl>
+          </div>
           <p class="process-cell-caption">The tonal palette is entirely natural — ash to wenge</p>
         </div>
       </div>
@@ -249,35 +278,28 @@
   </section>
 
   <!-- ================================================================
-       ATMOSPHERE
+       ATMOSPHERE — World Art Dubai 2024 (exhibition photos).
+       Visual audit 2026-09: curated to the 2 strongest real exhibition
+       photos — dubai-11 (artist + visitor + artwork) and dubai-09 (artist
+       presenting his work). The 5 former "atmosphere" copies
+       (artist-atmosphere-01..05 = dubai-10/02/04/06/08, incl. the
+       sponsor-wall shot) are no longer displayed; files kept on disk.
   ================================================================= -->
   <section style="padding:0;">
     <div class="atmosphere-grid">
-      <div class="atm-a">
-        <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-atmosphere-02-480.webp 480w, assets/images/artist/main-identity/artist-atmosphere-02-800.webp 800w, assets/images/artist/main-identity/artist-atmosphere-02-1200.webp 1200w, assets/images/artist/main-identity/artist-atmosphere-02.webp 1800w" sizes="(max-width: 480px) 100vw, (max-width: 840px) 50vw, 33vw"><img src="assets/images/artist/main-identity/artist-atmosphere-02.jpg"
-             alt="Studio atmosphere — light through the workshop window" loading="lazy"
-                data-lb-group="artist-atmosphere"></picture>
-      </div>
-      <div class="atm-b">
-        <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-atmosphere-03-480.webp 480w, assets/images/artist/main-identity/artist-atmosphere-03-800.webp 800w, assets/images/artist/main-identity/artist-atmosphere-03-1200.webp 1200w, assets/images/artist/main-identity/artist-atmosphere-03.webp 1800w" sizes="(max-width: 480px) 100vw, (max-width: 840px) 50vw, 33vw"><img src="assets/images/artist/main-identity/artist-atmosphere-03.jpg"
-             alt="VaCa Marquetry studio — the workspace in Tuscany" loading="lazy"
-                data-lb-group="artist-atmosphere"></picture>
-      </div>
-      <div class="atm-c">
-        <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-atmosphere-04-480.webp 480w, assets/images/artist/main-identity/artist-atmosphere-04-800.webp 800w, assets/images/artist/main-identity/artist-atmosphere-04-1200.webp 1200w, assets/images/artist/main-identity/artist-atmosphere-04.webp 1800w" sizes="(max-width: 480px) 100vw, (max-width: 840px) 50vw, 33vw"><img src="assets/images/artist/main-identity/artist-atmosphere-04.jpg"
-             alt="Detail of the studio environment" loading="lazy"
-                data-lb-group="artist-atmosphere"></picture>
-      </div>
       <div class="atm-d">
-        <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-atmosphere-05-480.webp 480w, assets/images/artist/main-identity/artist-atmosphere-05-800.webp 800w, assets/images/artist/main-identity/artist-atmosphere-05.webp 924w" sizes="(max-width: 480px) 100vw, (max-width: 840px) 50vw, 33vw"><img src="assets/images/artist/main-identity/artist-atmosphere-05.jpg"
-             alt="The studio in San Giuliano Terme, Pisa" loading="lazy"
+        <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-11-480.webp 480w, assets/images/exhibitions/dubai/dubai-11-800.webp 800w, assets/images/exhibitions/dubai/dubai-11-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-11.webp 1800w" sizes="(max-width: 480px) 100vw, 50vw"><img src="assets/images/exhibitions/dubai/dubai-11.jpg"
+             alt="World Art Dubai 2024 — Sasun Sargsyan with a visitor beside his portrait Black Woman" loading="lazy"
                 data-lb-group="artist-atmosphere"></picture>
       </div>
       <div class="atm-e">
-        <picture><source type="image/webp" srcset="assets/images/artist/main-identity/artist-atmosphere-01-480.webp 480w, assets/images/artist/main-identity/artist-atmosphere-01-800.webp 800w, assets/images/artist/main-identity/artist-atmosphere-01-1200.webp 1200w, assets/images/artist/main-identity/artist-atmosphere-01.webp 1800w" sizes="(max-width: 480px) 100vw, (max-width: 840px) 50vw, 33vw"><img src="assets/images/artist/main-identity/artist-atmosphere-01.jpg"
-             alt="Studio atmosphere — VaCa Marquetry, San Giuliano Terme" loading="lazy"
+        <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-09-480.webp 480w, assets/images/exhibitions/dubai/dubai-09-800.webp 800w, assets/images/exhibitions/dubai/dubai-09-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-09.webp 1800w" sizes="(max-width: 480px) 100vw, 50vw"><img src="assets/images/exhibitions/dubai/dubai-09.jpg"
+             alt="World Art Dubai 2024 — Sasun Sargsyan presenting his marquetry work to a guest" loading="lazy"
                 data-lb-group="artist-atmosphere"></picture>
       </div>
+    </div>
+    <div class="container">
+      <p style="font-size:0.82rem; opacity:0.7; margin:var(--space-sm) 0 0;">World Art Dubai, Dubai World Trade Centre &middot; March 2024 &mdash; <a href="exhibitions.html" style="color:var(--brass-dark);">See all exhibitions &rarr;</a></p>
     </div>
   </section>
 
@@ -338,13 +360,23 @@
           <h2>Packaging &amp; Delivery</h2>
           <p class="opacity-75" style="max-width:540px;">Every original leaves the studio in bespoke protective packaging, suitable for international white-glove courier. The presentation is part of the experience of acquiring a VaCa Marquetry work.</p>
         </div>
-        <div class="packaging-pair">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/packaging/packaging-01-480.webp 480w, assets/images/exhibitions/packaging/packaging-01-800.webp 800w, assets/images/exhibitions/packaging/packaging-01.webp 1024w" sizes="(max-width: 600px) 100vw, 50vw"><img src="assets/images/exhibitions/packaging/packaging-01.jpg"
-               alt="VaCa Marquetry packaging — artwork protected for international delivery" loading="lazy"
-                data-lb-group="artist-packaging"></picture>
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/packaging/packaging-02-480.webp 480w, assets/images/exhibitions/packaging/packaging-02-800.webp 800w, assets/images/exhibitions/packaging/packaging-02.webp 1024w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/packaging/packaging-02.jpg"
-               alt="VaCa Marquetry packaging detail — bespoke protective presentation" loading="lazy"
-                data-lb-group="artist-packaging"></picture>
+        <!-- Visual audit 2026-09: packaging-01/02.jpg were renders (not the real
+             packaging) — replaced by staging placeholders. Archived 2026-09-26 to assets/images/archive_visual_audit/. -->
+        <div class="packaging-pair" data-stage-only>
+          <div class="img-required" role="img" data-staging="packaging-crate" aria-label="Image required: the real shipping crate and protective wrapping">
+            <span class="img-required__tag">Image required</span>
+            <strong class="img-required__title">The real crate and protective wrapping</strong>
+            <dl><dt>Purpose</dt><dd>Show how an original is protected for international delivery</dd>
+            <dt>Recommended</dt><dd>4:3 &middot; 1600&times;1200px</dd>
+            <dt>Status</dt><dd>Awaiting photography</dd></dl>
+          </div>
+          <div class="img-required" role="img" data-staging="packaging-unboxing" aria-label="Image required: unboxing a finished work">
+            <span class="img-required__tag">Image required</span>
+            <strong class="img-required__title">Unboxing a finished work</strong>
+            <dl><dt>Purpose</dt><dd>Show the presentation a collector receives</dd>
+            <dt>Recommended</dt><dd>4:3 &middot; 1600&times;1200px</dd>
+            <dt>Status</dt><dd>Awaiting photography</dd></dl>
+          </div>
         </div>
       </div>
 
@@ -403,12 +435,14 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
+      <span class="footer-legal"><a href="privacy.html">Privacy Policy</a> &middot; <a href="cookie-policy.html">Cookie Policy</a></span>
       <span>Handmade in Italy</span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/attribution.js?v=1" defer></script>
-<script src="assets/js/main.js?v=14" defer></script>
+<script src="assets/js/attribution.js?v=2" defer></script>
+<script src="assets/js/main.js?v=22" defer></script>
+<script src="assets/js/conversion-ux.js?v=1" data-sticky-cta defer></script>
 </body>
 </html>

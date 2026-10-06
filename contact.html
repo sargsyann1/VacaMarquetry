@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
+<!-- Google tag — Consent Mode v2: analytics + ads denied by default; a stored "accepted" choice is restored on every page load -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage:        'denied',
-    wait_for_update:   500
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    wait_for_update:    500
   });
+  try {
+    if (localStorage.getItem('vaca_cookie_consent') === 'accepted') {
+      gtag('consent', 'update', {
+        analytics_storage:  'granted',
+        ad_storage:         'granted',
+        ad_user_data:       'granted',
+        ad_personalization: 'granted'
+      });
+    }
+  } catch (e) {}
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
 <script>
@@ -27,23 +39,26 @@
 <meta property="og:title" content="Contact VaCa Marquetry | Handmade Wood Art Studio">
 <meta property="og:description" content="Contact VaCa Marquetry for commissions, artwork inquiries, trade partnerships, and custom handmade marquetry projects.">
 <meta property="og:url" content="https://vacamarquetry.shop/contact.html">
-<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg">
+<meta property="og:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/cover.jpg">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Contact VaCa Marquetry | Handmade Wood Art Studio">
 <meta name="twitter:description" content="Contact VaCa Marquetry for commissions, artwork inquiries, trade partnerships, and custom handmade marquetry projects.">
-<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/hero.jpg">
+<meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/artworks/the-sovereign/cover.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="assets/css/style.css?v=14">
+<link rel="stylesheet" href="assets/css/style.css?v=33">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="canonical" href="https://vacamarquetry.shop/contact.html">
+<link rel="alternate" hreflang="en" href="https://vacamarquetry.shop/contact.html">
+<link rel="alternate" hreflang="it" href="https://vacamarquetry.shop/it/contatti.html">
+<link rel="alternate" hreflang="x-default" href="https://vacamarquetry.shop/contact.html">
 </head>
 <body>
 
@@ -60,8 +75,9 @@
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html">The Artist</a></li>
       <li><a href="contact.html" aria-current="page">Contact</a></li>
+      <li class="nav-lang"><a href="contact.html" lang="en" hreflang="en" class="is-active" aria-current="true">EN</a><span aria-hidden="true">|</span><a href="it/contatti.html" lang="it" hreflang="it">IT</a></li>
     </ul>
-    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta">Start Your Portrait</a>
+    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta"><span class="nav-cta-long">Start Your Portrait</span><span class="nav-cta-short">Free Preview</span></a>
   </div>
 </header>
 
@@ -92,6 +108,7 @@
             <textarea id="c-message" name="message" rows="5" required></textarea>
           </div>
           <button type="submit" id="contact-submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+          <p class="form-privacy">By submitting this form, you acknowledge that your personal data will be processed according to our <a href="privacy.html">Privacy Policy</a>.</p>
         </form>
 
         <!-- Success state -->
@@ -102,11 +119,22 @@
         </div>
       </div>
 
-      <div>
-        <h2>Studio Information</h2>
-        <p class="opacity-75"><strong>Email:</strong><br>vacamarquetry@vacamarquetry.shop</p>
-        <p class="opacity-75"><strong>Studio:</strong><br>Italy</p>
-        <p class="opacity-75"><strong>Response Time:</strong><br>We respond within 48 hours.</p>
+      <div class="studio-card">
+        <span class="eyebrow">The Studio</span>
+        <h2 class="studio-name">VaCa Marquetry</h2>
+        <p class="studio-tagline">Handcrafted Marquetry Art Studio</p>
+        <p class="studio-location">Italy</p>
+
+        <div class="seam"></div>
+
+        <dl class="studio-details">
+          <dt>Email</dt>
+          <dd><a href="mailto:vacamarquetrysales@gmail.com">vacamarquetrysales@gmail.com</a></dd>
+          <dt>WhatsApp</dt>
+          <dd><a href="https://wa.me/393517571986" target="_blank" rel="noopener noreferrer" data-wa-link>+39 351 757 1986</a></dd>
+          <dt>Response Time</dt>
+          <dd>We respond within 48 hours.</dd>
+        </dl>
 
         <div class="seam"></div>
 
@@ -154,13 +182,15 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
+      <span class="footer-legal"><a href="privacy.html">Privacy Policy</a> &middot; <a href="cookie-policy.html">Cookie Policy</a></span>
       <span>Handmade in Italy</span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/attribution.js?v=1" defer></script>
-<script src="assets/js/main.js?v=14" defer></script>
+<script src="assets/js/attribution.js?v=2" defer></script>
+<script src="assets/js/main.js?v=22" defer></script>
+<script src="assets/js/conversion-ux.js?v=1" defer></script>
 <script>
 (function () {
   'use strict';
@@ -222,12 +252,14 @@
         if (!r.ok) throw new Error('HTTP ' + r.status);
         form.style.display = 'none';
         successEl.style.display = 'block';
-        if (typeof gtag === 'function') { gtag('event', 'contact_submit', { event_category: 'form', event_label: 'contact' }); }
+        var convParams = { event_category: 'form', event_label: 'contact' };
+        if (window.vacaTrackConversion) { window.vacaTrackConversion('contact_submit', convParams); }
+        else if (typeof gtag === 'function') { gtag('event', 'contact_submit', convParams); }
       })
       .catch(function (err) {
         console.error('[contact-form]', err);
         setLoading(false);
-        formError('Something went wrong. Please try again, or email us directly at vacamarquetry@vacamarquetry.shop');
+        formError('Something went wrong. Please try again, or email us directly at vacamarquetrysales@gmail.com');
       });
   });
 

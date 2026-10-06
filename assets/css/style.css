@@ -254,7 +254,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   display: none;
 }
 /* Desktop nav CTA — luxury minimal ghost, overrides .btn-primary */
-@media (min-width: 1001px) {
+@media (min-width: 1200px) {
   .btn.nav-cta {
     display: inline-block;
     padding: 7px 18px;
@@ -289,7 +289,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
   justify-self: end;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1199px) {
   .nav-wrap {
     grid-template-columns: 1fr auto;
   }
@@ -512,7 +512,7 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
 .grid { display: grid; gap: var(--space-lg); }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } /* minmax(0,…): long words (e.g. Italian) can't force columns wider than the viewport */
 
 @media (max-width: 960px) {
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
@@ -665,8 +665,11 @@ section[id], [id].wall-section { scroll-margin-top: 96px; }
     gap: 16px;
   }
   /* 1 column: every card fills its own row. Reset the tablet orphan rule
-     above, which would otherwise still apply at mobile widths too. */
-  .gallery-editorial .art-card:last-child {
+     above, which would otherwise still apply at mobile widths too.
+     The second selector matches that rule's specificity (0,4,0); without it
+     the tablet rule wins and the last card renders at half width. */
+  .gallery-editorial .art-card:last-child,
+  .gallery-editorial .art-card:last-child:nth-child(2n+1) {
     grid-column: auto;
     max-width: none;
     margin: 0;
@@ -2412,9 +2415,9 @@ div.nfs-card:not(.nfs-card-tbd) {
 }
 
 /* 2 — Minimum 44x44px touch targets. The nav toggle is only shown at
-   <=1000px, so this override lives inside that same breakpoint (later rule
+   <=1199px, so this override lives inside that same breakpoint (later rule
    wins) and never affects the desktop hidden state. */
-@media (max-width: 1000px) {
+@media (max-width: 1199px) {
   .nav-toggle {
     display: flex;
     align-items: center;
@@ -2439,4 +2442,1359 @@ div.nfs-card:not(.nfs-card-tbd) {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ==========================================================================
+   Ads readiness — 2026-09 (conversion quick wins)
+   ========================================================================== */
+
+/* 1 — Header CTA visible on mobile/tablet. Desktop (>=1200px) keeps the
+   existing ghost style above; the long label is shown there. Below that the
+   CTA sits between logo and hamburger; <=600px it switches to the short
+   label so logo + CTA + toggle fit on a 320px screen. */
+.nav-cta-short { display: none; }
+@media (max-width: 1199px) {
+  .nav-wrap { grid-template-columns: 1fr auto auto; column-gap: 10px; }
+  .btn.nav-cta {
+    display: inline-block;
+    order: 2;
+    padding: 10px 14px;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .nav-toggle { order: 3; }
+}
+@media (max-width: 600px) {
+  .nav-wrap { padding: 0 16px; column-gap: 6px; }
+  .logo { font-size: 1.3rem; }
+  .btn.nav-cta { padding: 10px 12px; letter-spacing: 0.1em; }
+  .nav-cta-long  { display: none; }
+  .nav-cta-short { display: inline; }
+}
+@media (max-width: 360px) {
+  .logo { font-size: 1.12rem; }
+}
+
+/* 2 — Price anchor in the portrait hero (qualifies clicks before the form) */
+.hero-price {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+  margin: 0 0 var(--space-md);
+}
+.hero-price strong { font-weight: 600; color: var(--walnut); }
+
+/* 3 — Upload zone feedback: file count after selection (photo is optional) */
+.upload-zone.has-files { border-style: solid; background: rgba(168, 124, 69, 0.06); }
+.upload-zone-hint { display: block; margin-top: 6px; font-size: 0.74rem; opacity: 0.75; }
+
+/* 4 — WhatsApp button clears the cookie banner at its real height.
+   main.js sets --vaca-banner-h (includes the safe-area padding); the fixed
+   82px / 96px offsets above remain the fallback before it is measured. */
+body.has-cookie-banner[style*="--vaca-banner-h"] .wa-float {
+  bottom: calc(var(--vaca-banner-h) + 14px);
+}
+
+/* ==========================================================================
+   Phase 1 — production quality (2026-09)
+   ========================================================================== */
+
+/* 5 — Language switcher (last item of .nav-links) */
+.nav-links .nav-lang { display: flex; align-items: center; gap: 6px; }
+.nav-links .nav-lang span { opacity: 0.35; font-size: 0.7rem; }
+.nav-links .nav-lang a { opacity: 0.6; }
+.nav-links .nav-lang a.is-active { opacity: 1; color: var(--brass-dark); }
+.nav-links .nav-lang a:hover { opacity: 1; }
+@media (max-width: 1199px) {
+  .nav-links .nav-lang { padding: 8px var(--space-md); gap: 10px; }
+  .nav-links .nav-lang a { display: inline-block; padding: 8px 4px; }
+}
+
+/* Desktop header: logo + 8 links + EN|IT + CTA need ~1,520px at full size
+   (measured with the real web fonts). Below 1200px the hamburger menu is
+   used (breakpoint moved from 1000px); 1200–1439px compact, 1440–1599px
+   medium, 1600px+ original sizing. Prevents horizontal page scroll. */
+@media (min-width: 1200px) {
+  .nav-wrap { column-gap: 24px; }
+}
+@media (min-width: 1440px) and (max-width: 1599px) {
+  .nav-links { gap: 18px; }
+  .nav-links a { font-size: 0.68rem; letter-spacing: 0.1em; }
+}
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .nav-wrap { padding: 0 24px; column-gap: 16px; }
+  .logo { font-size: 1.35rem; }
+  .nav-links { gap: 14px; }
+  .nav-links a { font-size: 0.64rem; letter-spacing: 0.07em; }
+  .btn.nav-cta { padding: 7px 10px; font-size: 0.58rem; letter-spacing: 0.1em; white-space: nowrap; }
+}
+@media (min-width: 1200px) {
+  .btn.nav-cta { white-space: nowrap; justify-self: end; }
+  .logo { white-space: nowrap; }
+}
+
+/* 6 — Privacy notice under every form */
+.form-privacy {
+  font-size: 0.74rem;
+  line-height: 1.55;
+  opacity: 0.75;
+  margin: var(--space-sm) 0 0;
+  text-align: center;
+}
+.form-privacy a { color: var(--brass-dark); text-decoration: underline; text-underline-offset: 2px; }
+
+/* 7 — Cookie banner policy link */
+.cookie-text .cookie-link { color: var(--brass-light, #C9A570); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+
+/* 8 — Footer legal links */
+.footer-legal a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+/* 9 — Contact page studio card */
+.studio-card .studio-name { margin: var(--space-xs) 0 4px; }
+.studio-card .studio-tagline {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--brass-dark);
+  margin: 0 0 4px;
+}
+.studio-card .studio-location { opacity: 0.75; margin: 0; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; }
+.studio-details { margin: 0 0 var(--space-lg); }
+.studio-details dt {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-top: var(--space-sm);
+}
+.studio-details dd { margin: 4px 0 0; font-size: 1rem; }
+.studio-details dd a { color: var(--walnut); border-bottom: 1px solid var(--brass); }
+.studio-details dd a:hover { color: var(--brass-dark); }
+
+/* 10 — Trade hero: text beside a real artwork image (was a placeholder box) */
+.trade-hero { display: flex; align-items: center; gap: var(--space-lg); }
+.trade-hero > div:first-child { flex: 1.1; }
+.trade-hero .hero-media { aspect-ratio: 4 / 5; max-width: 480px; }
+@media (max-width: 860px) {
+  .trade-hero { flex-direction: column; align-items: stretch; gap: var(--space-lg); }
+  .trade-hero .hero-media { max-width: 100%; aspect-ratio: 4 / 5; }
+}
+
+/* 11 — Legal pages (privacy / cookie policy) */
+.legal-doc { max-width: 760px; margin: 0 auto; }
+.legal-doc h2 { font-size: 1.35rem; margin: var(--space-lg) 0 var(--space-xs); }
+.legal-doc h3 { font-size: 1.02rem; margin: var(--space-md) 0 var(--space-xs); }
+.legal-doc p, .legal-doc li { font-size: 0.95rem; line-height: 1.75; }
+.legal-doc ul { padding-left: 1.2em; }
+.legal-doc table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin: var(--space-sm) 0; }
+.legal-doc th, .legal-doc td { text-align: left; vertical-align: top; padding: 10px 8px; border-bottom: 1px solid var(--line); }
+.legal-doc th { font-weight: 600; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.legal-doc .table-wrap { overflow-x: auto; }
+.legal-meta { font-size: 0.8rem; opacity: 0.7; }
+/* Missing legal data — deliberately loud so it is filled in before launch */
+.legal-placeholder { background: #FFF3C4; color: #6B4E00; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
+
+/* 12 — IT home: ghost WhatsApp button on the dark contact band */
+.section-dark .btn.it-wa-btn { color: var(--cream-text); border-color: rgba(247, 243, 236, 0.4); }
+.section-dark .btn.it-wa-btn:hover { border-color: var(--brass-light); color: var(--brass-light); }
+
+/* 13 — Desktop: EN|IT uses the same inline flow as the other nav links
+   (a flex <li> blockifies its links and lifts them ~5px above the row) */
+@media (min-width: 1200px) {
+  .nav-links .nav-lang { display: block; white-space: nowrap; }
+  .nav-links .nav-lang span { margin: 0 6px; }
+}
+
+/* 14 — Trade hero: headline sized for the two-column layout */
+.trade-hero h1 { font-size: clamp(2.2rem, 3.6vw, 3.6rem); line-height: 1.08; }
+
+/* 15 — Mobile/tablet menu spans the full width. The base `.nav-links`
+   rule sets justify-self:center for the desktop grid; on the fixed-position
+   dropdown that shrank the panel to its content and centred it. */
+@media (max-width: 1199px) {
+  .nav-links { justify-self: stretch; width: 100%; }
+}
+/* A closed dropdown is translated up over the header; it must not capture
+   taps (it would cover the hamburger) nor keep its links keyboard-focusable. */
+@media (max-width: 1199px) {
+  .nav-links {
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 280ms ease, opacity 280ms ease, visibility 0s linear 280ms;
+  }
+  .nav-links.is-open {
+    visibility: visible;
+    pointer-events: auto;
+    transition: transform 280ms ease, opacity 280ms ease, visibility 0s;
+  }
+}
+
+/* 16 — Collection filters (main.js §9)
+   Real <button>s styled exactly like the former <a class="filter-btn">. */
+button.filter-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  border-radius: 0;
+  line-height: inherit;
+}
+.filter-btn:focus-visible { outline: 2px solid var(--brass-dark); outline-offset: 2px; }
+/* The grid gives cards display:block, which would override the UA [hidden] rule */
+.gallery-editorial .art-card[hidden] { display: none; }
+/* Tablet: centre a lone last card for ANY filtered set (JS marks it
+   .is-row-orphan). The DOM-based :last-child rule above stays as the no-JS
+   fallback and is neutralised when filtering is active. */
+@media (max-width: 860px) {
+  .gallery-editorial.is-filterable .art-card:last-child:nth-child(2n+1):not(.is-row-orphan) {
+    grid-column: auto; max-width: none; margin: 0;
+  }
+  .gallery-editorial .art-card.is-row-orphan {
+    grid-column: 1 / -1;
+    max-width: calc((100% - 24px) / 2);
+    margin: 0 auto;
+  }
+}
+@media (max-width: 500px) {
+  .gallery-editorial .art-card.is-row-orphan { grid-column: auto; max-width: none; margin: 0; }
+}
+
+/* 17 — Four-column cards on narrow desktops (961–1199px, where .grid-4 is
+   still 4 columns): slimmer side padding so long words (e.g. Italian
+   "Pianificazione") fit whole instead of spilling into the padding.
+   overflow-wrap is only a last-resort safety net. */
+.grid-4 .card { overflow-wrap: break-word; }
+@media (min-width: 961px) and (max-width: 1199px) {
+  .grid-4 .card { padding-left: 20px; padding-right: 20px; }
+}
+
+/* 18 — Homepage hero (workbench image, landscape 4:3) in the portrait-shaped
+   desktop column: keep both hands and the lion's face in frame. */
+.hero-image-wrap--workshop img { object-position: 78% 45%; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   VISUAL STAGING — 2026-09 visual audit (Phase 2A)
+   .img-required  : placeholder shown where real photography is still
+                    missing. Fills the slot it replaces, so layout and
+                    aspect ratios stay exactly as they were.
+   .vis-label     : small "Visualisation" tag on rendered room images
+                    that stay until real installation photos exist.
+   Search the HTML for data-staging to find every staged slot.
+   ═══════════════════════════════════════════════════════════════════ */
+.img-required {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  padding: clamp(16px, 5%, 36px);
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: left;
+  color: var(--charcoal);
+  background: repeating-linear-gradient(135deg, var(--bone-soft) 0 14px, var(--bone) 14px 28px);
+  border: 1px dashed var(--brass);
+  border-radius: 4px;
+}
+.img-required__tag {
+  font: 600 0.66rem/1 var(--font-body);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+}
+.img-required__title {
+  display: block;
+  margin: 6px 0 8px;
+  font-family: var(--font-editorial);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+  line-height: 1.25;
+  color: var(--walnut);
+}
+.img-required dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 10px;
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+.img-required dt { font-weight: 600; color: var(--brass-dark); }
+.img-required dd { margin: 0; opacity: 0.82; }
+.section-dark .img-required { color: var(--charcoal); }
+
+/* Grid of placeholders (artwork pages, proof strip, triptych) */
+.staging-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.staging-grid .img-required { aspect-ratio: auto; min-height: 240px; }
+
+/* Custom-portrait preview journey: photo → preview → wood */
+.preview-journey {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: var(--space-sm);
+}
+.preview-journey__arrow {
+  align-self: center;
+  color: var(--brass);
+  font-size: 1.2rem;
+}
+.preview-journey .img-required { min-height: 250px; padding: 16px; }
+@media (max-width: 760px) {
+  .preview-journey { grid-template-columns: 1fr; }
+  .preview-journey__arrow { justify-self: center; transform: rotate(90deg); }
+  .preview-journey .img-required { min-height: 0; }
+}
+
+/* Homepage proof strip */
+.proof-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.proof-tile { display: flex; flex-direction: column; gap: 10px; }
+.proof-tile__media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--bone-soft);
+  border-radius: 4px;
+}
+.proof-tile__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.proof-tile__media .img-required { min-height: 0; }
+.proof-tile__caption { font-size: 0.82rem; line-height: 1.5; opacity: 0.8; margin: 0; }
+.proof-tile__caption strong { display: block; font-weight: 600; opacity: 1; color: var(--walnut); }
+@media (max-width: 960px) { .proof-strip { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .proof-strip { grid-template-columns: 1fr; } }
+
+/* Packaging placeholders keep the 4:3 slot of the images they replace */
+.packaging-pair .img-required { aspect-ratio: 4 / 3; min-height: 0; }
+
+/* Visualisation tag — positioned inside any relatively positioned frame */
+.vis-label {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  padding: 4px 8px;
+  font: 600 0.6rem/1 var(--font-body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone);
+  background: rgba(26, 14, 6, 0.62);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.artwork-gallery-thumb { position: relative; }
+
+/* Placeholder inside a process cell (artist materials): 16:10 slot, caption below */
+.process-cell:has(.img-required) { aspect-ratio: auto; cursor: default; overflow: visible; }
+.process-cell .img-required { aspect-ratio: 16 / 10; height: auto; min-height: 0; }
+@media (max-width: 480px) { .process-cell .img-required { aspect-ratio: auto; } }
+@media (max-width: 600px) {
+  /* stack placeholder cells on phones (overrides the inline 2-col style) */
+  .process-grid:has(.img-required) { grid-template-columns: 1fr !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE UX — PHASE 1 (2026-09-26, MOBILE_UX_AUDIT_REPORT.md C1–C3)
+   First screens that state the offer, and artworks shown uncropped.
+   Desktop layout is unchanged: every visual change below is scoped to
+   <=900px (tablet stack) or <=600px (phones).
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Portrait landing hero — former inline styles, identical on desktop */
+.page-hero-image--artwork { aspect-ratio: 3 / 4; }
+.page-hero-title {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2.8rem, 5vw, 5.2rem);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  margin-bottom: var(--space-md);
+}
+
+/* C1 — Custom Portraits (EN + IT): image → headline → text → price → CTA
+   all inside the first viewport. The artwork is shown whole (contain) in a
+   calm band instead of a full-screen crop. */
+@media (max-width: 900px) {
+  .page-hero-section--portrait { padding: var(--space-md) 0 var(--space-lg); }
+  .page-hero-section--portrait .page-hero-split { gap: var(--space-md); }
+  .page-hero-section--portrait .page-hero-image--artwork {
+    aspect-ratio: auto;
+    height: clamp(220px, 40vh, 460px);
+    height: clamp(220px, 40svh, 460px);
+    background: transparent;
+  }
+  .page-hero-section--portrait .page-hero-image--artwork img {
+    object-fit: contain;
+    object-position: center;
+  }
+}
+@media (max-width: 600px) {
+  .page-hero-section--portrait { padding-top: var(--space-sm); }
+  .page-hero-section--portrait .page-hero-split { gap: var(--space-sm); }
+  .page-hero-section--portrait .page-hero-image--artwork {
+    height: clamp(200px, 31vh, 280px);
+    height: clamp(200px, 31svh, 280px);
+  }
+  .page-hero-section--portrait .eyebrow { margin-bottom: 8px; }
+  .page-hero-title { font-size: 2.3rem; margin-bottom: 0; }
+  .page-hero-section--portrait .seam { margin: 12px 0; }
+  .page-hero-section--portrait .lead { font-size: 0.98rem; line-height: 1.55; margin: 0 0 12px; }
+  .page-hero-section--portrait .lead-extra { display: none; }
+  .page-hero-section--portrait .hero-price { margin-bottom: 14px; }
+  .page-hero-section--portrait .hero-cta-row { margin-top: 0; gap: 10px 24px; }
+}
+
+/* C3 — Homepage (EN + IT): keep the workshop image as the visual opener,
+   but shorter, so brand line, price and "Start Your Portrait" fit.
+   EN price line is shown only on phones/tablets: on a 1440x900 desktop it
+   would push the CTA below the fold, so desktop stays exactly as before. */
+.hero-price--compact { display: none; }
+@media (max-width: 960px) {
+  .hero-price--compact { display: block; }
+  .hero-image-wrap {
+    height: clamp(260px, 42vh, 460px);
+    height: clamp(260px, 42svh, 460px);
+    min-height: 0;
+    max-height: none;
+  }
+  .hero-copy { padding-top: var(--space-md); padding-bottom: var(--space-lg); }
+  .hero-copy .seam { margin: 16px 0; }
+  .hero-copy .lead { margin-bottom: 14px; }
+  .hero-copy .hero-cta-row { margin-top: 0; gap: 12px 28px; }
+}
+@media (max-width: 600px) {
+  .hero-image-wrap {
+    height: clamp(190px, 31vh, 280px);
+    height: clamp(190px, 31svh, 280px);
+    min-height: 0;
+    max-height: none;
+  }
+  .hero-copy { padding: var(--space-md) var(--space-md) var(--space-lg); }
+  .hero-copy .eyebrow { margin-bottom: 8px; }
+  .hero-heading { font-size: clamp(2.1rem, 9vw, 2.5rem); margin-bottom: 0; }
+  .hero-copy .seam { margin: 12px 0; }
+  .hero-copy .lead { font-size: 0.98rem; line-height: 1.55; margin: 0 0 12px; }
+  .hero-copy .hero-price { margin-bottom: 14px; }
+  .hero-copy .hero-cta-row { margin-top: 0; gap: 10px 24px; }
+}
+
+/* C2 — Artwork pages (EN + IT): show the whole artwork, never crop it.
+   Fixed 3:4 box (all studio covers are ~3:4) reserves the space before the
+   JS sets the src, so nothing jumps; contain keeps frame edges intact. */
+@media (max-width: 860px) {
+  #aw-primary-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    max-height: 78vh;
+    max-height: 78svh;
+    object-fit: contain;
+    object-position: center;
+  }
+  .artwork-primary-frame:hover #aw-primary-img { transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE UX — PHASE 1.1 (2026-09-26)
+   1. Compact cookie banner on phones (presentation only — markup, copy,
+      buttons, policy link and consent logic in main.js are unchanged).
+   2. Phone heroes sized to the screen height so the primary CTA clears the
+      banner on first visit. Static CSS (does not depend on the banner), so
+      nothing moves when the banner appears or is dismissed.
+   3. Desktop artwork image shown whole (no crop).
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1 — Cookie banner, phones */
+@media (max-width: 600px) {
+  .cookie-banner {
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+    gap: 8px;
+  }
+  .cookie-text {
+    font-size: 0.72rem;
+    line-height: 1.42;
+    color: rgba(247, 243, 236, 0.74);
+  }
+  .cookie-actions { gap: 8px; }
+  .btn-cookie {
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+  }
+}
+
+/* 2 — Phone heroes: image band = screen height minus the copy block and a
+   compact banner, clamped to 150–280px. Tall phones keep the Phase 1 size;
+   short phones get a shorter band so "Start Your Portrait" /
+   "Begin Your Portrait" stay above the banner. */
+@media (max-width: 600px) {
+  .hero-copy .lead-extra { display: none; }
+  .hero-image-wrap {
+    height: clamp(150px, calc(100vh - 610px), 280px);
+    height: clamp(150px, calc(100svh - 610px), 280px);
+  }
+  .page-hero-section--portrait .page-hero-image--artwork {
+    height: clamp(150px, calc(100vh - 615px), 280px);
+    height: clamp(150px, calc(100svh - 615px), 280px);
+  }
+  /* Hero CTAs on one line (IT labels are long): slimmer side padding */
+  .hero-cta-row .btn-primary { padding-left: 22px; padding-right: 22px; letter-spacing: 0.12em; }
+  /* Artwork: cap the (uncropped, contain) image so the title and status
+     stay above the banner on first visit */
+  #aw-primary-img {
+    max-height: calc(100vh - 425px);
+    max-height: calc(100svh - 425px);
+  }
+  /* While the consent banner is open, the floating WhatsApp button would sit
+     on top of the hero CTA; it is hidden until the visitor has chosen and
+     then returns to its normal place. */
+  body.has-cookie-banner .wa-float {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* 3 — Desktop artwork: the frame hugs the image at its natural ratio,
+   up to 80% of the screen height — nothing is cropped. `auto 3 / 4`
+   reserves a 3:4 box before the loader sets the src (no layout jump),
+   then switches to the photo's own ratio. */
+@media (min-width: 861px) {
+  .artwork-primary-frame {
+    width: min(100%, calc(80vh * 0.75));
+    margin-inline: auto;
+  }
+  #aw-primary-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto 3 / 4;
+    max-height: 80vh;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PHASE 2.1 — CONVERSION UX (2026-09-27) · assets/js/conversion-ux.js
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1 — Sticky mobile "Free Preview" CTA. Phones only. Sits on the left of
+   the floating WhatsApp button (same height, same bottom line) so neither
+   covers the other; hidden while the cookie banner, menu or viewer is open
+   and whenever the page already shows the action (handled in JS). */
+.sticky-cta { display: none; }
+@media (max-width: 600px) {
+  .sticky-cta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    left: 14px;
+    right: 80px;                                   /* WhatsApp: 52px wide at right:14px + 14px gap */
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    z-index: 99990;                                /* below cookie banner (99998) and WhatsApp (99999) */
+    min-height: 52px;
+    padding: 8px 16px;
+    background: var(--espresso);
+    border: 1px solid rgba(201, 165, 112, 0.35);
+    border-radius: 2px;
+    box-shadow: 0 6px 22px rgba(26, 14, 6, 0.28);
+    color: var(--bone);
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+  }
+  .sticky-cta.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 220ms ease, transform 220ms ease, visibility 0s;
+  }
+  .sticky-cta__eyebrow {
+    font: 600 0.62rem/1.2 var(--font-body);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+  }
+  .sticky-cta__text {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 1.12rem;
+    line-height: 1.25;
+    color: var(--bone);
+  }
+  body.has-cookie-banner .sticky-cta { visibility: hidden; opacity: 0; }
+}
+
+/* 2 — Required fields and errors (all forms) */
+.form-required-note {
+  font-size: 0.78rem;
+  color: var(--charcoal);
+  opacity: 0.75;
+  margin: 0 0 var(--space-md);
+}
+.form-required-note::first-letter { color: var(--brass-dark); }
+.field.is-required > label:first-of-type::after {
+  content: " *";
+  color: var(--brass-dark);
+  letter-spacing: 0;
+}
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  border-color: #A2412B;
+  box-shadow: 0 0 0 3px rgba(162, 65, 43, 0.10);
+}
+.field-error-text {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #A2412B;
+}
+.form-error-msg {
+  margin: var(--space-sm) 0 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #A2412B;
+  text-align: center;
+}
+
+/* 3 — Photo upload status */
+.upload-status {
+  margin: 8px 0 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--charcoal);
+}
+.upload-status.is-busy { color: var(--brass-dark); }
+.upload-status.is-busy::before {
+  content: "";
+  display: inline-block;
+  width: 10px; height: 10px;
+  margin-right: 8px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  vertical-align: -1px;
+  animation: vaca-spin 0.8s linear infinite;
+}
+.upload-status.is-ok { color: #3F6B3A; }
+.upload-status.is-error { color: #A2412B; }
+@keyframes vaca-spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PHASE 2.2.1 — PREMIUM ARTWORK VIEWER (2026-09-28)
+   Readable caption + counter, position dots, arrows inside the image on
+   phones/small tablets, keyboard focus ring, Visualisation tag in viewer.
+   ═══════════════════════════════════════════════════════════════════ */
+.lb-caption {
+  color: rgba(247, 243, 236, 0.80);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.lb-counter {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: rgba(201, 165, 112, 0.92);
+  padding: 4px 9px;
+  border: 1px solid rgba(201, 165, 112, 0.35);
+  border-radius: 999px;
+}
+.lb-counter:empty { display: none; }
+.lb-vis {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 2px 7px;
+  font: 600 0.62rem/1.4 var(--font-body);
+  font-style: normal;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone);
+  background: rgba(247, 243, 236, 0.14);
+  border-radius: 2px;
+  vertical-align: 2px;
+}
+.lb-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 12px;
+  min-height: 6px;
+}
+.lb-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(247, 243, 236, 0.28);
+  transition: background 200ms ease, transform 200ms ease;
+}
+.lb-dot.is-active { background: var(--brass-light); transform: scale(1.25); }
+.lb-close:focus-visible,
+.lb-arrow:focus-visible,
+.lb-trigger:focus-visible {
+  outline: 2px solid var(--brass-light);
+  outline-offset: 3px;
+}
+.lb-museum-frame { transition: transform 360ms cubic-bezier(0.25,0.46,0.45,0.94), opacity 300ms ease; }
+
+/* Phones & small tablets: arrows sit INSIDE the image area (44px discs on a
+   soft espresso glass), never past the screen edge. */
+@media (max-width: 700px) {
+  .lb-viewer { position: relative; padding: 0; }
+  .lb-arrow {
+    position: absolute;
+    top: calc(50% - 22px - 20px);      /* centred on the image (footer + dots below) */
+    z-index: 5;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    background: rgba(10, 6, 2, 0.55);
+    border: 1px solid rgba(201, 165, 112, 0.45);
+    color: rgba(247, 243, 236, 0.95);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+  .lb-prev { left: 16px; }
+  .lb-next { right: 16px; }
+  .lb-img-container,
+  .lb-img {
+    max-width: calc(100vw - 32px);
+  }
+  .lb-frame-footer { padding: 0 4px; }
+  .lb-close { top: 12px; right: 12px; width: 44px; height: 44px; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   PHASE 2.2.2 — READABILITY, TOUCH UX & GALLERY CARDS (2026-09-28)
+   Parts 1–3 are scoped to <=768px (desktop typography unchanged).
+   Part 4 (gallery cards) applies at every width.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* PART 1+2 — readability and touch targets on phones / small tablets */
+@media (max-width: 768px) {
+  /* Artwork specifications: 12px labels at readable contrast */
+  .spec-label { font-size: 0.75rem; letter-spacing: 0.08em; opacity: 0.82; }
+  .spec-value { font-size: 0.9375rem; }
+  .artwork-availability { font-size: 0.75rem; letter-spacing: 0.1em; }
+  .badge-private,
+  .badge-nfs { font-size: 0.75rem; letter-spacing: 0.1em; }
+  .badge-nfs { opacity: 0.8; }
+  .art-meta { font-size: 0.75rem; letter-spacing: 0.08em; opacity: 0.78; }
+  .stat-label { font-size: 0.75rem; opacity: 0.8; }
+  .bio-chapter h3 { font-size: 0.75rem; }
+  /* Forms */
+  .field label { font-size: 0.75rem; }
+  .form-privacy,
+  .upload-zone-hint { font-size: 0.78rem; }
+  /* Buttons and controls */
+  .btn { font-size: 0.75rem; }
+  .filter-btn { font-size: 0.75rem; min-height: 44px; }
+  /* Tags and captions */
+  .vis-label { font-size: 0.75rem; text-transform: none; letter-spacing: 0.02em; padding: 4px 8px; }
+  .lb-vis { font-size: 0.75rem; text-transform: none; letter-spacing: 0.02em; }
+  .img-required__tag { font-size: 0.75rem; letter-spacing: 0.12em; }
+  .img-required dl { font-size: 0.8rem; }
+
+  /* Header: 44px CTA (same label, slightly tighter tracking to keep the row) */
+  .btn.nav-cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+  /* Menu: readable items; EN / IT as 44px targets */
+  .nav-links a { font-size: 0.8125rem; }
+  .nav-links .nav-lang a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 6px;
+  }
+  /* "Back to collection": 44px target, stronger contrast. The row's own
+     padding shrinks by the same amount, so the artwork does not move down. */
+  .artwork-back { padding: 6px 0 0; }
+  .artwork-back a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 0.78rem;
+    opacity: 0.85;
+  }
+  /* Footer links: 44px rows (spacing moved into the target itself) */
+  .site-footer ul li { margin-bottom: 0; }
+  .site-footer a,
+  .footer-legal a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  /* Cookie buttons and viewer close at tablet width */
+  .btn-cookie { min-height: 44px; }
+  .lb-close { width: 44px; height: 44px; }
+}
+
+/* PART 3 — forms use the full card width on phones and tablets */
+@media (max-width: 768px) {
+  .form-card { padding: var(--space-lg) 24px; }
+}
+@media (max-width: 600px) {
+  .form-card { padding: var(--space-lg) 18px; }
+  .form-card [type="submit"] { width: 100%; }
+}
+
+/* PART 4 — consistent gallery cards (Collection EN/IT, homepage)
+   One 4:5 portrait frame for every card. Each cover photo is scaled and
+   positioned so the framed artwork sits centred with the same visual
+   weight (equal area, ~73% of the frame; never more than 94% of a side, so
+   it is never cropped). The frame
+   takes the photo's own wall colour, so uncovered edges read as one wall.
+   Values come from measuring the artwork inside each cover photo.
+   Artworks without calibration fall back to a centred "contain". */
+.gallery-editorial .art-thumb,
+.art-card .art-thumb,
+.commission-thumb {
+  aspect-ratio: 4 / 5;
+  background-color: var(--bone-soft);
+}
+.art-thumb img,
+.commission-thumb img {
+  object-fit: contain;
+  object-position: center;
+}
+.art-thumb img[src*="/cover"],
+.commission-thumb img[src*="/cover"] {
+  position: absolute;
+  left: var(--cl, 0%);
+  top: var(--ct, 0%);
+  width: var(--cw, 100%);
+  height: auto;
+  max-width: none;
+  object-fit: fill;
+}
+.art-thumb img[src*="artworks/black-woman/cover"],
+.commission-thumb img[src*="artworks/black-woman/cover"] { --cw: 100.1%; --cl: -2.38%; --ct: -5.01%; }
+.art-thumb:has(img[src*="artworks/black-woman/cover"]),
+.commission-thumb:has(img[src*="artworks/black-woman/cover"]) { background-color: rgb(255, 255, 255); }
+.art-thumb img[src*="artworks/king-of-ararat/cover"],
+.commission-thumb img[src*="artworks/king-of-ararat/cover"] { --cw: 104.58%; --cl: -4.38%; --ct: -9.4%; }
+.art-thumb:has(img[src*="artworks/king-of-ararat/cover"]),
+.commission-thumb:has(img[src*="artworks/king-of-ararat/cover"]) { background-color: rgb(220, 220, 218); }
+.art-thumb img[src*="artworks/strength-in-harmony/cover"],
+.commission-thumb img[src*="artworks/strength-in-harmony/cover"] { --cw: 98.71%; --cl: -1.99%; --ct: -6.49%; }
+.art-thumb:has(img[src*="artworks/strength-in-harmony/cover"]),
+.commission-thumb:has(img[src*="artworks/strength-in-harmony/cover"]) { background-color: rgb(223, 223, 218); }
+.art-thumb img[src*="artworks/the-lion-within/cover"],
+.commission-thumb img[src*="artworks/the-lion-within/cover"] { --cw: 104.02%; --cl: -2.01%; --ct: -8.23%; }
+.art-thumb:has(img[src*="artworks/the-lion-within/cover"]),
+.commission-thumb:has(img[src*="artworks/the-lion-within/cover"]) { background-color: rgb(132, 122, 112); }
+.art-thumb img[src*="artworks/geometric-dog-collection-wood-series/cover"],
+.commission-thumb img[src*="artworks/geometric-dog-collection-wood-series/cover"] {
+  /* Tallest, narrowest piece (frame 0.68 w/h): equal area left it the
+     narrowest card, so it is sized by height instead. Frame fills 95% of
+     the card height (still fully visible under the 1.04 hover zoom), centred.
+     The photo is narrower than the card, so its side edges are feathered
+     into a matching wall gradient instead of showing as an inset seam. */
+  --cw: 91.24%; --cl: 4.73%; --ct: -3.15%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+}
+.art-thumb:has(img[src*="artworks/geometric-dog-collection-wood-series/cover"]),
+.commission-thumb:has(img[src*="artworks/geometric-dog-collection-wood-series/cover"]) {
+  background-color: rgb(240, 235, 227);
+  background-image: linear-gradient(90deg, rgb(246, 242, 235), rgb(240, 235, 227) 60%, rgb(231, 224, 214));
+}
+.art-thumb img[src*="artworks/the-sovereign/cover"],
+.commission-thumb img[src*="artworks/the-sovereign/cover"] { --cw: 100.24%; --cl: 0.55%; --ct: -2.52%; }
+.art-thumb:has(img[src*="artworks/the-sovereign/cover"]),
+.commission-thumb:has(img[src*="artworks/the-sovereign/cover"]) { background-color: rgb(226, 225, 222); }
+.art-thumb img[src*="artworks/anatomical-heart-collection/cover"],
+.commission-thumb img[src*="artworks/anatomical-heart-collection/cover"] { --cw: 90.98%; --cl: 2.08%; --ct: 4.16%; }
+.art-thumb:has(img[src*="artworks/anatomical-heart-collection/cover"]),
+.commission-thumb:has(img[src*="artworks/anatomical-heart-collection/cover"]) { background-color: rgb(211, 195, 178); }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   PHASE 2.2.3 — HEADER & MENU PREMIUM POLISH (2026-09-29)
+   Behaviour lives in main.js §1 (.is-scrolled, menu extras, Escape).
+   A. Header height   B. Scroll surface   C. Brand + CTA   D. Menu icon
+   E. Full-screen menu (<=1199px)   F. Desktop
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* A — One height token: 80px desktop, 72px tablet, 64px phone */
+:root { --hdr-h: 80px; }
+@media (max-width: 1199px) { :root { --hdr-h: 72px; } }
+@media (max-width: 600px)  { :root { --hdr-h: 64px; } }
+.site-header,
+.nav-wrap { height: var(--hdr-h); }
+
+/* B — Clean at the top of the page; a quiet surface once content scrolls
+   beneath it. Colour and shadow only, so nothing on the page moves. */
+.site-header {
+  background-color: rgba(247, 243, 236, 0);
+  border-bottom-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition: background-color 320ms ease, border-color 320ms ease, box-shadow 320ms ease;
+}
+.site-header.is-scrolled {
+  background-color: rgba(247, 243, 236, 0.94);
+  border-bottom-color: var(--line);
+  box-shadow: 0 12px 32px -26px rgba(38, 22, 8, 0.45);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+body.nav-open .site-header {
+  background-color: var(--bone);
+  border-bottom-color: var(--line);
+  box-shadow: none;
+}
+
+/* C — Brand and CTA. The CTA is a quiet hairline frame at the top of the
+   page (each hero carries its own primary button) and becomes the solid
+   walnut button once the page scrolls: the header takes over the action. */
+.logo { letter-spacing: 0.05em; }
+.site-header .btn.nav-cta {
+  background: transparent;
+  color: var(--walnut);
+  border: 1px solid rgba(38, 22, 8, 0.45);
+  font-weight: 500;
+  box-shadow: none;
+  transition: background-color 320ms ease, color 320ms ease, border-color 320ms ease, opacity 200ms ease, visibility 0s;
+}
+.site-header.is-scrolled .btn.nav-cta {
+  background: var(--walnut);
+  color: var(--bone);
+  border-color: var(--walnut);
+}
+.site-header .btn.nav-cta:hover,
+.site-header.is-scrolled .btn.nav-cta:hover {
+  background: var(--brass-dark);
+  color: var(--bone);
+  border-color: var(--brass-dark);
+  box-shadow: none;
+}
+.site-header .btn.nav-cta:focus-visible,
+.nav-toggle:focus-visible { outline: 1px solid var(--brass-dark); outline-offset: 3px; }
+
+@media (max-width: 1199px) {
+  .nav-wrap { column-gap: 14px; }
+  .site-header .btn.nav-cta {
+    min-height: 44px;
+    padding: 0 16px;
+    letter-spacing: 0.14em;
+  }
+  /* While the menu is open its own CTA is shown; the header copy fades out
+     but keeps its space, so the logo and close button do not move. */
+  body.nav-open .site-header .btn.nav-cta { opacity: 0; visibility: hidden; transition: opacity 200ms ease, visibility 0s linear 200ms; }
+}
+@media (max-width: 600px) {
+  .nav-wrap { column-gap: 10px; }
+  .logo { font-size: 1.3rem; }
+  .site-header .btn.nav-cta { padding: 0 13px; letter-spacing: 0.1em; }
+}
+@media (max-width: 374px) {
+  .logo { font-size: 1.2rem; }
+  .nav-wrap { column-gap: 8px; }
+  .site-header .btn.nav-cta { padding: 0 11px; letter-spacing: 0.08em; }
+}
+
+/* D — Menu icon: two hairlines (the second shorter) that cross into an X.
+   The hamburger glyph stays in the HTML as the no-CSS fallback. */
+@media (max-width: 1199px) {
+  .nav-toggle {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin-right: -11px;            /* optical: lines end on the page gutter */
+    font-size: 0;
+    color: transparent;
+  }
+  .nav-toggle::before,
+  .nav-toggle::after {
+    content: '';
+    position: absolute;
+    right: 11px;
+    height: 1px;
+    background: var(--walnut);
+    transition: transform 300ms ease, width 300ms ease, top 300ms ease;
+  }
+  .nav-toggle::before { top: 18px; width: 22px; }
+  .nav-toggle::after  { top: 25px; width: 14px; }
+  .nav-toggle[aria-expanded="true"]::before { top: 21.5px; width: 22px; transform: rotate(45deg); }
+  .nav-toggle[aria-expanded="true"]::after  { top: 21.5px; width: 22px; transform: rotate(-45deg); }
+}
+
+/* E — Menu: a full-screen editorial panel under the header */
+.nav-menu-cta-item,
+.nav-menu-note { display: none; }
+
+@media (max-width: 1199px) {
+  .nav-links {
+    top: var(--hdr-h);
+    height: calc(100vh - var(--hdr-h));
+    height: calc(100dvh - var(--hdr-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: clamp(12px, 4vh, 40px) 24px calc(28px + env(safe-area-inset-bottom, 0px));
+    background: var(--bone);
+    border-bottom: none;
+    transform: translateY(-8px);
+    opacity: 0;
+    transition: opacity 260ms ease, transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s linear 320ms;
+  }
+  .nav-links.is-open {
+    transform: none;
+    opacity: 1;
+    transition: opacity 260ms ease, transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s;
+  }
+  .nav-links > li {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    border-top: none;
+  }
+  .nav-links > li:not(.nav-lang):not(.nav-menu-cta-item):not(.nav-menu-note) {
+    border-bottom: 1px solid var(--line);
+  }
+  /* Links: editorial serif, generous rows */
+  .nav-links a {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 8px 0;
+    font-family: var(--font-editorial);
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    color: var(--walnut);
+  }
+  .nav-links a:hover { color: var(--brass-dark); }
+  .nav-links a[aria-current="page"] { color: var(--brass-dark); font-style: italic; }
+
+  /* Order: links, CTA, language, studio line */
+  .nav-menu-cta-item { display: block; order: 1; padding-top: 28px; }
+  .nav-links > .nav-lang { order: 2; }
+  .nav-menu-note { display: block; order: 3; }
+
+  .nav-links a.nav-menu-cta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 52px;
+    padding: 0 20px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: var(--walnut);
+    color: var(--bone);
+    border: 1px solid var(--walnut);
+  }
+  .nav-links a.nav-menu-cta:hover { background: var(--brass-dark); border-color: var(--brass-dark); color: var(--bone); }
+
+  /* EN / IT: small caps row, 44px targets, active language underlined */
+  .nav-links .nav-lang {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 20px 0 0;
+  }
+  .nav-links .nav-lang span { opacity: 0.3; font-size: 0.75rem; }
+  .nav-links .nav-lang a {
+    display: inline-flex;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 6px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--charcoal);
+    opacity: 0.55;
+  }
+  .nav-links .nav-lang a.is-active {
+    opacity: 1;
+    color: var(--walnut);
+    text-decoration: underline;
+    text-decoration-color: var(--brass);
+    text-underline-offset: 6px;
+    text-decoration-thickness: 1px;
+  }
+  .nav-links .nav-lang a:first-child { margin-left: -6px; }
+
+  .nav-menu-note {
+    padding-top: 6px;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 1.0625rem;
+    line-height: 1.4;
+    color: var(--charcoal);
+    opacity: 0.7;
+  }
+
+  /* The floating WhatsApp button would sit on top of the menu */
+  body.nav-open .wa-float { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+@media (max-width: 600px) {
+  .nav-links { padding-left: 16px; padding-right: 16px; }
+  .nav-links a { font-size: 1.5rem; min-height: 48px; }
+}
+@media (max-height: 640px) and (max-width: 1199px) {
+  .nav-links a { font-size: 1.35rem; min-height: 44px; padding: 4px 0; }
+  .nav-menu-cta-item { padding-top: 20px; }
+}
+
+/* F — Desktop balance. `1fr auto 1fr` only centres while the links fit the
+   middle track; the 8 EN links do not at >=1440px, so the side tracks
+   collapsed (EN 1920px: logo 396px from the left edge, CTA 142px from the
+   right; 1600px overflowed by 2px). Logo and CTA now sit on equal gutters and
+   the links centre in the space between, in a wider header container. */
+@media (min-width: 1200px) {
+  .nav-wrap { grid-template-columns: auto 1fr auto; }
+}
+@media (min-width: 1440px) {
+  .nav-wrap { max-width: 1600px; padding: 0 48px; column-gap: 40px; }
+  .site-header .btn.nav-cta { padding: 11px 20px; }   /* 34px frame, more presence */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   STAGING SYSTEM — PRODUCTION-SAFE DEFAULT (2026-09-29)
+   Everything unfinished is hidden unless <html> carries .is-staging, which
+   main.js §10 sets ONLY on a local host after an explicit ?staging=1 opt-in.
+   Pure CSS, so it holds even if JavaScript fails. Staging presentation
+   lives in assets/css/staging.css (loaded in staging mode only).
+     .img-required     photo placeholders
+     [data-stage-only] their containers, and injected staging blocks
+     #aw-staging       artwork-page placeholder grid (artwork-loader.js)
+   "Visualisation" tags on renders are public honesty labels: not hidden.
+   ═══════════════════════════════════════════════════════════════════ */
+html:not(.is-staging) .img-required,
+html:not(.is-staging) [data-stage-only],
+html:not(.is-staging) #aw-staging { display: none !important; }
+
+/* Home proof strip: 3 real tiles fill the row while the certificate tile
+   is staged (otherwise a 4th column would stay empty) */
+html:not(.is-staging) .proof-strip--staged { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 520px) {
+  html:not(.is-staging) .proof-strip--staged { grid-template-columns: 1fr; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   TRADE EXPANSION BLOCKS — PUBLIC (2026-09-30)
+   Designers & Architects · Decorative Panels · Furniture Marquetry on
+   trade.html / it/trade.html. Moved from staging.css after owner approval.
+   ═══════════════════════════════════════════════════════════════════ */
+/* Two same-colour sections now meet (Decorative Panels / For Professionals,
+   Process / Furniture): a hairline keeps them apart */
+.trade-panels + .section-soft,
+.trade-furniture { border-top: 1px solid var(--line); }
+
+/* ---------- Trade "what we make" block: For Interior Designers & Architects */
+.trade-offer {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  grid-template-areas: "intro list" "cta list";
+  grid-template-rows: auto 1fr;
+  column-gap: clamp(40px, 7vw, 112px);
+  align-items: start;
+}
+.trade-offer__intro { grid-area: intro; }
+.trade-offer__title {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.08;
+  margin: 10px 0 0;
+}
+.trade-offer__lead { font-size: 1.02rem; line-height: 1.75; opacity: 0.8; margin: var(--space-sm) 0 0; max-width: 460px; }
+.trade-offer__list { grid-area: list; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.trade-offer__list li {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 6px 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.trade-offer__list h3 {
+  font-family: var(--font-editorial);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--walnut);
+}
+.trade-offer__list p { margin: 0; font-size: 0.95rem; line-height: 1.65; opacity: 0.78; }
+.trade-offer__cta { grid-area: cta; margin-top: var(--space-md); }
+.trade-offer__note { font-size: 0.85rem; line-height: 1.6; opacity: 0.7; margin: 14px 0 0; max-width: 380px; }
+@media (max-width: 900px) {
+  .trade-offer { grid-template-columns: minmax(0, 1fr); grid-template-areas: "intro" "list" "cta"; grid-template-rows: auto; }
+  .trade-offer__list { margin-top: var(--space-md); }
+}
+@media (max-width: 600px) {
+  .trade-offer__list li { grid-template-columns: minmax(0, 1fr); padding: 18px 0; }
+  .trade-offer__list h3 { font-size: 1.2rem; }
+  .trade-offer__cta .btn { display: block; width: 100%; text-align: center; padding-left: 16px; padding-right: 16px; }
+}
+
+/* ---------- Real work galleries (Trade: Designers & Architects, Decorative
+   Panels, Furniture Marquetry). Published 2026-09-30. Hierarchy: finished application / piece first, design detail
+   second, craft and process proof last (own row, never beside a hero).
+   Real work is shown with "contain" on the bone mat and never cropped;
+   detail crops and the small craft tiles use "cover". Enhanced images carry
+   the .vis-label tag and an inset of the real photo, linked to it. */
+.work-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+  margin-top: var(--space-md);
+}
+.work-gallery__eyebrow { display: block; margin-top: var(--space-lg); }
+.work-gallery__eyebrow + .work-gallery { margin-top: 14px; }
+.work-fig { margin: 0; min-width: 0; }
+.work-fig__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--bone-soft);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.work-fig__media > picture { display: block; width: 100%; height: 100%; }
+.work-fig__media > picture > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+/* hero / wide: natural proportions, full image */
+.work-fig--hero .work-fig__media,
+.work-fig--wide .work-fig__media { aspect-ratio: auto; }
+.work-fig--hero .work-fig__media > picture,
+.work-fig--wide .work-fig__media > picture,
+.work-fig--hero .work-fig__media > picture > img,
+.work-fig--wide .work-fig__media > picture > img { height: auto; }
+.work-fig--wide { grid-column: span 2; }
+
+/* detail crops: landscape, filled */
+.work-fig--detail .work-fig__media { aspect-ratio: 16 / 10; }
+.work-fig--detail .work-fig__media > picture > img { object-fit: cover; }
+
+/* craft / process proof: small, secondary */
+.work-fig--craft .work-fig__media { aspect-ratio: 4 / 3; }
+.work-fig--craft .work-fig__media > picture > img { object-fit: cover; }
+
+/* Designers & Architects: installed wall (2/3) + two details stacked (1/3) */
+.work-gallery--designers { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.work-gallery--designers .work-fig--hero { grid-row: span 2; }
+
+/* Decorative Panels: wide cartouche + vase, then three panels */
+.work-gallery--panels { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.work-gallery--panels [data-work="crest"] .work-fig__media,
+.work-gallery--panels [data-work="round"] .work-fig__media,
+.work-gallery--panels [data-work="sunburst"] .work-fig__media { aspect-ratio: 1 / 1; }   /* near-square panels: no empty mat */
+
+/* Furniture Marquetry: three finished pieces */
+.work-gallery--furniture { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* Craft rows: process images + a short line, below a hairline */
+.work-craft {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 20px 32px;
+  align-items: center;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--line);
+}
+.work-craft--furniture { grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, 1fr); }
+.work-craft__text p {
+  margin: 8px 0 0;
+  max-width: 420px;
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--walnut);
+}
+
+/* Enhanced-image tag + original-photo inset */
+.work-fig__tag { top: 10px; left: 10px; bottom: auto; }
+.work-fig__orig {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 26%;
+  min-width: 72px;
+  max-width: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 3px 3px 4px;
+  background: var(--bone);
+  border-radius: 3px;
+  box-shadow: 0 4px 14px rgba(26, 14, 6, 0.28);
+  text-decoration: none;
+}
+.work-fig--detail .work-fig__orig { width: 22%; min-width: 60px; }
+.work-fig__orig picture { display: block; }
+.work-fig__orig img { display: block; width: 100%; height: auto; aspect-ratio: auto; border-radius: 2px; }
+.work-fig__orig span { font: 500 0.625rem/1.2 var(--font-body); letter-spacing: 0.06em; color: var(--charcoal); text-align: center; }
+.work-fig__orig:hover span { color: var(--brass-dark); }
+.work-fig figcaption { margin-top: 10px; font-size: 0.85rem; line-height: 1.45; opacity: 0.8; }
+
+@media (max-width: 900px) {
+  .work-gallery,
+  .work-gallery--designers,
+  .work-gallery--panels,
+  .work-gallery--furniture { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .work-gallery--designers .work-fig--hero { grid-column: 1 / -1; grid-row: auto; }
+  .work-craft { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .work-craft--furniture { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .work-craft--furniture .work-craft__text { grid-column: 1 / -1; }
+}
+@media (max-width: 520px) {
+  .work-gallery,
+  .work-gallery--designers,
+  .work-gallery--panels,
+  .work-gallery--furniture,
+  .work-craft,
+  .work-craft--furniture { grid-template-columns: minmax(0, 1fr); }
+  .work-fig--wide,
+  .work-gallery--designers .work-fig--hero,
+  .work-craft--furniture .work-craft__text { grid-column: auto; }
+  .work-craft__text p { font-size: 1.12rem; }
 }

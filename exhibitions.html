@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag — Consent Mode v2: analytics denied by default until user accepts -->
+<!-- Google tag — Consent Mode v2: analytics + ads denied by default; a stored "accepted" choice is restored on every page load -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage:        'denied',
-    wait_for_update:   500
+    analytics_storage:  'denied',
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    wait_for_update:    500
   });
+  try {
+    if (localStorage.getItem('vaca_cookie_consent') === 'accepted') {
+      gtag('consent', 'update', {
+        analytics_storage:  'granted',
+        ad_storage:         'granted',
+        ad_user_data:       'granted',
+        ad_personalization: 'granted'
+      });
+    }
+  } catch (e) {}
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZGRMFLES7"></script>
 <script>
@@ -34,13 +46,13 @@
 <meta name="twitter:image" content="https://vacamarquetry.shop/assets/images/exhibitions/dubai/dubai-01.jpg">
 
 <!-- LCP preload -->
-<link rel="preload" href="assets/images/exhibitions/dubai/dubai-01.jpg" as="image" fetchpriority="high">
+<link rel="preload" href="assets/images/exhibitions/dubai/dubai-03.jpg" as="image" fetchpriority="high">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="assets/css/style.css?v=14">
+<link rel="stylesheet" href="assets/css/style.css?v=33">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -78,8 +90,9 @@
       <li><a href="trade.html">Trade</a></li>
       <li><a href="the-artist.html">The Artist</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li class="nav-lang"><a href="exhibitions.html" lang="en" hreflang="en" class="is-active" aria-current="true">EN</a><span aria-hidden="true">|</span><a href="it/index.html" lang="it" hreflang="it">IT</a></li>
     </ul>
-    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta">Start Your Portrait</a>
+    <a href="custom-portraits.html#inquiry" class="btn btn-primary nav-cta"><span class="nav-cta-long">Start Your Portrait</span><span class="nav-cta-short">Free Preview</span></a>
   </div>
 </header>
 
@@ -113,51 +126,25 @@
         <p class="exh-subtitle">March 2024 &mdash; International exhibition of contemporary and fine art, Dubai World Trade Centre. VaCa Marquetry presented original marquetry portraits alongside artists from across Europe and the Gulf.</p>
       </div>
 
-      <!-- Dubai images — 11 photos, 4-col grid -->
+      <!-- Dubai images — curated 4 of 11 (visual audit 2026-09, see DUBAI_EXHIBITION_SELECTION.md).
+           Shown: 03 (proof), 11 (artist + visitor), 09 (presentation), 05 (engagement).
+           Not displayed (files kept): 01 (repeats 03), 02, 04, 06, 07, 08, 10. -->
       <div class="exh-photo-set">
       <div class="exh-grid exh-grid-wide">
         <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-01-480.webp 480w, assets/images/exhibitions/dubai/dubai-01-800.webp 800w, assets/images/exhibitions/dubai/dubai-01-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-01.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-01.jpg" alt="World Art Dubai 2024 — VaCa Marquetry stand" loading="eager"
+          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-03-480.webp 480w, assets/images/exhibitions/dubai/dubai-03-800.webp 800w, assets/images/exhibitions/dubai/dubai-03-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-03.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-03.jpg" alt="World Art Dubai 2024 — Strength in Harmony and Black Woman on easels with exhibition labels" loading="eager"
                 data-lb-group="exhibition-dubai"></picture>
         </div>
         <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-02-480.webp 480w, assets/images/exhibitions/dubai/dubai-02-800.webp 800w, assets/images/exhibitions/dubai/dubai-02-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-02.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-02.jpg" alt="World Art Dubai 2024 — exhibition view" loading="lazy"
+          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-11-480.webp 480w, assets/images/exhibitions/dubai/dubai-11-800.webp 800w, assets/images/exhibitions/dubai/dubai-11-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-11.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-11.jpg" alt="World Art Dubai 2024 — Sasun Sargsyan with a visitor beside Black Woman" loading="lazy"
                 data-lb-group="exhibition-dubai"></picture>
         </div>
         <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-03-480.webp 480w, assets/images/exhibitions/dubai/dubai-03-800.webp 800w, assets/images/exhibitions/dubai/dubai-03-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-03.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-03.jpg" alt="World Art Dubai 2024 — marquetry portrait on display" loading="lazy"
+          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-09-480.webp 480w, assets/images/exhibitions/dubai/dubai-09-800.webp 800w, assets/images/exhibitions/dubai/dubai-09-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-09.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-09.jpg" alt="World Art Dubai 2024 — Sasun Sargsyan presenting his marquetry work to a guest" loading="lazy"
                 data-lb-group="exhibition-dubai"></picture>
         </div>
         <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-04-480.webp 480w, assets/images/exhibitions/dubai/dubai-04-800.webp 800w, assets/images/exhibitions/dubai/dubai-04-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-04.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-04.jpg" alt="World Art Dubai 2024 — exhibition detail" loading="lazy"
-                data-lb-group="exhibition-dubai"></picture>
-        </div>
-        <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-05-480.webp 480w, assets/images/exhibitions/dubai/dubai-05-800.webp 800w, assets/images/exhibitions/dubai/dubai-05-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-05.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-05.jpg" alt="World Art Dubai 2024" loading="lazy"
-                data-lb-group="exhibition-dubai"></picture>
-        </div>
-        <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-06-480.webp 480w, assets/images/exhibitions/dubai/dubai-06-800.webp 800w, assets/images/exhibitions/dubai/dubai-06-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-06.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-06.jpg" alt="World Art Dubai 2024" loading="lazy"
-                data-lb-group="exhibition-dubai"></picture>
-        </div>
-        <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-07-480.webp 480w, assets/images/exhibitions/dubai/dubai-07-800.webp 800w, assets/images/exhibitions/dubai/dubai-07-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-07.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-07.jpg" alt="World Art Dubai 2024" loading="lazy"
-                data-lb-group="exhibition-dubai"></picture>
-        </div>
-        <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-08-480.webp 480w, assets/images/exhibitions/dubai/dubai-08-800.webp 800w, assets/images/exhibitions/dubai/dubai-08.webp 924w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-08.jpg" alt="World Art Dubai 2024" loading="lazy"
-                data-lb-group="exhibition-dubai"></picture>
-        </div>
-        <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-09-480.webp 480w, assets/images/exhibitions/dubai/dubai-09-800.webp 800w, assets/images/exhibitions/dubai/dubai-09-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-09.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-09.jpg" alt="World Art Dubai 2024" loading="lazy"
-                data-lb-group="exhibition-dubai"></picture>
-        </div>
-        <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-10-480.webp 480w, assets/images/exhibitions/dubai/dubai-10-800.webp 800w, assets/images/exhibitions/dubai/dubai-10-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-10.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-10.jpg" alt="World Art Dubai 2024" loading="lazy"
-                data-lb-group="exhibition-dubai"></picture>
-        </div>
-        <div class="exh-thumb">
-          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-11-480.webp 480w, assets/images/exhibitions/dubai/dubai-11-800.webp 800w, assets/images/exhibitions/dubai/dubai-11-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-11.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-11.jpg" alt="World Art Dubai 2024" loading="lazy"
+          <picture><source type="image/webp" srcset="assets/images/exhibitions/dubai/dubai-05-480.webp 480w, assets/images/exhibitions/dubai/dubai-05-800.webp 800w, assets/images/exhibitions/dubai/dubai-05-1200.webp 1200w, assets/images/exhibitions/dubai/dubai-05.webp 1800w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/dubai/dubai-05.jpg" alt="World Art Dubai 2024 — visitors studying the marquetry portraits up close" loading="lazy"
                 data-lb-group="exhibition-dubai"></picture>
         </div>
       </div>
@@ -187,10 +174,14 @@
       <!-- Cover + gallery in one set for lightbox grouping -->
       <div class="exh-photo-set">
 
-        <!-- Cover image — full width lead -->
-        <div class="exh-thumb" style="aspect-ratio:16/7; margin-bottom:12px;">
+        <!-- Cover image — full width lead.
+             Visual audit 2026-09: 3:2 frame + crop anchored at 70% so the whole
+             framed portrait on the easel is visible (was 16:7, centre crop =
+             coats and torsos, artwork cut off). Original photo, crop only. -->
+        <div class="exh-thumb" style="aspect-ratio:3/2; margin-bottom:12px;">
           <picture><source type="image/webp" srcset="assets/images/exhibitions/italy-exhibition/italy-expo-01-480.webp 480w, assets/images/exhibitions/italy-exhibition/italy-expo-01-800.webp 800w, assets/images/exhibitions/italy-exhibition/italy-expo-01.webp 924w" sizes="100vw"><img src="assets/images/exhibitions/italy-exhibition/italy-expo-01.jpg"
-               alt="VaCa Marquetry at Chiesa di Santa Caterina, Lucca — Italy Exhibition I"
+               alt="Black Woman marquetry portrait on an easel at Chiesa di Santa Caterina, Lucca — VaCa Marquetry, Italy Exhibition I"
+               style="object-position: 50% 70%;"
                loading="lazy"
                 data-lb-group="exhibition-lucca"></picture>
         </div>
@@ -268,10 +259,7 @@
             <picture><source type="image/webp" srcset="assets/images/exhibitions/italy-exhibition-2/italy2-06-480.webp 480w, assets/images/exhibitions/italy-exhibition-2/italy2-06-800.webp 800w, assets/images/exhibitions/italy-exhibition-2/italy2-06-1200.webp 1200w, assets/images/exhibitions/italy-exhibition-2/italy2-06.webp 1600w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/italy-exhibition-2/italy2-06.jpg" alt="Gesù — detail of the exhibited work" loading="lazy"
                 data-lb-group="exhibition-gesu"></picture>
           </div>
-          <div class="exh-thumb">
-            <picture><source type="image/webp" srcset="assets/images/exhibitions/italy-exhibition-2/italy2-07-480.webp 480w, assets/images/exhibitions/italy-exhibition-2/italy2-07-800.webp 800w, assets/images/exhibitions/italy-exhibition-2/italy2-07-1200.webp 1200w, assets/images/exhibitions/italy-exhibition-2/italy2-07.webp 1600w" sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"><img src="assets/images/exhibitions/italy-exhibition-2/italy2-07.jpg" alt="Gesù exhibition — closing view, San Giuliano Terme" loading="lazy"
-                data-lb-group="exhibition-gesu"></picture>
-          </div>
+          <!-- Visual audit 2026-09: italy2-07.jpg removed from display — byte-identical duplicate of italy2-06.jpg (archived 2026-09-26 to assets/images/archive_visual_audit/) -->
         </div>
 
       </div><!-- /.exh-photo-set -->
@@ -362,12 +350,13 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 VaCa Marquetry. All rights reserved.</span>
+      <span class="footer-legal"><a href="privacy.html">Privacy Policy</a> &middot; <a href="cookie-policy.html">Cookie Policy</a></span>
       <span>Handmade in Italy</span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/attribution.js?v=1" defer></script>
-<script src="assets/js/main.js?v=14" defer></script>
+<script src="assets/js/attribution.js?v=2" defer></script>
+<script src="assets/js/main.js?v=22" defer></script>
 </body>
 </html>
