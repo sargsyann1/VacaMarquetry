@@ -1,14 +1,28 @@
+# OS / editor
 .DS_Store
 Thumbs.db
 *.log
-node_modules/
-.vercel
 
-# Secrets — never commit tokens or passwords
+# Secrets: never commit tokens or passwords
 *.env
 *.env.*
-vaca-mcp-worker/*.txt
-vaca-mcp-worker/WR*
 secrets/
 .secrets
-deploy/
+
+# Every push to master deploys to production (Hostinger Git auto-deploy).
+# Everything below is local-only: tooling, docs and working files, not part of the website.
+node_modules/
+.vercel
+/package.json
+/package-lock.json
+/scripts/
+/vaca-mcp-worker/
+/deploy/
+/originals/
+/*.md
+*_SCREENSHOTS/
+/staging.html
+/assets/js/staging.js
+/assets/css/staging.css
+/assets/images/archive_visual_audit/
+/assets/images/work/collection/
