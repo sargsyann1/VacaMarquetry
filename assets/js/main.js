@@ -398,8 +398,8 @@
   lb.setAttribute('aria-modal', 'true');
   var LB_IT = (document.documentElement.getAttribute('lang') || '').toLowerCase().indexOf('it') === 0;
   var LBT = LB_IT
-    ? { viewer: 'Visualizzatore opere', close: 'Chiudi', prev: 'Opera precedente', next: 'Opera successiva', vis: 'Visualizzazione', open: 'Apri a schermo intero' }
-    : { viewer: 'Artwork viewer', close: 'Close viewer', prev: 'Previous artwork', next: 'Next artwork', vis: 'Visualisation', open: 'Open full screen' };
+    ? { viewer: 'Visualizzatore opere', close: 'Chiudi', prev: 'Opera precedente', next: 'Opera successiva', vis: 'Visualizzazione', enh: 'Immagine migliorata', open: 'Apri a schermo intero' }
+    : { viewer: 'Artwork viewer', close: 'Close viewer', prev: 'Previous artwork', next: 'Next artwork', vis: 'Visualisation', enh: 'Enhanced image', open: 'Open full screen' };
   lb.setAttribute('aria-label', LBT.viewer);
   lb.setAttribute('aria-hidden', 'true');
   lb.innerHTML =
@@ -575,15 +575,17 @@
     /* Display only: EN labels use " -- " — shown as an em dash. The image alt
        (also stored for the enquiry context) is left exactly as it was. */
     var isVis = !!(srcImg.closest && srcImg.closest('.is-visualisation'));
+    var isEnh = !isVis && !!(srcImg.closest && srcImg.closest('.is-enhanced'));
     var shown = cap.replace(/\s--\s/g, ' — ');
     /* The tag says it — drop the long "(room visualisation…)" note from the
        displayed caption only (alt text unchanged) */
     if (isVis) shown = shown.replace(/\s*\((?:room visualisation|visualizzazione d.ambiente)[^)]*\)/i, '');
+    if (isEnh) shown = shown.replace(/\s*\((?:enhanced image|immagine migliorata)\)/i, '');
     lbCaption.textContent = shown;
-    if (isVis) {
+    if (isVis || isEnh) {
       var tag = document.createElement('span');
       tag.className = 'lb-vis';
-      tag.textContent = LBT.vis;
+      tag.textContent = isVis ? LBT.vis : LBT.enh;
       lbCaption.appendChild(document.createTextNode(' '));
       lbCaption.appendChild(tag);
     }

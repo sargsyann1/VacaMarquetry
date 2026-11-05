@@ -37,7 +37,7 @@
   var T = IS_IT ? {
     status: { available: 'Disponibile', sold: 'Venduta', not_for_sale: 'Collezione Privata', collection: 'Opera della Collezione', other: 'Informazioni' },
     titleSuffix: ' | Collezione VaCa Marquetry',
-    metaDesc: function (d) { return d.title + ' — opera originale in intarsio di VaCa Marquetry. ' + d.pieceCount + ' tasselli tagliati a mano. ' + d.dimensions + '.'; },
+    metaDesc: function (d) { return d.title + ' — opera originale in intarsio di VaCa Marquetry.' + (d.pieceCount ? ' ' + d.pieceCount + ' tasselli tagliati a mano.' : '') + (d.dimensions ? ' ' + d.dimensions + '.' : ''); },
     pieces: ' tasselli di impiallacciatura tagliati a mano',
     primaryAlt: ' — opera originale in intarsio di VaCa Marquetry',
     noteCollection: 'Quest’opera fa parte della serie VaCa Marquetry Collection — non in vendita.',
@@ -47,10 +47,12 @@
     mailBody: function (t) { return 'Buongiorno VaCa Marquetry,\n\nsono interessato/a a "' + t + '". Vorrei ricevere maggiori informazioni su prezzo, disponibilità e consegna.\n\nGrazie.'; },
     fallbackSubject: 'Richiesta su un’opera',
     fallbackBody: 'Buongiorno VaCa Marquetry,\n\nvorrei informazioni su un’opera.\n\nPagina: ',
-    gallery: { 'cover.jpg': 'vista completa dell’opera', 'wall.jpg': 'esposta su una parete di galleria', 'lifestyle.jpg': 'in un ambiente d’interni', 'interior.jpg': 'in un ambiente d’interni', 'detail-01.jpg': 'dettaglio dell’impiallacciatura, primo piano', 'detail-02.jpg': 'dettaglio della venatura e della texture del legno', 'detail-03.jpg': 'dettaglio fine dell’impiallacciatura, macro', 'gallery.jpg': 'vista aggiuntiva', 'front.jpg': 'vista frontale completa', 'hospital.jpg': 'esposta in situ' },
+    gallery: { 'cover.jpg': 'vista completa dell’opera', 'wall.jpg': 'esposta su una parete di galleria', 'lifestyle.jpg': 'in un ambiente d’interni', 'interior.jpg': 'in un ambiente d’interni', 'detail-01.jpg': 'dettaglio dell’impiallacciatura, primo piano', 'detail-02.jpg': 'dettaglio della venatura e della texture del legno', 'detail-03.jpg': 'dettaglio fine dell’impiallacciatura, macro', 'gallery.jpg': 'vista aggiuntiva', 'front.jpg': 'vista frontale completa', 'hospital.jpg': 'esposta in situ', 'detail-04.jpg': 'dettaglio dei tasselli tagliati a mano', 'detail-05.jpg': 'dettaglio dei tasselli tagliati a mano, primo piano', 'original.jpg': 'foto originale dell’opera finita', 'frame.jpg': 'dettaglio della cornice' },
     gallerySep: ' — ',
     visLabel: 'Visualizzazione',
     visAlt: ' (visualizzazione d’ambiente, non un’installazione reale)',
+    enhLabel: 'Immagine migliorata',
+    enhAlt: ' (immagine migliorata)',
     staging: {
       eyebrow: 'In arrivo',
       tag: 'Immagine richiesta',
@@ -73,7 +75,7 @@
   } : {
     status: { available: 'Available', sold: 'Sold', not_for_sale: 'Private Collection', collection: 'Collection Piece', other: 'Enquire' },
     titleSuffix: ' | VaCa Marquetry Collection',
-    metaDesc: function (d) { return d.title + ' -- an original wood veneer marquetry artwork by VaCa Marquetry. ' + d.pieceCount + ' hand-cut pieces. ' + d.dimensions + '.'; },
+    metaDesc: function (d) { return d.title + ' -- an original wood veneer marquetry artwork by VaCa Marquetry.' + (d.pieceCount ? ' ' + d.pieceCount + ' hand-cut pieces.' : '') + (d.dimensions ? ' ' + d.dimensions + '.' : ''); },
     pieces: ' hand-cut veneer pieces',
     primaryAlt: ' -- original marquetry by VaCa Marquetry',
     noteCollection: 'This work is part of the VaCa Marquetry Collection series — not for sale.',
@@ -83,10 +85,12 @@
     mailBody: function (t) { return 'Hello VaCa Marquetry,\n\nI am interested in "' + t + '". Please send me more information about price, availability, and delivery.\n\nThank you.'; },
     fallbackSubject: 'Artwork Enquiry',
     fallbackBody: 'Hello VaCa Marquetry,\n\nI would like to enquire about an artwork.\n\nPage: ',
-    gallery: { 'cover.jpg': 'Full artwork view', 'wall.jpg': 'Displayed on a gallery wall', 'lifestyle.jpg': 'In an interior setting', 'interior.jpg': 'In an interior setting', 'detail-01.jpg': 'Veneer detail -- close up', 'detail-02.jpg': 'Wood grain and texture detail', 'detail-03.jpg': 'Fine veneer detail — extreme close up', 'gallery.jpg': 'Additional view', 'front.jpg': 'Full frontal view', 'hospital.jpg': 'Displayed in situ' },
+    gallery: { 'cover.jpg': 'Full artwork view', 'wall.jpg': 'Displayed on a gallery wall', 'lifestyle.jpg': 'In an interior setting', 'interior.jpg': 'In an interior setting', 'detail-01.jpg': 'Veneer detail -- close up', 'detail-02.jpg': 'Wood grain and texture detail', 'detail-03.jpg': 'Fine veneer detail — extreme close up', 'gallery.jpg': 'Additional view', 'front.jpg': 'Full frontal view', 'hospital.jpg': 'Displayed in situ', 'detail-04.jpg': 'Hand-cut veneer detail', 'detail-05.jpg': 'Hand-cut veneer detail -- close up', 'original.jpg': 'Original photo of the finished work', 'frame.jpg': 'Frame detail' },
     gallerySep: ' -- ',
     visLabel: 'Visualisation',
     visAlt: ' (room visualisation, not a real installation)',
+    enhLabel: 'Enhanced image',
+    enhAlt: ' (enhanced image)',
     staging: {
       eyebrow: 'Coming Soon',
       tag: 'Image required',
@@ -163,7 +167,7 @@
     set('aw-story', data.story);
     set('aw-category',   data.category);
     set('aw-materials',  data.materials);
-    set('aw-piececount', data.pieceCount + T.pieces);
+    if (data.pieceCount) set('aw-piececount', data.pieceCount + T.pieces);
     set('aw-dimensions', data.dimensions);
     set('aw-weight',     data.weight);
     set('aw-year',       data.year);
@@ -184,6 +188,18 @@
          it joins the gallery group (first in DOM order) instead of opening solo */
       primaryImg.removeAttribute('data-lb-solo');
       primaryImg.setAttribute('data-lb-group', slug + '-gallery');
+      /* Enhanced cover (2026-10): same transparency tag as the gallery */
+      if ((data.enhanced || []).indexOf('cover.jpg') !== -1) {
+        primaryImg.alt += T.enhAlt;
+        var frame = primaryImg.parentElement;
+        if (frame && !frame.querySelector('.vis-label')) {
+          frame.classList.add('is-enhanced');
+          var ptag = document.createElement('span');
+          ptag.className = 'vis-label';
+          ptag.textContent = T.enhLabel;
+          frame.appendChild(ptag);
+        }
+      }
     }
 
     var btn = document.getElementById('aw-inquire');
@@ -224,6 +240,7 @@
 
     var labels = T.gallery;
     var vis = data.visualisations || [];
+    var enh = data.enhanced || [];
 
     /* cover.jpg is already the primary image. Real photos first, then
        rendered room visualisations (tagged), keeping JSON order within each. */
@@ -233,11 +250,12 @@
 
     files.forEach(function (file) {
       var isVis = vis.indexOf(file) !== -1;
+      var isEnh = !isVis && enh.indexOf(file) !== -1;
       var thumb = document.createElement('div');
-      thumb.className = 'artwork-gallery-thumb' + (isVis ? ' is-visualisation' : '');
+      thumb.className = 'artwork-gallery-thumb' + (isVis ? ' is-visualisation' : '') + (isEnh ? ' is-enhanced' : '');
 
       var img = document.createElement('img');
-      img.alt     = data.title + T.gallerySep + (labels[file] || file) + (isVis ? T.visAlt : '');
+      img.alt     = data.title + T.gallerySep + (labels[file] || file) + (isVis ? T.visAlt : '') + (isEnh ? T.enhAlt : '');
       img.loading = 'lazy';
       img.onerror = function () {
         console.warn('[artwork-loader] Gallery image missing:', file);
@@ -257,10 +275,10 @@
       }
 
       thumb.appendChild(img);
-      if (isVis) {
+      if (isVis || isEnh) {
         var tag = document.createElement('span');
         tag.className = 'vis-label';
-        tag.textContent = T.visLabel;
+        tag.textContent = isVis ? T.visLabel : T.enhLabel;
         thumb.appendChild(tag);
       }
       container.appendChild(thumb);
