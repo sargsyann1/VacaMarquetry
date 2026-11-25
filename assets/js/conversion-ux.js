@@ -5,7 +5,7 @@
  * tracking (gtag, dataLayer, attribution), webhook URLs, fetch calls or the
  * FormData each page builds. Pages keep their own submit handlers.
  *
- * 1. Sticky mobile "Free Preview" CTA (phones only; pages whose script tag
+ * 1. Sticky mobile "Private Preview" CTA (phones only; pages whose script tag
  *    carries data-sticky-cta). Links to the page's existing header CTA.
  * 2. Required fields: visual marker + pre-submit validation for every
  *    [required] control. Runs in the capture phase before the page's own
@@ -17,38 +17,9 @@
 (function () {
   'use strict';
 
-  var IS_IT = (document.documentElement.getAttribute('lang') || '').toLowerCase().indexOf('it') === 0;
-  var T = IS_IT ? {
-    ctaEyebrow: 'Anteprima gratuita', ctaText: 'Richiedi il tuo ritratto',
-    reqNote: 'I campi contrassegnati con * sono obbligatori',
-    fill: function (l) { return 'Compila il campo “' + l + '”.'; },
-    choose: function (l) { return 'Seleziona un’opzione per “' + l + '”.'; },
-    email: 'Inserisci un indirizzo email valido.',
-    preparing: function (n) { return 'Preparazione di ' + n + (n === 1 ? ' foto…' : ' foto…'); },
-    ready: function (n, size, from) { return '✓ ' + n + (n === 1 ? ' foto pronta' : ' foto pronte') + ' · ' + size + (from ? ' (ottimizzate da ' + from + ')' : ''); },
-    tooMany: 'Puoi caricare al massimo 5 foto.',
-    notImage: function (f) { return '“' + f + '” non è un’immagine. Scegli foto in formato JPG, PNG, WEBP o HEIC.'; },
-    tooBig: function (f) { return '“' + f + '” supera i 25 MB. Scegli una foto più leggera.'; },
-    totalBig: 'Le foto selezionate sono troppo pesanti (oltre 20 MB). Scegline meno o più leggere.',
-    uploading: function (size) { return 'Invio delle foto in corso (' + size + ')… tieni aperta questa pagina.'; },
-    slow: 'Ancora qualche istante: con la rete mobile l’invio delle foto può richiedere un po’ di più.',
-    wait: 'Attendi: stiamo preparando le foto…'
-  } : {
-    ctaEyebrow: 'Free Preview', ctaText: 'Request your portrait',
-    reqNote: 'Fields marked * are required',
-    fill: function (l) { return 'Please complete “' + l + '”.'; },
-    choose: function (l) { return 'Please choose an option for “' + l + '”.'; },
-    email: 'Please enter a valid email address.',
-    preparing: function (n) { return 'Preparing ' + n + (n === 1 ? ' photo…' : ' photos…'); },
-    ready: function (n, size, from) { return '✓ ' + n + (n === 1 ? ' photo ready' : ' photos ready') + ' · ' + size + (from ? ' (optimised from ' + from + ')' : ''); },
-    tooMany: 'Please select up to 5 photos.',
-    notImage: function (f) { return '“' + f + '” is not an image. Please choose JPG, PNG, WEBP or HEIC photos.'; },
-    tooBig: function (f) { return '“' + f + '” is larger than 25 MB. Please choose a smaller photo.'; },
-    totalBig: 'The selected photos are too large together (over 20 MB). Please choose fewer or smaller photos.',
-    uploading: function (size) { return 'Uploading your photos (' + size + ')… please keep this page open.'; },
-    slow: 'Almost there — photos can take a little longer on mobile data.',
-    wait: 'One moment — preparing your photos…'
-  };
+  /* Interface strings: assets/js/i18n/<lang>.js (generated from src/i18n/<lang>.mjs) */
+  var T = (window.VACA_I18N || {}).conversion;
+  if (!T) return;
 
   function mb(bytes) { return (bytes / 1048576).toFixed(bytes < 10485760 ? 1 : 0) + ' MB'; }
 

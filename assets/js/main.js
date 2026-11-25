@@ -8,10 +8,34 @@
      5. Lead intent tracker (sessionStorage scoring)
      6. Debug utilities (window.resetCookies)
      7. FAQ accordion  ·  8. Visitor/session IDs
-     9. Collection filters (EN + IT)
+     9. Collection filters (every language)
     10. Local staging mode (local hosts only, opt-in)
    ================================================================ */
 'use strict';
+
+/* ================================================================
+   INTERFACE STRINGS (2026-11-25) — every language-dependent text below
+   comes from assets/js/i18n/<lang>.js, loaded before this file. That
+   file is generated from src/i18n/<lang>.mjs by scripts/build.mjs.
+   ================================================================ */
+var VACA_T = window.VACA_I18N || {};
+var VACA_LANG = VACA_T.lang || (document.documentElement.getAttribute('lang') || 'en').slice(0, 2).toLowerCase();
+
+/* ================================================================
+   SPAM GUARD (2026-11) — shared by every lead form.
+   Returns true when the hidden honeypot field (.hp-field, name="website";
+   the forms send it, always empty, and Make drops posts where it is not) has been filled, or when the form is sent less than 3 s
+   after the page started loading. Real visitors never do either; the form
+   handlers then drop the submission silently.
+   ================================================================ */
+window.vacaLooksLikeBot = function (scope) {
+  try {
+    var hp = scope && scope.querySelector('.hp-field input');
+    if (hp && hp.value) return true;
+    if (window.performance && performance.now && performance.now() < 3000) return true;
+  } catch (e) {}
+  return false;
+};
 
 /* ================================================================
    SECTION 1 — NAV TOGGLE
@@ -22,10 +46,7 @@
   var links  = document.querySelector('.nav-links');
   if (!toggle || !links) return;
 
-  var IS_IT = (document.documentElement.getAttribute('lang') || '').toLowerCase().indexOf('it') === 0;
-  var TXT = IS_IT
-    ? { open: 'Apri il menu', close: 'Chiudi il menu', note: 'Intarsio su Misura · Realizzato a Mano in Italia' }
-    : { open: 'Open menu', close: 'Close menu', note: 'Bespoke Marquetry · Handmade in Italy' };
+  var TXT = VACA_T.nav;
 
   if (!links.id) links.id = 'site-menu';
   toggle.setAttribute('aria-controls', links.id);
@@ -101,13 +122,38 @@
 })();
 
 /* ================================================================
+   SECTION 1b — LANGUAGE MENU (desktop dropdown)
+   The toggle is only visible at ≥1200px; the mobile menu shows the
+   language list inline. Hover opens it with a mouse (CSS); this handles
+   click/tap, keyboard and closing.
+   ================================================================ */
+(function () {
+  var box = document.querySelector('.nav-lang');
+  var btn = box && box.querySelector('.nav-lang-toggle');
+  if (!btn) return;
+  function setOpen(open) {
+    box.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  }
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setOpen(btn.getAttribute('aria-expanded') !== 'true');
+  });
+  document.addEventListener('click', function (e) { if (!box.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && box.classList.contains('is-open')) { setOpen(false); btn.focus(); }
+  });
+  box.addEventListener('focusout', function (e) { if (!box.contains(e.relatedTarget)) setOpen(false); });
+})();
+
+/* ================================================================
    SECTION 2 — WHATSAPP FLOATING BUTTON
    Injected into every page via main.js.
    Smart message: reads vaca_last_artwork from sessionStorage.
    ================================================================ */
 (function () {
   var PHONE = '393517571986';
-  var IS_IT = (document.documentElement.getAttribute('lang') || '').toLowerCase().indexOf('it') === 0;
+  var WA = VACA_T.whatsapp;
 
   /* Inject button */
   var btn = document.createElement('a');
@@ -115,7 +161,7 @@
   btn.href = 'https://wa.me/' + PHONE;
   btn.target = '_blank';
   btn.rel = 'noopener noreferrer';
-  btn.setAttribute('aria-label', IS_IT ? 'Scrivici su WhatsApp' : 'Chat on WhatsApp');
+  btn.setAttribute('aria-label', WA.label);
   btn.innerHTML =
     '<svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
       '<path d="M16 2C8.268 2 2 8.268 2 16c0 2.46.664 4.764 1.82 6.742L2 30l7.484-1.792A13.93 13.93 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.4a11.34 11.34 0 01-5.78-1.582l-.414-.245-4.442 1.064 1.098-4.312-.27-.44A11.36 11.36 0 014.6 16C4.6 9.7 9.7 4.6 16 4.6S27.4 9.7 27.4 16 22.3 27.4 16 27.4zm6.22-8.468c-.34-.17-2.014-1.002-2.326-1.116-.312-.114-.54-.17-.768.17-.228.34-.882 1.116-1.082 1.344-.2.228-.4.256-.74.086-.34-.17-1.436-.53-2.736-1.692-1.012-.906-1.694-2.024-1.894-2.364-.2-.34-.022-.524.15-.694.154-.152.34-.4.51-.6.17-.2.228-.34.34-.568.114-.228.058-.428-.028-.598-.086-.17-.768-1.854-1.054-2.538-.278-.666-.56-.576-.768-.586-.2-.01-.428-.012-.656-.012a1.26 1.26 0 00-.912.428c-.312.34-1.196 1.168-1.196 2.85s1.224 3.306 1.394 3.534c.17.228 2.408 3.676 5.836 5.154.816.352 1.452.562 1.948.72.82.26 1.566.224 2.156.136.658-.098 2.014-.824 2.298-1.62.284-.796.284-1.48.2-1.62-.082-.142-.31-.228-.65-.398z"/>' +
@@ -137,16 +183,7 @@
       sessionStorage.setItem('vaca_lead_source',      'WhatsApp');
     } catch (ex) {}
 
-    var msg;
-    if (IS_IT) {
-      msg = artwork
-        ? 'Buongiorno VaCa Marquetry, sono interessato/a all\u2019opera \u201c' + artwork + '\u201d. Potete darmi pi\u00f9 informazioni?'
-        : 'Buongiorno VaCa Marquetry, vorrei informazioni su un ritratto su misura in intarsio.';
-    } else {
-      msg = artwork
-        ? 'Hello VaCa Marquetry, I\'m interested in the artwork \u201c' + artwork + '\u201d. Could you share more details?'
-        : 'Hello VaCa Marquetry, I would like to inquire about an artwork or Private Collection piece.';
-    }
+    var msg = artwork ? WA.artworkMsg(artwork) : WA.defaultMsg;
 
     /* Update href FIRST — WA opens in new tab so page stays alive */
     this.href = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg);
@@ -201,7 +238,7 @@
       page:            window.location.pathname,
       artwork_context: artwork || '(none)',
       intent_score:    score,
-      page_language:   IS_IT ? 'it' : 'en'
+      page_language:   VACA_LANG
     };
     if (typeof window.vacaTrackConversion === 'function') {
       window.vacaTrackConversion('whatsapp_click', waParams);
@@ -243,21 +280,14 @@
     setTimeout(function () { if (banner.parentNode) banner.parentNode.removeChild(banner); }, 340);
   }
 
-  var IS_IT = (document.documentElement.getAttribute('lang') || '').toLowerCase().indexOf('it') === 0;
-  var TXT = IS_IT
-    ? { label: 'Consenso cookie',
-        text: 'Utilizziamo cookie di analisi e di misurazione pubblicitaria (Google) per capire come i visitatori scoprono il nostro lavoro. Non vendiamo i tuoi dati personali.',
-        policy: 'Informativa sui cookie', decline: 'Rifiuta', accept: 'Accetta' }
-    : { label: 'Cookie consent',
-        text: 'We use analytics and advertising-measurement cookies (Google) to understand how visitors discover our work. No personal data is sold.',
-        policy: 'Cookie Policy', decline: 'Decline', accept: 'Accept' };
+  var TXT = VACA_T.cookie;
 
   /* Site root resolved from this script's own URL, so the policy link
-     works from /, /artworks/ and /it/ alike */
+     works from every folder (/, /artworks/, /it/, /it/opere/ …) */
   var policyHref = 'cookie-policy.html';
   try {
     var self = document.querySelector('script[src*="assets/js/main.js"]');
-    if (self) policyHref = new URL(IS_IT ? '../../it/cookie-policy.html' : '../../cookie-policy.html', self.src).href;
+    if (self) policyHref = new URL('../../' + ((VACA_T.routes && VACA_T.routes.cookies) || 'cookie-policy.html'), self.src).href;
   } catch (e) {}
 
   var banner = document.createElement('div');
@@ -396,16 +426,18 @@
   lb.className = 'vaca-lb';
   lb.setAttribute('role', 'dialog');
   lb.setAttribute('aria-modal', 'true');
-  var LB_IT = (document.documentElement.getAttribute('lang') || '').toLowerCase().indexOf('it') === 0;
-  var LBT = LB_IT
-    ? { viewer: 'Visualizzatore opere', close: 'Chiudi', prev: 'Opera precedente', next: 'Opera successiva', vis: 'Visualizzazione', enh: 'Immagine migliorata', open: 'Apri a schermo intero' }
-    : { viewer: 'Artwork viewer', close: 'Close viewer', prev: 'Previous artwork', next: 'Next artwork', vis: 'Visualisation', enh: 'Enhanced image', open: 'Open full screen' };
+  var LBT = VACA_T.lightbox;
+  /* Right-to-left pages (Arabic): 'next' lies to the left, so arrows, keys and swipes mirror */
+  var LB_RTL = document.documentElement.dir === 'rtl';
+  /* "(room visualisation…)" / "(enhanced image)" notes in alt texts, per language */
+  var LB_VIS_RE = new RegExp('\\s*\\((?:' + LBT.visNote + ')[^)]*\\)', 'i');
+  var LB_ENH_RE = new RegExp('\\s*\\((?:' + LBT.enhNote + ')\\)', 'i');
   lb.setAttribute('aria-label', LBT.viewer);
   lb.setAttribute('aria-hidden', 'true');
   lb.innerHTML =
     '<button class="lb-close" aria-label="' + LBT.close + '">&#215;</button>' +
     '<div class="lb-viewer">' +
-      '<button class="lb-arrow lb-prev" aria-label="' + LBT.prev + '">&#8592;</button>' +
+      '<button class="lb-arrow lb-prev" aria-label="' + LBT.prev + '">' + (LB_RTL ? '&#8594;' : '&#8592;') + '</button>' +
       '<div class="lb-frame-wrap">' +
         '<div class="lb-museum-frame">' +
           '<div class="lb-img-container">' +
@@ -423,7 +455,7 @@
         '</div>' +
         '<div class="lb-dots" aria-hidden="true"></div>' +
       '</div>' +
-      '<button class="lb-arrow lb-next" aria-label="' + LBT.next + '">&#8594;</button>' +
+      '<button class="lb-arrow lb-next" aria-label="' + LBT.next + '">' + (LB_RTL ? '&#8592;' : '&#8594;') + '</button>' +
     '</div>';
   document.body.appendChild(lb);
 
@@ -579,8 +611,8 @@
     var shown = cap.replace(/\s--\s/g, ' — ');
     /* The tag says it — drop the long "(room visualisation…)" note from the
        displayed caption only (alt text unchanged) */
-    if (isVis) shown = shown.replace(/\s*\((?:room visualisation|visualizzazione d.ambiente)[^)]*\)/i, '');
-    if (isEnh) shown = shown.replace(/\s*\((?:enhanced image|immagine migliorata)\)/i, '');
+    if (isVis) shown = shown.replace(LB_VIS_RE, '');
+    if (isEnh) shown = shown.replace(LB_ENH_RE, '');
     lbCaption.textContent = shown;
     if (isVis || isEnh) {
       var tag = document.createElement('span');
@@ -705,8 +737,8 @@
       return;
     }
     if (e.key === 'Escape')     lbCloseViewer();
-    if (e.key === 'ArrowLeft')  prevSlide();
-    if (e.key === 'ArrowRight') nextSlide();
+    if (e.key === 'ArrowLeft')  { if (LB_RTL) nextSlide(); else prevSlide(); }
+    if (e.key === 'ArrowRight') { if (LB_RTL) prevSlide(); else nextSlide(); }
   });
 
   /* Wheel zoom */
@@ -811,7 +843,7 @@
       var dx = e.changedTouches[0].clientX - swipeStartX;
       var dy = e.changedTouches[0].clientY - swipeStartY;
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-        if (dx < 0) nextSlide(); else prevSlide();
+        if ((dx < 0) !== LB_RTL) nextSlide(); else prevSlide();
       }
     }
   });

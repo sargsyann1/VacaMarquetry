@@ -1,0 +1,75 @@
+# ===================================================================
+# VaCa Marquetry — server rules (Hostinger, LiteSpeed/Apache syntax)
+# Added in the 2026-11 site audit. Every block is wrapped in IfModule,
+# so a missing module skips the block instead of breaking the site.
+# ===================================================================
+
+# Branded "page not found" page (absolute asset paths, noindex)
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # One canonical host: www.vacamarquetry.shop -> vacamarquetry.shop
+  RewriteCond %{HTTP_HOST} ^www\.vacamarquetry\.shop$ [NC]
+  RewriteRule ^(.*)$ https://vacamarquetry.shop/$1 [R=301,L]
+
+  # /index.html -> /   and   /it/index.html -> /it/   (matches the canonical URLs).
+  # THE_REQUEST only matches what the browser asked for, so the server's own
+  # DirectoryIndex lookup of index.html never loops.
+  RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+  RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# -------------------------------------------------------------------
+# Browser caching (roadmap phase 4)
+# - HTML: always revalidated (ETag), so a deploy is visible at once.
+# - CSS/JS: every page links them as file?v=<content hash> (written by
+#   the build), so a changed file always has a new URL: cache 1 year.
+# - Fonts: file names never change content (rename to update): 1 year.
+# - Images/video: not versioned, so 30 days. Replacing an image under
+#   the same name can show the old one for up to 30 days to returning
+#   visitors; give a changed image a new file name when that matters.
+# -------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(jpe?g|png|webp|gif|svg|ico|mp4|webm)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.(xml|txt|json)$">
+    Header set Cache-Control "public, max-age=3600"
+  </FilesMatch>
+</IfModule>
+
+# Internal Markdown notes must never be served, even if an old copy is
+# still on the server (files untracked in Git are not deleted by deploys).
+<FilesMatch "\.md$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

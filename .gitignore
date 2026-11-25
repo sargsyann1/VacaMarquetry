@@ -16,6 +16,8 @@ node_modules/
 /package.json
 /package-lock.json
 /scripts/
+# Page-template sources (site config, i18n strings, shared regions); scripts/build.mjs writes the pages from them
+/src/
 /vaca-mcp-worker/
 /deploy/
 /originals/

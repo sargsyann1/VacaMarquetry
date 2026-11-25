@@ -23,7 +23,7 @@
   if (!slug) return;
 
   /* Site root resolved from this script's own URL, so artwork pages work at
-     /artworks/ (EN) and /it/opere/ (IT) alike */
+     /artworks/ (EN), /it/opere/ (IT) and every other language folder alike */
   var SITE_ROOT = '../';
   try {
     var selfScript = document.querySelector('script[src*="assets/js/artwork-loader.js"]');
@@ -32,85 +32,12 @@
   function siteUrl(p) { return SITE_ROOT + p; }
   function artworkBase(s) { return siteUrl('assets/images/artworks/' + s + '/'); }
 
-  /* UI language — Italian pages declare <html lang="it"> */
-  var IS_IT = (document.documentElement.getAttribute('lang') || '').toLowerCase().indexOf('it') === 0;
-  var T = IS_IT ? {
-    status: { available: 'Disponibile', sold: 'Venduta', not_for_sale: 'Collezione Privata', collection: 'Opera della Collezione', other: 'Informazioni' },
-    titleSuffix: ' | Collezione VaCa Marquetry',
-    metaDesc: function (d) { return d.title + ' — opera originale in intarsio di VaCa Marquetry.' + (d.pieceCount ? ' ' + d.pieceCount + ' tasselli tagliati a mano.' : '') + (d.dimensions ? ' ' + d.dimensions + '.' : ''); },
-    pieces: ' tasselli di impiallacciatura tagliati a mano',
-    primaryAlt: ' — opera originale in intarsio di VaCa Marquetry',
-    noteCollection: 'Quest’opera fa parte della serie VaCa Marquetry Collection — non in vendita.',
-    notePrivate: 'Quest’opera fa parte della collezione privata dell’artista.',
-    ctaLink: 'Scopri la Collezione →', ctaHref: 'it/collezione.html',
-    mailSubject: function (t) { return 'Richiesta su ' + t; },
-    mailBody: function (t) { return 'Buongiorno VaCa Marquetry,\n\nsono interessato/a a "' + t + '". Vorrei ricevere maggiori informazioni su prezzo, disponibilità e consegna.\n\nGrazie.'; },
-    fallbackSubject: 'Richiesta su un’opera',
-    fallbackBody: 'Buongiorno VaCa Marquetry,\n\nvorrei informazioni su un’opera.\n\nPagina: ',
-    gallery: { 'cover.jpg': 'vista completa dell’opera', 'wall.jpg': 'esposta su una parete di galleria', 'lifestyle.jpg': 'in un ambiente d’interni', 'interior.jpg': 'in un ambiente d’interni', 'detail-01.jpg': 'dettaglio dell’impiallacciatura, primo piano', 'detail-02.jpg': 'dettaglio della venatura e della texture del legno', 'detail-03.jpg': 'dettaglio fine dell’impiallacciatura, macro', 'gallery.jpg': 'vista aggiuntiva', 'front.jpg': 'vista frontale completa', 'hospital.jpg': 'esposta in situ', 'detail-04.jpg': 'dettaglio dei tasselli tagliati a mano', 'detail-05.jpg': 'dettaglio dei tasselli tagliati a mano, primo piano', 'original.jpg': 'foto originale dell’opera finita', 'frame.jpg': 'dettaglio della cornice' },
-    gallerySep: ' — ',
-    visLabel: 'Visualizzazione',
-    visAlt: ' (visualizzazione d’ambiente, non un’installazione reale)',
-    enhLabel: 'Immagine migliorata',
-    enhAlt: ' (immagine migliorata)',
-    staging: {
-      eyebrow: 'In arrivo',
-      tag: 'Immagine richiesta',
-      purpose: 'Scopo', format: 'Formato consigliato', status: 'Stato', statusText: 'In attesa di fotografia',
-      slots: [
-        { key: 'macro', title: 'Macro della texture del legno', purpose: 'Mostrare venatura, linee di taglio e giunture dell’impiallacciatura', format: '1:1 · 1600×1600px' },
-        { key: 'scale', title: 'Riferimento dimensionale', purpose: 'Far capire le dimensioni reali accanto a una persona o a un arredo', format: '3:2 · 1800×1200px' },
-        { key: 'interior', title: 'Opera in un interno reale', purpose: 'Mostrare l’opera installata in un ambiente reale, con luce naturale', format: '3:2 · 2400×1600px' },
-        { key: 'certificate', title: 'Certificato di autenticità', purpose: 'Mostrare il certificato firmato accanto all’opera', format: '4:5 · 1200×1500px', forSaleOnly: true }
-      ]
-    },
-    defaultMsg: function (t) { return 'Sono interessato/a a "' + t + '". Potete confermarmi disponibilità e prezzo?'; },
-    labelName: 'Il tuo nome', labelEmail: 'Indirizzo email', labelMessage: 'Messaggio',
-    send: 'Invia la richiesta', sending: 'Invio in corso…',
-    microcopy: 'Rispondiamo entro 48 ore &middot; I tuoi dati non vengono mai venduti',
-    privacyPre: 'Inviando il modulo prendi atto che i tuoi dati personali saranno trattati secondo la nostra ', privacyLink: 'Informativa sulla privacy', privacyHref: 'it/privacy.html',
-    successTitle: 'Abbiamo ricevuto la tua richiesta.', successText: 'Ti contatteremo entro 48 ore.',
-    errName: 'Inserisci il tuo nome.', errEmail: 'Inserisci il tuo indirizzo email.', errEmailValid: 'Inserisci un indirizzo email valido.',
-    errSend: 'Si è verificato un errore. Riprova oppure scrivi a vacamarquetrysales@gmail.com'
-  } : {
-    status: { available: 'Available', sold: 'Sold', not_for_sale: 'Private Collection', collection: 'Collection Piece', other: 'Enquire' },
-    titleSuffix: ' | VaCa Marquetry Collection',
-    metaDesc: function (d) { return d.title + ' -- an original wood veneer marquetry artwork by VaCa Marquetry.' + (d.pieceCount ? ' ' + d.pieceCount + ' hand-cut pieces.' : '') + (d.dimensions ? ' ' + d.dimensions + '.' : ''); },
-    pieces: ' hand-cut veneer pieces',
-    primaryAlt: ' -- original marquetry by VaCa Marquetry',
-    noteCollection: 'This work is part of the VaCa Marquetry Collection series — not for sale.',
-    notePrivate: 'This work is held in the artist’s private collection.',
-    ctaLink: 'View Private Collection →', ctaHref: 'not-for-sale.html',
-    mailSubject: function (t) { return 'Inquiry about ' + t; },
-    mailBody: function (t) { return 'Hello VaCa Marquetry,\n\nI am interested in "' + t + '". Please send me more information about price, availability, and delivery.\n\nThank you.'; },
-    fallbackSubject: 'Artwork Enquiry',
-    fallbackBody: 'Hello VaCa Marquetry,\n\nI would like to enquire about an artwork.\n\nPage: ',
-    gallery: { 'cover.jpg': 'Full artwork view', 'wall.jpg': 'Displayed on a gallery wall', 'lifestyle.jpg': 'In an interior setting', 'interior.jpg': 'In an interior setting', 'detail-01.jpg': 'Veneer detail -- close up', 'detail-02.jpg': 'Wood grain and texture detail', 'detail-03.jpg': 'Fine veneer detail — extreme close up', 'gallery.jpg': 'Additional view', 'front.jpg': 'Full frontal view', 'hospital.jpg': 'Displayed in situ', 'detail-04.jpg': 'Hand-cut veneer detail', 'detail-05.jpg': 'Hand-cut veneer detail -- close up', 'original.jpg': 'Original photo of the finished work', 'frame.jpg': 'Frame detail' },
-    gallerySep: ' -- ',
-    visLabel: 'Visualisation',
-    visAlt: ' (room visualisation, not a real installation)',
-    enhLabel: 'Enhanced image',
-    enhAlt: ' (enhanced image)',
-    staging: {
-      eyebrow: 'Coming Soon',
-      tag: 'Image required',
-      purpose: 'Purpose', format: 'Recommended', status: 'Status', statusText: 'Awaiting photography',
-      slots: [
-        { key: 'macro', title: 'Macro texture of the wood', purpose: 'Show the veneer grain, cut lines and seams up close', format: '1:1 · 1600×1600px' },
-        { key: 'scale', title: 'Size reference', purpose: 'Show the real scale beside a person or furniture', format: '3:2 · 1800×1200px' },
-        { key: 'interior', title: 'Installed in a real interior', purpose: 'Show the work in a real room, in natural light', format: '3:2 · 2400×1600px' },
-        { key: 'certificate', title: 'Certificate of Authenticity', purpose: 'Show the signed certificate beside this work', format: '4:5 · 1200×1500px', forSaleOnly: true }
-      ]
-    },
-    defaultMsg: function (t) { return 'I\'m interested in "' + t + '". Could you confirm current availability and pricing?'; },
-    labelName: 'Your Name', labelEmail: 'Email Address', labelMessage: 'Message',
-    send: 'Send Enquiry', sending: 'Sending…',
-    microcopy: 'We respond within 48 hours &middot; Your details are never sold',
-    privacyPre: 'By submitting this form, you acknowledge that your personal data will be processed according to our ', privacyLink: 'Privacy Policy', privacyHref: 'privacy.html',
-    successTitle: 'Your enquiry has been received.', successText: 'We\'ll be in touch within 48 hours.',
-    errName: 'Please enter your name.', errEmail: 'Please enter your email address.', errEmailValid: 'Please enter a valid email address.',
-    errSend: 'Something went wrong. Please try again or email vacamarquetrysales@gmail.com'
-  };
+  /* Interface strings for the page language: assets/js/i18n/<lang>.js
+     (generated from src/i18n/<lang>.mjs by scripts/build.mjs) */
+  var I18N = window.VACA_I18N || {};
+  var T = I18N.artwork;
+  var ROUTES = I18N.routes || {};
+  if (!T) { console.error('[artwork-loader] interface strings missing'); return; }
 
   // 1. Try inline data block first (always works, no fetch needed)
   var inlineEl = document.getElementById('artwork-data');
@@ -152,11 +79,9 @@
   function populatePage(data, slug) {
     console.log('[artwork-loader] ARTWORK DATA', data);
     console.log('[artwork-loader] GALLERY ARRAY', data.gallery);
-    document.title = data.title + T.titleSuffix;
-    var metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content', T.metaDesc(data));
-    }
+    /* Title and meta description are authored statically in each page's
+       <head> (2026-11 audit): they are no longer overwritten here, so search
+       engines and social previews see the same text as the HTML. */
 
     var statusText = T.status[data.status] || T.status.other;
     set('aw-availability', statusText);
@@ -183,7 +108,9 @@
       };
       /* Visual audit 2026-09: the studio photo (cover) is the first view;
          rendered room images follow in the gallery, labelled. */
-      primaryImg.src = artworkBase(slug) + 'cover' + imgExt;
+      /* Pages now ship the cover in a <picture> (WebP + JPG fallback);
+         only set a source for an older page that has none. */
+      if (!primaryImg.getAttribute('src')) primaryImg.src = artworkBase(slug) + 'cover' + imgExt;
       /* Viewer (Phase 2.2.1): the main image opens the whole artwork set —
          it joins the gallery group (first in DOM order) instead of opening solo */
       primaryImg.removeAttribute('data-lb-solo');
@@ -213,7 +140,7 @@
             '<p style="font-family:var(--font-editorial);font-style:italic;font-size:1rem;' +
             'color:var(--brass-dark);margin:0 0 var(--space-sm);">' +
             ctaNote + '</p>' +
-            '<a href="' + siteUrl(T.ctaHref) + '" class="btn btn-ghost" style="margin-top:4px;">' +
+            '<a href="' + siteUrl(ROUTES['private'] || 'not-for-sale.html') + '" class="btn btn-ghost" style="margin-top:4px;">' +
             T.ctaLink + '</a>';
         }
       } else {
@@ -321,10 +248,11 @@
     var defaultMsg = T.defaultMsg(data.title);
 
     /* Privacy policy URL resolved from this script's location (site root) */
-    var privacyHref = siteUrl(T.privacyHref);
+    var privacyHref = siteUrl(ROUTES.privacy || 'privacy.html');
 
     wrap.innerHTML =
       '<div class="artwork-inquiry-form" id="ai-form-inner">' +
+        '<div class="hp-field" aria-hidden="true"><label for="hp-website">Leave this field empty</label><input type="text" id="hp-website" name="website" tabindex="-1" autocomplete="off"></div>' +
         '<div class="field">' +
           '<label for="ai-name">' + T.labelName + '</label>' +
           '<input type="text" id="ai-name" name="name" autocomplete="name" required>' +
@@ -367,6 +295,8 @@
     if (!submitBtn) return;
 
     submitBtn.addEventListener('click', function () {
+      /* Spam guard (2026-11): honeypot filled or sent within 3 s of page load — drop silently */
+      if (window.vacaLooksLikeBot && window.vacaLooksLikeBot(wrap)) return;
       var nameInput  = document.getElementById('ai-name');
       var emailInput = document.getElementById('ai-email');
       var msgInput   = document.getElementById('ai-message');
@@ -400,7 +330,8 @@
         artwork_title: data.title,
         artwork_slug:  slug,
         artwork_url:   window.location.href,
-        source_url:    window.location.href
+        source_url:    window.location.href,
+        website:       (wrap.querySelector('.hp-field [name="website"]') || {}).value || ''
       };
       /* Phase 2 — attach marketing attribution (hidden payload only) */
       var attribution = (window.vacaAttributionPayload && window.vacaAttributionPayload()) || {};
